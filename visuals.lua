@@ -11,7 +11,7 @@ local Client, ClientChar = Players.LocalPlayer, Players.LocalPlayer.Character
 
 
 local tan, floor, rad, clamp, round = clonefunction(math.tan), clonefunction(math.floor), clonefunction(math.rad), clonefunction(math.clamp), clonefunction(math.round)
-local New, hideui = clonefunction(Instance.new), game.CoreGui
+local New, hideui = clonefunction(Instance.new), gethui()
 
 
 
