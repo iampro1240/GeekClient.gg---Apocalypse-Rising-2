@@ -11,7 +11,8 @@ local Client, ClientChar = Players.LocalPlayer, Players.LocalPlayer.Character
 
 
 local tan, floor, rad, clamp, round = services:CloneFunction(math.tan), services:CloneFunction(math.floor), services:CloneFunction(math.rad), services:CloneFunction(math.clamp), services:CloneFunction(math.round)
-local New, hideui = services:CloneFunction(Instance.new), game.CoreGui
+local New, hideui = Instance.new, game.CoreGui
+print(New)
 
 
 
