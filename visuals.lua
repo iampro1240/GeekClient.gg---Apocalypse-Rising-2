@@ -1,5 +1,5 @@
-local lib = {}
 local services = loadstring(game:HttpGet("https://raw.githubusercontent.com/iampro1240/GeekClient.gg---Apocalypse-Rising-2/refs/heads/main/services.lua"))()
+local lib = {}
 lib.__index = lib
 
 
@@ -10,14 +10,13 @@ local Client, ClientChar = Players.LocalPlayer, Players.LocalPlayer.Character
 
 
 
-local tan, floor, rad, clamp, round = services:CloneFunction(math.tan), services:CloneFunction(math.floor), services:CloneFunction(math.rad), services:CloneFunction(math.clamp), services:CloneFunction(math.round)
-local New, hideui = Instance.new, game.CoreGui
-print(New)
+local tan, floor, rad, clamp, round = clonefunction(math.tan), clonefunction(math.floor), clonefunction(math.rad), clonefunction(math.clamp), clonefunction(math.round)
+local New, hideui = clonefunction(Instance.new), game.CoreGui
 
 
 
-local FromRGB, hex, NewGradient, GradientSequence, GradientNumberKeypoint, GradientNumberSequence = services:CloneFunction(Color3.fromRGB), services:CloneFunction(Color3.fromHex), services:CloneFunction(ColorSequence.new), services:CloneFunction(ColorSequenceKeypoint.new), services:CloneFunction(NumberSequenceKeypoint.new), services:CloneFunction(NumberSequence.new)
-local dim2, Vector2, Vector3, CreateVector = services:CloneFunction(UDim2.new), services:CloneFunction(Vector2.new), services:CloneFunction(Vector3.new), services:CloneFunction(vector.create)
+local FromRGB, hex, NewGradient, GradientSequence, GradientNumberKeypoint, GradientNumberSequence = clonefunction(Color3.fromRGB), clonefunction(Color3.fromHex), clonefunction(ColorSequence.new), clonefunction(ColorSequenceKeypoint.new), clonefunction(NumberSequenceKeypoint.new), clonefunction(NumberSequence.new)
+local dim2, Vector2, Vector3, CreateVector = clonefunction(UDim2.new), clonefunction(Vector2.new), clonefunction(Vector3.new), clonefunction(vector.create)
 
 
 
