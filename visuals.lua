@@ -1011,6 +1011,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 end
 
 
+warn("GeekClient.GG - ESP Loaded")
 
 
 return lib
