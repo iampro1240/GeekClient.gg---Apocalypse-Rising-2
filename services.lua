@@ -2,6 +2,7 @@ local lib = {}
 lib.__index = lib
 
 
+
 function lib:CloneFunction(obj)
     return clonefunction(obj)
 end
