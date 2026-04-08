@@ -1,6 +1,66 @@
 local lib = {}
-local services = loadstring(game:HttpGet("https://raw.githubusercontent.com/iampro1240/GeekClient.gg---Apocalypse-Rising-2/refs/heads/main/services.lua"))()
+local services = {}
 lib.__index = lib
+
+
+function services:CloneFunction(obj)
+    return clonefunction(obj)
+end
+
+
+function services:CloneReference(obj)
+    return cloneref(obj)
+end
+
+
+function services:GetService(obj)
+    return game:GetService(obj)
+end
+
+
+function services:wtvp(obj)
+    local camera = workspace.CurrentCamera
+    return camera:WorldToViewportPoint(obj)
+end
+
+
+function services:wtsp(obj)
+    local camera = workspace.CurrentCamera
+    return camera:WorldToScreenPoint(obj)
+end
+
+
+function services:findfirstchild(arg1, arg2)
+    return arg:FindFirstChild(arg2)
+end
+
+
+function services:findfirstchildofclass(arg1, arg2)
+    return arg:FindFirstChildOfClass(arg2)
+end
+
+
+function services:framelimit(deltatime)
+    local rendertime = 0   
+    rendertime += deltatime
+	if (rendertime < 1 / 60) then
+		return
+	end
+	rendertime = 0
+end
+
+
+function services:GarbageCollection(func)
+for i, v in next, getgc(true) do
+if typeof(v) ~= "function" then
+continue
+end
+local info = debug.getinfo(v)
+if info.name == func then
+   return v
+  end
+ end
+end
 
 
 local WS, ws = services:GetService("Workspace"), services:CloneReference(workspace)
