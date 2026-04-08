@@ -1,5 +1,4 @@
 local lib = {}
-local camera = workspace.CurrentCamera
 lib.__index = lib
 
 
@@ -19,12 +18,12 @@ end
 
 
 function lib:wtvp(obj)
-    return camera:WorldToViewportPoint(obj)
+    return workspace.CurrentCamera:WorldToViewportPoint(obj)
 end
 
 
 function lib:wtsp(obj)
-    return camera:WorldToScreenPoint(obj)
+    return workspace.CurrentCamera:WorldToScreenPoint(obj)
 end
 
 
