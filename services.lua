@@ -9,7 +9,7 @@ end
 
 
 function lib:CloneReference(obj)
-    return clonefunction(obj)
+    return cloneref(obj)
 end
 
 
