@@ -1,5 +1,5 @@
 local lib = {}
-local services = loadstring(game:HttpGet("https://raw.githubusercontent.com/wadawdwadwa-hub/GeekClient/refs/heads/main/services.lua"))()
+local services = loadstring(game:HttpGet("https://raw.githubusercontent.com/iampro1240/GeekClient.gg---Apocalypse-Rising-2/refs/heads/main/services.lua"))()
 lib.__index = lib
 
 
@@ -769,7 +769,7 @@ local UI = {
 
 
 esp.connection = RunService.PreRender:Connect(function(deltatime)
-    services:framelimit(deltatime, lib2.flags["FrameRate"])
+    services:framelimit(deltatime)
     
   if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") then
     cache.character = self.Character
