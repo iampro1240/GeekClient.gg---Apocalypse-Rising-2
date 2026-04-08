@@ -3,44 +3,44 @@ local services = {}
 lib.__index = lib
 
 
-function services:CloneFunction(obj)
+function CloneFunction(obj)
     return clonefunction(obj)
 end
 
 
-function services:CloneReference(obj)
+function CloneReference(obj)
     return cloneref(obj)
 end
 
 
-function services:GetService(obj)
+function GetService(obj)
     return game:GetService(obj)
 end
 
 
-function services:wtvp(obj)
+function wtvp(obj)
     local camera = workspace.CurrentCamera
     return camera:WorldToViewportPoint(obj)
 end
 
 
-function services:wtsp(obj)
+function wtsp(obj)
     local camera = workspace.CurrentCamera
     return camera:WorldToScreenPoint(obj)
 end
 
 
-function services:findfirstchild(arg1, arg2)
+function findfirstchild(arg1, arg2)
     return arg1:FindFirstChild(arg2)
 end
 
 
-function services:findfirstchildofclass(arg1, arg2)
+function findfirstchildofclass(arg1, arg2)
     return arg1:FindFirstChildOfClass(arg2)
 end
 
 
-function services:framelimit(deltatime)
+function framelimit(deltatime)
     local rendertime = 0   
     rendertime += deltatime
 	if (rendertime < 1 / 60) then
@@ -51,17 +51,17 @@ end
 
 
 
-local WS, ws = services:GetService("Workspace"), services:CloneReference(workspace)
-local Players, ReplicatedStorage, RunService, TweenService, UserInputService, Lighting, Camera, Drawing, HttpService = services:GetService("Players"), services:GetService("ReplicatedStorage"), services:GetService("RunService"), services:GetService("TweenService"), services:GetService("UserInputService"), services:GetService("Lighting"), services:CloneReference(workspace.CurrentCamera), Drawing.new, services:GetService("HttpService")
+local WS, ws = GetService("Workspace"), CloneReference(workspace)
+local Players, ReplicatedStorage, RunService, TweenService, UserInputService, Lighting, Camera, Drawing, HttpService = GetService("Players"), GetService("ReplicatedStorage"), GetService("RunService"), GetService("TweenService"), GetService("UserInputService"), GetService("Lighting"), CloneReference(workspace.CurrentCamera), Drawing.new, GetService("HttpService")
 local Client, ClientChar = Players.LocalPlayer, Players.LocalPlayer.Character
 
 
-local tan, floor, rad, clamp, round = services:CloneFunction(math.tan), services:CloneFunction(math.floor), services:CloneFunction(math.rad), services:CloneFunction(math.clamp), services:CloneFunction(math.round)
-local New, hideui = services:CloneFunction(Instance.new), gethui()
+local tan, floor, rad, clamp, round = CloneFunction(math.tan), CloneFunction(math.floor), CloneFunction(math.rad), CloneFunction(math.clamp), CloneFunction(math.round)
+local New, hideui = CloneFunction(Instance.new), gethui
 
 
-local FromRGB, hex, NewGradient, GradientSequence, GradientNumberKeypoint, GradientNumberSequence = services:CloneFunction(Color3.fromRGB), services:CloneFunction(Color3.fromHex), services:CloneFunction(ColorSequence.new), services:CloneFunction(ColorSequenceKeypoint.new), services:CloneFunction(NumberSequenceKeypoint.new), services:CloneFunction(NumberSequence.new)
-local dim2, Vector2, Vector3, CreateVector = services:CloneFunction(UDim2.new), services:CloneFunction(Vector2.new), services:CloneFunction(Vector3.new), services:CloneFunction(vector.create)
+local FromRGB, hex, NewGradient, GradientSequence, GradientNumberKeypoint, GradientNumberSequence = CloneFunction(Color3.fromRGB), CloneFunction(Color3.fromHex), CloneFunction(ColorSequence.new), CloneFunction(ColorSequenceKeypoint.new), CloneFunction(NumberSequenceKeypoint.new), CloneFunction(NumberSequence.new)
+local dim2, Vector2, Vector3, CreateVector = CloneFunction(UDim2.new), CloneFunction(Vector2.new), CloneFunction(Vector3.new), CloneFunction(vector.create)
 
 
 
@@ -817,17 +817,17 @@ local UI = {
 
 
 esp.connection = RunService.PreRender:Connect(function(deltatime)
-    services:framelimit(deltatime)
+    framelimit(deltatime)
     
-  if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") then
+  if self.Character and findfirstchild(self.Character, "HumanoidRootPart") and findfirstchild(self.Character, "Humanoid") then
     cache.character = self.Character
     cache.getName = Players:GetPlayerFromCharacter(cache.character)
-    cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], services:findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
+    cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
 
 
 
   if cache.root ~= nil and cache.humanoid ~= nil then
-    local pos, os = services:wtvp(cache.root.Position)
+    local pos, os = wtvp(cache.root.Position)
     local distancemath = floor((cache.root.Size.X - cache.root.Size.Y / self.character.WorldPivot.Position.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * 10))
     --floor((cache.root.Size.X - cache.root.Size.Y * 1 / CameraVector.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * 10))
 
