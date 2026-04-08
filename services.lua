@@ -28,6 +28,16 @@ function lib:wtsp(obj)
 end
 
 
+function lib:findfirstchild(arg1, arg2)
+    return arg:FindFirstChild(arg2)
+end
+
+
+function lib:findfirstchildofclass(arg1, arg2)
+    return arg:FindFirstChildOfClass(arg2)
+end
+
+
 function lib:framelimit(deltatime)
     local rendertime = 0   
     rendertime += deltatime
