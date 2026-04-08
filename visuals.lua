@@ -31,12 +31,12 @@ end
 
 
 function services:findfirstchild(arg1, arg2)
-    return arg:FindFirstChild(arg2)
+    return arg1:FindFirstChild(arg2)
 end
 
 
 function services:findfirstchildofclass(arg1, arg2)
-    return arg:FindFirstChildOfClass(arg2)
+    return arg1:FindFirstChildOfClass(arg2)
 end
 
 
@@ -49,18 +49,6 @@ function services:framelimit(deltatime)
 	rendertime = 0
 end
 
-
-function services:GarbageCollection(func)
-for i, v in next, getgc(true) do
-if typeof(v) ~= "function" then
-continue
-end
-local info = debug.getinfo(v)
-if info.name == func then
-   return v
-  end
- end
-end
 
 
 local WS, ws = services:GetService("Workspace"), services:CloneReference(workspace)
