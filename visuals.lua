@@ -775,10 +775,10 @@ local UI = {
 esp.connection = RunService.PreRender:Connect(function(deltatime)
     services:framelimit(deltatime)
     
-  if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") then
+  if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") and services:findfirstchild(self.Character, "Equipped") then
     cache.character = self.Character
     cache.getName = Players:GetPlayerFromCharacter(cache.character)
-    cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], "nigger", lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
+    cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], services:findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
     --cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
 
 
