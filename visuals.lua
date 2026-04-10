@@ -958,7 +958,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.DistanceText.Text = round(UI.GUI.CurrentDistance) .. "st"
         UI.DistanceText.Visible = lib2.flags["Distance"] and os
-        UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .81 / distancemath / 8 + 20)
+        UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .81 / distancemath / 8 + 15)
         UI.DistanceText.Position = dim2(0.13, 0, .999, 0)
         UI.DistanceText.TextColor3 = returnflagcolor("Distance_Color")
         UI.DistanceText.TextSize = lib2.flags["TextSize"]
@@ -968,7 +968,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.WeaponText.Text = cache.getweapon()
         UI.WeaponText.Visible = lib2.flags["Weapon"] and os
-        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 30 + 50)
+        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 30 + 45)
         UI.WeaponText.Position = dim2(0.13, 0, .999, 0)
         UI.WeaponText.TextColor3 = returnflagcolor("Weapon_Color")
         UI.WeaponText.TextSize = lib2.flags["TextSize"]
@@ -978,7 +978,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.FlagText.Text = round(cache.humanoid.Health) .. "HP"
         UI.FlagText.Visible = lib2.flags["Flag"] and os
-        UI.FlagText.Size = dim2(0.085, 0 * distancemath - 45, 0, .042 / distancemath / 1 + 2)
+        UI.FlagText.Size = dim2(0.08, 0 * distancemath - 45, 0, .042 / distancemath / 1 + 2)
         UI.FlagText.Position = dim2(.0999, 0, .15, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = lib2.flags["TextSize"]
@@ -988,7 +988,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.PriorityFlag.Text = lib2.get_priority(self)
         UI.PriorityFlag.Visible = lib2.flags["PriorityFlag"] and os
-        UI.PriorityFlag.Size = dim2(0.093, 0 * distancemath + 65, 0, .042 / distancemath / 1 + 2)
+        UI.PriorityFlag.Size = dim2(0.0915, 0 * distancemath + 65, 0, .042 / distancemath / 1 + 2)
         UI.PriorityFlag.Position = dim2(0.78, 0, .15, 0)
         UI.PriorityFlag.TextColor3 = returnflagcolor(lib2.get_priority(self))
         UI.PriorityFlag.TextSize = lib2.flags["TextSize"]
