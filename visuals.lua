@@ -804,7 +804,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.GUI.Enabled = lib2.flags["Enabled"] and os
     UI.GUI.Adornee = cache.root
 	UI.GUI.StudsOffset = Vector3(0, -.03, 0)
-    UI.GUI.Size = dim2(6, 0 * distancemath + 7, 7, 0 * distancemath + 5 / 1 + 3)
+    UI.GUI.Size = dim2(6, 0 * distancemath + 8, 7, 0 * distancemath + 5 / 1 + 2)
     UI.GUI.MaxDistance = lib2.flags["MaxDistance"]
    end
 
@@ -981,7 +981,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         UI.FlagText.Size = dim2(0.08, 0 * distancemath - 45, 0, .042 / distancemath / 1 + 2)
         UI.FlagText.Position = dim2(.0999, 0, .15, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
-        UI.FlagText.TextSize = 9
+        UI.FlagText.TextSize = 12
         UI.FlagText.FontFace = lib.SmallestPixel7
 
 
@@ -991,7 +991,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         UI.PriorityFlag.Size = dim2(0.093, 0 * distancemath + 65, 0, .042 / distancemath / 1 + 2)
         UI.PriorityFlag.Position = dim2(0.78, 0, .15, 0)
         UI.PriorityFlag.TextColor3 = returnflagcolor(lib2.get_priority(self))
-        UI.PriorityFlag.TextSize = 9
+        UI.PriorityFlag.TextSize = 12
         UI.PriorityFlag.FontFace = lib.SmallestPixel7
    end
 
@@ -1002,8 +1002,8 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.HealthBar.bar.UIGradient.Color = returngradientcolor("Health_High", "Health_Low")
 
 
-    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath - .001, .88, 0)
-    UI.HealthBar.Position = dim2(.15, 0 / distancemath * pos.Magnitude - clamp(2.2, 2, 2.5) * (clamp(.02, .02, .07) + clamp(.8, .8, .95)) / (clamp(.09, .09, .15)) - math.sign(.6), .12, 0)
+    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath + .001, .88, 0)
+    UI.HealthBar.Position = dim2(.16, 0 / distancemath * pos.Magnitude - clamp(2.2, 2, 2.5) * (clamp(.02, .02, .07) + clamp(.8, .8, .95)) / (clamp(.09, .09, .15)) - math.sign(.6), .12, 0)
     UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
    end
    
