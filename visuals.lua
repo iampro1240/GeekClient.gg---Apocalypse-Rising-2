@@ -946,7 +946,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
 
     do
-        UI.PlayerName.Text = cache.Name
+        UI.PlayerName.Text = cache.name
         UI.PlayerName.Size = dim2(0.75, 0 * distancemath + .1, 0, .8 / distancemath / 10 - 25)
         UI.PlayerName.Position = dim2(0.13, 0, .12, 0)
         UI.PlayerName.Visible = lib2.flags["Names"] and os
