@@ -763,11 +763,11 @@ local Library do
             end
         end
 
-        CustomFont:New("Windows-XP-Tahoma", 200, "Regular", {
-            Url = "https://github.com/sametexe001/luas/raw/refs/heads/main/fonts/windows-xp-tahoma.ttf"
+        CustomFont:New("Proggy-Clean", 200, "Regular", {
+            Url = "https://github.com/bluescan/proggyfonts/raw/refs/heads/master/ProggyOriginal/ProggyClean.ttf"
         })
 
-        Library.Font = CustomFont:Get("Windows-XP-Tahoma")
+        Library.Font = CustomFont:Get("Proggy-Clean")
     end
 
     Library.Holder = Instances:Create("ScreenGui", {
@@ -1155,7 +1155,7 @@ local Library do
                 Parent = Items["Notification"].Instance,
                 PaddingTop = UDimNew(0, 1),
                 PaddingRight = UDimNew(0, 8),
-                PaddingLeft = UDimNew(0, 5)
+                PaddingLeft = UDimNew(0, 35)
             }) 
             
             Items["Title"] = Instances:Create("TextLabel", {
