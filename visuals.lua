@@ -177,22 +177,22 @@ function lib:ESPObject(self, lib2)
 
 
     function lib:returnflagcolor(color)
-      return lib2.flags[color].Color
+      return lib2.Flags[color].Color
     end
 
 
     function lib:returnflagtransparency(color)
-      return lib2.flags[color].Transparency
+      return lib2.Flags[color].Transparency
     end
 
 
     function lib:returngradientcolor(color, colortwo)
-       return NewGradient{GradientSequence(0, lib2.flags[color].Color), GradientSequence(1, lib2.flags[colortwo].Color)}
+       return NewGradient{GradientSequence(0, lib2.Flags[color].Color), GradientSequence(1, lib2.Flags[colortwo].Color)}
     end
 
 
     function lib:returnGradientTransparency(color, colortwo)
-       return GradientNumberSequence{GradientNumberKeypoint(0, lib2.flags[color].Transparency), GradientNumberKeypoint(1, lib2.flags[colortwo].Transparency)}
+       return GradientNumberSequence{GradientNumberKeypoint(0, lib2.Flags[color].Transparency), GradientNumberKeypoint(1, lib2.Flags[colortwo].Transparency)}
     end
 
 
@@ -227,15 +227,6 @@ function lib:ESPObject(self, lib2)
 
     lib:DrawText({
         Name = "FlagText", 
-        Parent = esp.holder,
-        TextSize = 9,
-        AnchorPoint = Vector2(0, 0)
-    })
-
-
-
-    lib:DrawText({
-        Name = "PriorityFlagText", 
         Parent = esp.holder,
         TextSize = 9,
         AnchorPoint = Vector2(0, 0)
@@ -417,39 +408,8 @@ function lib:ESPObject(self, lib2)
 
     
 
-    lib:DrawFrame({
-        Name = "Fill",
-        Parent = esp.holder,
-        Color = FromRGB(255, 255, 255),
-        BackgroundTransparency = 0,
-        BorderSizePixel = 0,
-        Position = esp.holder.Box.Position,
-        Size = esp.holder.Box.Size,
-        Zindex = -50,
-        Rotation = 0,
-        AnchorPoint = Vector2(0, 0, 0)
-    })
-    
-
-
     lib:DrawGradient({
         Parent = esp.holder.HealthBar.bar,
-        Rotation = -90,
-        Color = ColorSequence.new{ColorSequenceKeypoint.new(0, FromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, FromRGB(255, 255, 255))}
-    })
-
-
-
-    lib:DrawGradient({
-        Parent = esp.holder.Fill,
-        Rotation = -90,
-        Color = ColorSequence.new{ColorSequenceKeypoint.new(0, FromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, FromRGB(255, 255, 255))}
-    })
-
-
-
-    lib:DrawGradient({
-        Parent = esp.holder.Fill,
         Rotation = -90,
         Color = ColorSequence.new{ColorSequenceKeypoint.new(0, FromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, FromRGB(255, 255, 255))}
     })
@@ -721,13 +681,10 @@ local UI = {
     WeaponText = esp.holder.WeaponText,
     DistanceText = esp.holder.DistanceText,
     FlagText = esp.holder.FlagText,
-    PriorityFlag = esp.holder.PriorityFlagText,
    
 
 
     Box = esp.holder.Box,
-    Fill = esp.holder.Fill,
-
     Top = esp.holder.Box.borders.top,
     Bottom = esp.holder.Box.borders.bottom,
     Left = esp.holder.Box.borders.left,
@@ -778,9 +735,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
   if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") and services:findfirstchild(self.Character, "Equipped") then
     cache.character, cache.getName = self.Character, Players:GetPlayerFromCharacter(self.Character)
     cache.root, cache.humanoid, cache.weapon = cache.character["HumanoidRootPart"], cache.character["Humanoid"], services:findfirstchildofclass(cache.character["Equipped"], "Model")
-    cache.iscornerbox, cache.isfullbox, cache.isgradientenabled, cache.distance, cache.name, cache.healthcount = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " (@" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health) .. "HP"
-    --cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
-
+    cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount = lib2.Flags["Boxes"] and lib2.Flags["BoxType"] == "Corner" and os, lib2.Flags["Boxes"] and lib2.Flags["BoxType"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " (@" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health) .. "HP"
 
 
 
@@ -801,17 +756,17 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
 
    do
-    UI.GUI.Enabled = lib2.flags["Enabled"] and os
+    UI.GUI.Enabled = lib2.Flags["Enabled"] and os
     UI.GUI.Adornee = cache.root
 	UI.GUI.StudsOffset = Vector3(0, -.03, 0)
     UI.GUI.Size = dim2(6, 0 * distancemath + 8, 7, 0 * distancemath + 5 / 1 + 2)
-    UI.GUI.MaxDistance = lib2.flags["MaxDistance"]
+    UI.GUI.MaxDistance = lib2.Flags["MaxDistance"]
    end
 
 
 
    do
-    UI.chams.Enabled = lib2.flags["ChamsToggle"] and os
+    UI.chams.Enabled = lib2.Flags["ChamsToggle"] and os
     UI.chams.Adornee = cache.character
     UI.chams.OutlineColor = returnflagcolor("ChamColor")
     UI.chams.OutlineTransparency = returnflagtransparency("ChamColor")
@@ -909,8 +864,8 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.Top.Size = dim2(1, 0 * distancemath / .75, 0, 1)
     UI.TopC.Size = UI.Top.Size
     UI.TopC.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.Top.Visible = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os
-    UI.TopC.Visible = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os
+    UI.Top.Visible = lib2.Flags["Boxes"] and lib2.Flags["Box_Type"] == "Full" and os
+    UI.TopC.Visible = lib2.Flags["Boxes"] and lib2.Flags["Box_Type"] == "Full" and os
         
         
     UI.Bottom.Size = dim2(1, 0 * distancemath / -.75, 0, -1)
@@ -934,77 +889,58 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.RightC.Visible = cache.isfullbox
    end
 
-
-
-   do
-    UI.Fill.Visible = cache.isgradientenabled
-    UI.Fill.UIGradient.Color = returngradientcolor("Fill_Color_One", "Fill_Color_Two")
-    UI.Fill.UIGradient.Transparency = returnGradientTransparency("Fill_Color_One", "Fill_Color_Two")
-    UI.Fill.UIGradient.Rotation += .6
-   end
-
-
-
+   
     do
         UI.PlayerName.Text = cache.name
-        UI.PlayerName.Size = dim2(0.75, 0 * distancemath + .1, 0, .8 / distancemath / 8 - 22)
+        UI.PlayerName.Size = dim2(0.75, 0 * distancemath + .1, 0, .8 / distancemath / 8 - 18)
         UI.PlayerName.Position = dim2(0.13, 0, .12, 0)
-        UI.PlayerName.Visible = lib2.flags["Names"] and os
+        UI.PlayerName.Visible = lib2.Flags["Names"] and os
         UI.PlayerName.TextColor3 = returnflagcolor("Name_Color")
-        UI.PlayerName.TextSize = lib2.flags["TextSize"]
+        UI.PlayerName.TextSize = lib2.Flags["TextSize"]
         UI.PlayerName.FontFace = lib.ProggyClean
 
 
 
         UI.DistanceText.Text = cache.distance
-        UI.DistanceText.Visible = lib2.flags["Distance"] and os
-        UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .81 / distancemath / 10 + 20)
+        UI.DistanceText.Visible = lib2.Flags["Distance"] and os
+        UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 10 + 18)
         UI.DistanceText.Position = dim2(0.13, 0, .999, 0)
         UI.DistanceText.TextColor3 = returnflagcolor("Distance_Color")
-        UI.DistanceText.TextSize = lib2.flags["TextSize"]
+        UI.DistanceText.TextSize = lib2.Flags["TextSize"]
         UI.DistanceText.FontFace = lib.ProggyClean
 
 
 
         UI.WeaponText.Text = cache.getweapon()
-        UI.WeaponText.Visible = lib2.flags["Weapon"] and os
-        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 25 + 50)
+        UI.WeaponText.Visible = lib2.Flags["Weapon"] and os
+        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 25 + 48)
         UI.WeaponText.Position = dim2(0.13, 0, .999, 0)
         UI.WeaponText.TextColor3 = returnflagcolor("Weapon_Color")
-        UI.WeaponText.TextSize = lib2.flags["TextSize"]
+        UI.WeaponText.TextSize = lib2.Flags["TextSize"]
         UI.WeaponText.FontFace = lib.ProggyClean
 
 
 
         UI.FlagText.Text = cache.healthcount
-        UI.FlagText.Visible = lib2.flags["Flag"] and os
+        UI.FlagText.Visible = lib2.Flags["Flag"] and os
         UI.FlagText.Size = dim2(0.08, 0 * distancemath - 38, 0, .042 / distancemath / 1 + 2)
         UI.FlagText.Position = dim2(.0999, 0, .15, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = 12
         UI.FlagText.FontFace = lib.SmallestPixel7
 
-
-
-        UI.PriorityFlag.Text = lib2.get_priority(self)
-        UI.PriorityFlag.Visible = lib2.flags["PriorityFlag"] and os
-        UI.PriorityFlag.Size = dim2(0.093, 0 * distancemath + 45, 0, .042 / distancemath / 1 + 2)
-        UI.PriorityFlag.Position = dim2(0.78, 0, .15, 0)
-        UI.PriorityFlag.TextColor3 = returnflagcolor(lib2.get_priority(self))
-        UI.PriorityFlag.TextSize = 12
-        UI.PriorityFlag.FontFace = lib.SmallestPixel7
    end
 
 
 
    do
-    UI.HealthBar.Visible = lib2.flags["Healthbar"] and os
+    UI.HealthBar.Visible = lib2.Flags["Healthbar"] and os
     UI.HealthBar.bar.UIGradient.Color = returngradientcolor("Health_High", "Health_Low")
 
 
-    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath, .88, 0)
+    UI.HealthBar.Size = dim2(0, 1 * distancemath - -.1, 1, 0)
     --dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath + .001, .88, 0)
-    UI.HealthBar.Position = dim2(.16, 0 , 0, 0)
+    UI.HealthBar.Position = dim2(.16, 0 , .12, 0)
     --dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) - math.sign(.1), .12, 0)
     UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
    end
