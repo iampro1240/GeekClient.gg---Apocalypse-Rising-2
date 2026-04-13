@@ -2060,8 +2060,10 @@
 
 		function library:esp_preview(properties)
 			local cfg = {items = {}, rotation = 0; objects = {};}
+			if lp.Character.Archivable ~= nil then
+			   lp.Character.Archivable = true
+			end
 
-			lp.Character.Archivable = true
 			local character = lp.Character:Clone()
 			character.Animate:Destroy()
 
@@ -2094,7 +2096,7 @@
 				library:connection(run.RenderStepped, function()
 					task.wait()
 					cfg.rotation += 0.5
-					character:SetPrimaryPartCFrame(cfr(Vector3.new(0, 1, -6)) * angle(0, math.rad(cfg.rotation), 0))
+					character:SetPrimaryPartCFrame(cfr(Vector3.new(0, 0, -6)) * angle(0, math.rad(cfg.rotation), 0))
 				end)
 			end 
 
