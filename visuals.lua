@@ -177,22 +177,22 @@ function lib:ESPObject(self, lib2)
 
 
     function lib:returnflagcolor(color)
-      return lib2.Flags[color].Color
+      return lib2.flags[color].Color
     end
 
 
     function lib:returnflagtransparency(color)
-      return lib2.Flags[color].Transparency
+      return lib2.flags[color].Transparency
     end
 
 
     function lib:returngradientcolor(color, colortwo)
-       return NewGradient{GradientSequence(0, lib2.Flags[color].Color), GradientSequence(1, lib2.Flags[colortwo].Color)}
+       return NewGradient{GradientSequence(0, lib2.flags[color].Color), GradientSequence(1, lib2.flags[colortwo].Color)}
     end
 
 
     function lib:returnGradientTransparency(color, colortwo)
-       return GradientNumberSequence{GradientNumberKeypoint(0, lib2.Flags[color].Transparency), GradientNumberKeypoint(1, lib2.Flags[colortwo].Transparency)}
+       return GradientNumberSequence{GradientNumberKeypoint(0, lib2.flags[color].Transparency), GradientNumberKeypoint(1, lib2.flags[colortwo].Transparency)}
     end
 
 
@@ -735,7 +735,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
   if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") and services:findfirstchild(self.Character, "Equipped") then
     cache.character, cache.getName = self.Character, Players:GetPlayerFromCharacter(self.Character)
     cache.root, cache.humanoid, cache.weapon = cache.character["HumanoidRootPart"], cache.character["Humanoid"], services:findfirstchildofclass(cache.character["Equipped"], "Model")
-    cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount = lib2.Flags["Boxes"] and lib2.Flags["BoxType"] == "Corner" and os, lib2.Flags["Boxes"] and lib2.Flags["BoxType"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " (@" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health) .. "HP"
+    cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount = lib2.flags["Boxes"] and lib2.flags["BoxType"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["BoxType"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " (@" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health) .. "HP"
 
 
 
@@ -756,17 +756,17 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
 
    do
-    UI.GUI.Enabled = lib2.Flags["Enabled"] and os
+    UI.GUI.Enabled = lib2.flags["Enabled"] and os
     UI.GUI.Adornee = cache.root
 	UI.GUI.StudsOffset = Vector3(0, -.03, 0)
     UI.GUI.Size = dim2(6, 0 * distancemath + 8, 7, 0 * distancemath + 5 / 1 + 2)
-    UI.GUI.MaxDistance = lib2.Flags["MaxDistance"]
+    UI.GUI.MaxDistance = lib2.flags["MaxDistance"]
    end
 
 
 
    do
-    UI.chams.Enabled = lib2.Flags["ChamsToggle"] and os
+    UI.chams.Enabled = lib2.flags["ChamsToggle"] and os
     UI.chams.Adornee = cache.character
     UI.chams.OutlineColor = returnflagcolor("ChamColor")
     UI.chams.OutlineTransparency = returnflagtransparency("ChamColor")
@@ -864,8 +864,8 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.Top.Size = dim2(1, 0 * distancemath / .75, 0, 1)
     UI.TopC.Size = UI.Top.Size
     UI.TopC.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.Top.Visible = lib2.Flags["Boxes"] and lib2.Flags["Box_Type"] == "Full" and os
-    UI.TopC.Visible = lib2.Flags["Boxes"] and lib2.Flags["Box_Type"] == "Full" and os
+    UI.Top.Visible = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os
+    UI.TopC.Visible = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os
         
         
     UI.Bottom.Size = dim2(1, 0 * distancemath / -.75, 0, -1)
@@ -894,35 +894,35 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         UI.PlayerName.Text = cache.name
         UI.PlayerName.Size = dim2(0.75, 0 * distancemath + .1, 0, .8 / distancemath / 8 - 18)
         UI.PlayerName.Position = dim2(0.13, 0, .12, 0)
-        UI.PlayerName.Visible = lib2.Flags["Names"] and os
+        UI.PlayerName.Visible = lib2.flags["Names"] and os
         UI.PlayerName.TextColor3 = returnflagcolor("Name_Color")
-        UI.PlayerName.TextSize = lib2.Flags["TextSize"]
+        UI.PlayerName.TextSize = lib2.flags["TextSize"]
         UI.PlayerName.FontFace = lib.ProggyClean
 
 
 
         UI.DistanceText.Text = cache.distance
-        UI.DistanceText.Visible = lib2.Flags["Distance"] and os
+        UI.DistanceText.Visible = lib2.flags["Distance"] and os
         UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 10 + 18)
         UI.DistanceText.Position = dim2(0.13, 0, .999, 0)
         UI.DistanceText.TextColor3 = returnflagcolor("Distance_Color")
-        UI.DistanceText.TextSize = lib2.Flags["TextSize"]
+        UI.DistanceText.TextSize = lib2.flags["TextSize"]
         UI.DistanceText.FontFace = lib.ProggyClean
 
 
 
         UI.WeaponText.Text = cache.getweapon()
-        UI.WeaponText.Visible = lib2.Flags["Weapon"] and os
+        UI.WeaponText.Visible = lib2.flags["Weapon"] and os
         UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 25 + 48)
         UI.WeaponText.Position = dim2(0.13, 0, .999, 0)
         UI.WeaponText.TextColor3 = returnflagcolor("Weapon_Color")
-        UI.WeaponText.TextSize = lib2.Flags["TextSize"]
+        UI.WeaponText.TextSize = lib2.flags["TextSize"]
         UI.WeaponText.FontFace = lib.ProggyClean
 
 
 
         UI.FlagText.Text = cache.healthcount
-        UI.FlagText.Visible = lib2.Flags["Flag"] and os
+        UI.FlagText.Visible = lib2.flags["Flag"] and os
         UI.FlagText.Size = dim2(0.08, 0 * distancemath - 38, 0, .042 / distancemath / 1 + 2)
         UI.FlagText.Position = dim2(.0999, 0, .15, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
@@ -934,7 +934,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
 
    do
-    UI.HealthBar.Visible = lib2.Flags["Healthbar"] and os
+    UI.HealthBar.Visible = lib2.flags["Healthbar"] and os
     UI.HealthBar.bar.UIGradient.Color = returngradientcolor("Health_High", "Health_Low")
 
 
@@ -956,8 +956,6 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
   end)
 end
 
-
-warn("GeekClient.GG - ESP Loaded")
 
 
 return lib
