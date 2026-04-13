@@ -234,15 +234,6 @@ function lib:ESPObject(self, lib2)
 
 
 
-    lib:DrawText({
-        Name = "PriorityFlagText", 
-        Parent = esp.holder,
-        TextSize = 9,
-        AnchorPoint = Vector2(0, 0)
-    })
-
-
-
     lib:DrawFrame({
         Name = "Box",
         Parent = esp.holder,
@@ -690,7 +681,6 @@ local UI = {
     WeaponText = esp.holder.WeaponText,
     DistanceText = esp.holder.DistanceText,
     FlagText = esp.holder.FlagText,
-    PriorityFlag = esp.holder.PriorityFlagText,
    
 
 
@@ -941,15 +931,6 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         UI.FlagText.TextSize = 12
         UI.FlagText.FontFace = lib.SmallestPixel7
 
-
-
-        UI.PriorityFlag.Text = lib2.get_priority(self)
-        UI.PriorityFlag.Visible = lib2.flags["PriorityFlag"] and os
-        UI.PriorityFlag.Size = dim2(0.093, 0 * distancemath + 45, 0, .042 / distancemath / 1 + 2)
-        UI.PriorityFlag.Position = dim2(0.78, 0, .15, 0)
-        UI.PriorityFlag.TextColor3 = returnflagcolor(lib2.get_priority(self))
-        UI.PriorityFlag.TextSize = 12
-        UI.PriorityFlag.FontFace = lib.SmallestPixel7
    end
 
 
