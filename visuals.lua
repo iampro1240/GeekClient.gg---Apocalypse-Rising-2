@@ -176,12 +176,12 @@ function lib:ESPObject(self, lib2)
   
 
 
-    function lib:returnflagcolor(color)
+    function lib:lib:returnflagcolor(color)
       return lib2.flags[color].Color
     end
 
 
-    function lib:returnflagtransparency(color)
+    function lib:lib:returnflagtransparency(color)
       return lib2.flags[color].Transparency
     end
 
@@ -688,7 +688,6 @@ local UI = {
     Top = esp.holder.Box.borders.top,
     Bottom = esp.holder.Box.borders.bottom,
     Left = esp.holder.Box.borders.left,
-    Right = esp.holder.Box.borders.right,
 
     TopC = esp.holder.Box.colors.topc,
     BottomC = esp.holder.Box.colors.bottomc,
@@ -770,37 +769,37 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
    do
     UI.chams.Enabled = lib2.flags["ChamsToggle"] and os
     UI.chams.Adornee = cache.character
-    UI.chams.OutlineColor = returnflagcolor("ChamColor")
-    UI.chams.OutlineTransparency = returnflagtransparency("ChamColor")
-    UI.chams.FillColor = returnflagcolor("ChamColor2")
-    UI.chams.FillTransparency = returnflagtransparency("ChamColor2") 
+    UI.chams.OutlineColor = lib:returnflagcolor("ChamColor")
+    UI.chams.OutlineTransparency = lib:lib:returnflagtransparency("ChamColor")
+    UI.chams.FillColor = lib:returnflagcolor("ChamColor2")
+    UI.chams.FillTransparency = lib:returnflagtransparency("ChamColor2") 
    end
 
 
 
    do
-    UI.CornerTopSideL.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.CornerTopSideLC.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.CornerTopSideL2.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.CornerTopSideL2C.BackgroundColor3 = returnflagcolor("Box_Color")
+    UI.CornerTopSideL.BackgroundColor3 = lib:returnflagcolor("Box_Color")
+    UI.CornerTopSideLC.BackgroundColor3 = lib:returnflagcolor("Box_Color")
+    UI.CornerTopSideL2.BackgroundColor3 = lib:returnflagcolor("Box_Color")
+    UI.CornerTopSideL2C.BackgroundColor3 = lib:returnflagcolor("Box_Color")
 
 
-    UI.CornerTopSideR.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.CornerTopSideRC.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.CornerTopSideR2.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.CornerTopSideRC2.BackgroundColor3 = returnflagcolor("Box_Color")
+    UI.CornerTopSideR.BackgroundColor3 = lib:returnflagcolor("Box_Color")
+    UI.CornerTopSideRC.BackgroundColor3 = lib:returnflagcolor("Box_Color")
+    UI.CornerTopSideR2.BackgroundColor3 = lib:returnflagcolor("Box_Color")
+    UI.CornerTopSideRC2.BackgroundColor3 = lib:returnflagcolor("Box_Color")
 
 
-    UI.CornerBottomSideL.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.CornerBottomSideLC.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.CornerBottomSideL2.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.CornerBottomSideLC2.BackgroundColor3 = returnflagcolor("Box_Color")
+    UI.CornerBottomSideL.BackgroundColor3 = lib:lib:returnflagcolor("Box_Color")
+    UI.CornerBottomSideLC.BackgroundColor3 = lib:returnflagcolor("Box_Color")
+    UI.CornerBottomSideL2.BackgroundColor3 = lib:returnflagcolor("Box_Color")
+    UI.CornerBottomSideLC2.BackgroundColor3 = lib:returnflagcolor("Box_Color")
 
 
-    UI.CornerBottomSideR.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.CornerBottomSideRC.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.CornerBottomSideR2.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.CornerBottomSideRC2.BackgroundColor3 = returnflagcolor("Box_Color")
+    UI.CornerBottomSideR.BackgroundColor3 = lib:returnflagcolor("Box_Color")
+    UI.CornerBottomSideRC.BackgroundColor3 = lib:returnflagcolor("Box_Color")
+    UI.CornerBottomSideR2.BackgroundColor3 = lib:returnflagcolor("Box_Color")
+    UI.CornerBottomSideRC2.BackgroundColor3 = lib:returnflagcolor("Box_Color")
 
 
     UI.CornerTopSideL.Visible = cache.iscornerbox
@@ -865,28 +864,28 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
    do
     UI.Top.Size = dim2(1, 0 * distancemath / .75, 0, 1)
     UI.TopC.Size = UI.Top.Size
-    UI.TopC.BackgroundColor3 = returnflagcolor("Box_Color")
+    UI.TopC.BackgroundColor3 = lib:returnflagcolor("Box_Color")
     UI.Top.Visible = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os
     UI.TopC.Visible = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os
         
         
     UI.Bottom.Size = dim2(1, 0 * distancemath / -.75, 0, -1)
     UI.BottomC.Size = UI.Bottom.Size
-    UI.BottomC.BackgroundColor3 = returnflagcolor("Box_Color")
+    UI.BottomC.BackgroundColor3 = lib:returnflagcolor("Box_Color")
     UI.Bottom.Visible = cache.isfullbox
     UI.BottomC.Visible = cache.isfullbox
 
 
     UI.Left.Size = dim2(0, 1 * distancemath - -.75, 1, 0)
     UI.LeftC.Size = UI.Left.Size
-    UI.LeftC.BackgroundColor3 = returnflagcolor("Box_Color")
+    UI.LeftC.BackgroundColor3 = lib:returnflagcolor("Box_Color")
     UI.Left.Visible = cache.isfullbox
     UI.LeftC.Visible = cache.isfullbox
 
         
     UI.Right.Size = dim2(0, 1 * distancemath - -.75, 1, 0)
     UI.RightC.Size = UI.Right.Size
-    UI.RightC.BackgroundColor3 = returnflagcolor("Box_Color")
+    UI.RightC.BackgroundColor3 = lib:returnflagcolor("Box_Color")
     UI.Right.Visible = cache.isfullbox
     UI.RightC.Visible = cache.isfullbox
    end
@@ -897,7 +896,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         UI.PlayerName.Size = dim2(0.75, 0 * distancemath + .1, 0, .8 / distancemath / 8 - 22)
         UI.PlayerName.Position = dim2(0.13, 0, .12, 0)
         UI.PlayerName.Visible = lib2.flags["Names"] and os
-        UI.PlayerName.TextColor3 = returnflagcolor("Name_Color")
+        UI.PlayerName.TextColor3 = lib:returnflagcolor("Name_Color")
         UI.PlayerName.TextSize = lib2.flags["TextSize"]
         UI.PlayerName.FontFace = lib.ProggyClean
 
@@ -907,7 +906,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         UI.DistanceText.Visible = lib2.flags["Distance"] and os
         UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .81 / distancemath / 10 + 20)
         UI.DistanceText.Position = dim2(0.13, 0, .999, 0)
-        UI.DistanceText.TextColor3 = returnflagcolor("Distance_Color")
+        UI.DistanceText.TextColor3 = lib:returnflagcolor("Distance_Color")
         UI.DistanceText.TextSize = lib2.flags["TextSize"]
         UI.DistanceText.FontFace = lib.ProggyClean
 
@@ -917,7 +916,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         UI.WeaponText.Visible = lib2.flags["Weapon"] and os
         UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 25 + 50)
         UI.WeaponText.Position = dim2(0.13, 0, .999, 0)
-        UI.WeaponText.TextColor3 = returnflagcolor("Weapon_Color")
+        UI.WeaponText.TextColor3 = lib:returnflagcolor("Weapon_Color")
         UI.WeaponText.TextSize = lib2.flags["TextSize"]
         UI.WeaponText.FontFace = lib.ProggyClean
 
@@ -927,7 +926,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         UI.FlagText.Visible = lib2.flags["Flag"] and os
         UI.FlagText.Size = dim2(0.08, 0 * distancemath - 38, 0, .042 / distancemath / 1 + 2)
         UI.FlagText.Position = dim2(.0999, 0, .15, 0)
-        UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
+        UI.FlagText.TextColor3 = lib:returnflagcolor("FlagColor")
         UI.FlagText.TextSize = 12
         UI.FlagText.FontFace = lib.SmallestPixel7
 
@@ -958,8 +957,6 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
   end)
 end
 
-
-warn("GeekClient.GG - ESP Loaded")
 
 
 return lib
