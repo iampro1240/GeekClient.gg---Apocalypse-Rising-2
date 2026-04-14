@@ -688,6 +688,7 @@ local UI = {
     Top = esp.holder.Box.borders.top,
     Bottom = esp.holder.Box.borders.bottom,
     Left = esp.holder.Box.borders.left,
+    Right = esp.holder.Box.borders.right,
 
     TopC = esp.holder.Box.colors.topc,
     BottomC = esp.holder.Box.colors.bottomc,
@@ -790,7 +791,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.CornerTopSideRC2.BackgroundColor3 = returnflagcolor("Box_Color")
 
 
-    UI.CornerBottomSideL.BackgroundColor3 = lib:returnflagcolor("Box_Color")
+    UI.CornerBottomSideL.BackgroundColor3 = returnflagcolor("Box_Color")
     UI.CornerBottomSideLC.BackgroundColor3 = returnflagcolor("Box_Color")
     UI.CornerBottomSideL2.BackgroundColor3 = returnflagcolor("Box_Color")
     UI.CornerBottomSideLC2.BackgroundColor3 = returnflagcolor("Box_Color")
@@ -956,6 +957,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     end
   end)
 end
+
 
 
 
