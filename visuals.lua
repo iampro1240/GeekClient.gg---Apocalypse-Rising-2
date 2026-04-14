@@ -22,13 +22,13 @@ local dim2, Vector2, Vector3, CreateVector = clonefunction(UDim2.new), clonefunc
 
 --game:HttpGet("https://github.com/bluescan/proggyfonts/raw/refs/heads/master/ProggyOriginal/ProggyClean.ttf")
 writefile("ProggyClean1.ttf", game:HttpGet("https://github.com/jakadak/TF2-extended-fonts/blob/master/fonts/TF2Professor.ttf"))
-writefile("SmallestPixel71.ttf", game:HttpGet("https://github.com/sametexe001/luas/raw/refs/heads/main/fonts/windows-xp-tahoma.ttf"))
+writefile("SmallestPixel71.ttf", game:HttpGet("https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/smallest_pixel-7.ttf"))
 local ProggyClean = {
 	name = "ProggyClean",
 	faces = {
 	  {
 		name = "Regular",
-		weight = 200,
+		weight = 400,
 		style = "normal",
 		assetId = getcustomasset("ProggyClean1.ttf")
 	  }
@@ -42,7 +42,7 @@ local SmallestPixel7 = {
 	faces = {
 	  {
 		name = "Regular",
-		weight = 200,
+		weight = 400,
 		style = "normal",
 		assetId = getcustomasset("SmallestPixel71.ttf")
 	  }
