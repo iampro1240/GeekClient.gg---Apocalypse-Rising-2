@@ -944,7 +944,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
     UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath, .88, 0)
     --dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath + .001, .88, 0)
-    UI.HealthBar.Position = dim2(.16, 0 / distancemath - (1/2) * 3.14 - math.(.1), .12, 0)
+    UI.HealthBar.Position = dim2(.16, 0 / distancemath - (1/2) * 3.14 - math.sign(.1), .12, 0)
     --dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) - math.sign(.1), .12, 0)
     UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
    end
