@@ -763,7 +763,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.GUI.Enabled = lib2.flags["Enabled"] and os
     UI.GUI.Adornee = cache.root
 	UI.GUI.StudsOffset = Vector3(0, -.03, 0)
-    UI.GUI.Size = dim2(7, 0 * distancemath + 6, 7, 0 * distancemath + 5 / 1 + 2)
+    UI.GUI.Size = dim2(7, 0 * distancemath + 6 / cache.root.Rotation.Magnitude, 7, 0 * distancemath + 4 / cache.root.Rotation.Magnitude)
     UI.GUI.MaxDistance = lib2.flags["MaxDistance"]
    end
 
