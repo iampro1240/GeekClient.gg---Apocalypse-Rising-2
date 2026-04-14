@@ -927,7 +927,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.FlagText.Text = cache.healthcount
         UI.FlagText.Visible = lib2.flags["Flag"] and os
-        UI.FlagText.Size = dim2(0.09, 0 * distancemath - 30, 0, .042 / distancemath / .5 + 1)
+        UI.FlagText.Size = dim2(0.085, 0 * distancemath - 30, 0, .042 / distancemath / .5 + 1)
         UI.FlagText.Position = dim2(.0999, 0, .18, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = 12
@@ -944,7 +944,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
     UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) - math.max(.05)) / distancemath, .88, 0)
     --dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath + .001, .88, 0)
-    UI.HealthBar.Position = dim2(.17, 0 * distancemath - (1/2) + math.sign(.1), .12, 0)
+    UI.HealthBar.Position = dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) - math.sign(.1) / distancemath, .12, 0)
     --dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) - math.sign(.1), .12, 0)
     UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
    end
