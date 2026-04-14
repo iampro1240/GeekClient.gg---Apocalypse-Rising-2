@@ -20,7 +20,8 @@ local dim2, Vector2, Vector3, CreateVector = clonefunction(UDim2.new), clonefunc
 
 
 
-writefile("ProggyClean1.ttf", game:HttpGet("https://github.com/bluescan/proggyfonts/raw/refs/heads/master/ProggyOriginal/ProggyClean.ttf"))
+--game:HttpGet("https://github.com/bluescan/proggyfonts/raw/refs/heads/master/ProggyOriginal/ProggyClean.ttf")
+writefile("ProggyClean1.ttf", game:HttpGet("https://github.com/jakadak/TF2-extended-fonts/blob/master/fonts/TF2Professor.ttf"))
 writefile("SmallestPixel71.ttf", game:HttpGet("https://github.com/sametexe001/luas/raw/refs/heads/main/fonts/windows-xp-tahoma.ttf"))
 local ProggyClean = {
 	name = "ProggyClean",
