@@ -761,7 +761,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.GUI.Enabled = lib2.flags["Enabled"] and os
     UI.GUI.Adornee = cache.root
 	UI.GUI.StudsOffset = Vector3(0, -.03, 0)
-    UI.GUI.Size = dim2(8, 0 * distancemath + 6, 7, 0 * distancemath + 6 / 1 + 2)
+    UI.GUI.Size = dim2(7, 0 * distancemath + 7, 7, 0 * distancemath + 7 / 1 + 2)
     UI.GUI.MaxDistance = lib2.flags["MaxDistance"]
    end
 
@@ -925,7 +925,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.FlagText.Text = cache.healthcount
         UI.FlagText.Visible = lib2.flags["Flag"] and os
-        UI.FlagText.Size = dim2(0.08, 0 * distancemath - 35, 0, .042 / distancemath / .5 + 1)
+        UI.FlagText.Size = dim2(0.08, 0 * distancemath - 55, 0, .042 / distancemath / .5 + 1)
         UI.FlagText.Position = dim2(.0999, 0, .18, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = 12
