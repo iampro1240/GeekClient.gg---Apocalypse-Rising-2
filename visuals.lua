@@ -732,11 +732,9 @@ local UI = {
 esp.connection = RunService.PreRender:Connect(function(deltatime)
     services:framelimit(deltatime)
     
-  if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") then
-    --if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") and services:findfirstchild(self.Character, "Equipped") then
+  if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") and services:findfirstchild(self.Character, "Equipped") then
     cache.character, cache.getName = self.Character, Players:GetPlayerFromCharacter(self.Character)
-    cache.root, cache.humanoid, cache.weapon = cache.character["HumanoidRootPart"], cache.character["Humanoid"], "weapon"
-    --cache.root, cache.humanoid, cache.weapon = cache.character["HumanoidRootPart"], cache.character["Humanoid"], services:findfirstchildofclass(cache.character["Equipped"], "Model")
+    cache.root, cache.humanoid, cache.weapon = cache.character["HumanoidRootPart"], cache.character["Humanoid"], services:findfirstchildofclass(cache.character["Equipped"], "Model")
     cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " (@" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health) .. "HP"
     --cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
 
@@ -917,7 +915,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.WeaponText.Text = cache.getweapon()
         UI.WeaponText.Visible = lib2.flags["Weapon"] and os
-        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 27 + 50)
+        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 26 + 48)
         UI.WeaponText.Position = dim2(0.13, 0, .999, 0)
         UI.WeaponText.TextColor3 = returnflagcolor("Weapon_Color")
         UI.WeaponText.TextSize = lib2.flags["TextSize"]
@@ -927,12 +925,11 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.FlagText.Text = cache.healthcount
         UI.FlagText.Visible = lib2.flags["Flag"] and os
-        UI.FlagText.Size = dim2(0.085, 0 * distancemath - 30, 0, .042 / distancemath / .5 + 1)
+        UI.FlagText.Size = dim2(0.085, 0 * distancemath - 45, 0, .042 / distancemath / .5 + 1)
         UI.FlagText.Position = dim2(.0999, 0, .18, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = 12
         UI.FlagText.FontFace = lib.SmallestPixel7
-
    end
 
 
@@ -942,10 +939,8 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.HealthBar.bar.UIGradient.Color = returngradientcolor("Health_High", "Health_Low")
 
 
-    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) - math.max(.05)) / distancemath, .88, 0)
-    --dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath + .001, .88, 0)
+    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath + .001, .88, 0)
     UI.HealthBar.Position = dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) - math.sign(.1) / distancemath, .12, 0)
-    --dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) - math.sign(.1), .12, 0)
     UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
    end
    
