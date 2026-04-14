@@ -732,7 +732,8 @@ local UI = {
 esp.connection = RunService.PreRender:Connect(function(deltatime)
     services:framelimit(deltatime)
     
-  if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") and services:findfirstchild(self.Character, "Equipped") then
+  if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") then
+    --if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") and services:findfirstchild(self.Character, "Equipped") then
     cache.character, cache.getName = self.Character, Players:GetPlayerFromCharacter(self.Character)
     cache.root, cache.humanoid, cache.weapon = cache.character["HumanoidRootPart"], cache.character["Humanoid"], "weapon"
     --cache.root, cache.humanoid, cache.weapon = cache.character["HumanoidRootPart"], cache.character["Humanoid"], services:findfirstchildofclass(cache.character["Equipped"], "Model")
