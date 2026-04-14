@@ -925,7 +925,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.FlagText.Text = cache.healthcount
         UI.FlagText.Visible = lib2.flags["Flag"] and os
-        UI.FlagText.Size = dim2(0.08, 0 * distancemath - 55, 0, .042 / distancemath / .5 + 1)
+        UI.FlagText.Size = dim2(0.08, 0 * distancemath - 25, 0, .042 / distancemath / 1 + 2)
         UI.FlagText.Position = dim2(.0999, 0, .18, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = 9
