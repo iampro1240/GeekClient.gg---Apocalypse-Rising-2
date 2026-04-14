@@ -896,7 +896,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
    
     do
         UI.PlayerName.Text = cache.name
-        UI.PlayerName.Size = dim2(0.75, 0 * distancemath + .1, 0, .8 / distancemath / 8 - 20)
+        UI.PlayerName.Size = dim2(0.75, 0 * distancemath + .1, 0, .81 / distancemath / 8 - 18)
         UI.PlayerName.Position = dim2(0.13, 0, .12, 0)
         UI.PlayerName.Visible = lib2.flags["Names"] and os
         UI.PlayerName.TextColor3 = returnflagcolor("Name_Color")
@@ -927,7 +927,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.FlagText.Text = cache.healthcount
         UI.FlagText.Visible = lib2.flags["Flag"] and os
-        UI.FlagText.Size = dim2(0.08, 0 * distancemath - 38, 0, .042 / distancemath / 1 + 2)
+        UI.FlagText.Size = dim2(0.08, 0 * distancemath - 35, 0, .042 / distancemath / .5 + 1)
         UI.FlagText.Position = dim2(.0999, 0, .15, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = 12
@@ -944,7 +944,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
     UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath, .88, 0)
     --dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath + .001, .88, 0)
-    UI.HealthBar.Position = dim2(.16, 0 / distancemath - (1/2) * 3.14 - math.sign(.1), .12, 0)
+    UI.HealthBar.Position = dim2(.16, 0 * distancemath - (1/2) * -math.sign(.1), 0, .12)
     --dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) - math.sign(.1), .12, 0)
     UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
    end
