@@ -763,7 +763,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.GUI.Enabled = lib2.flags["Enabled"] and os
     UI.GUI.Adornee = cache.root
 	UI.GUI.StudsOffset = Vector3(0, -.03, 0)
-    UI.GUI.Size = dim2(7, 0 * distancemath + 6 / cache.root.Rotation.Magnitude, 7, 0 * distancemath + 4 / cache.root.Rotation.Magnitude)
+    UI.GUI.Size = dim2(7, 0 * distancemath + 6, 7, 0 * distancemath + 4)
     UI.GUI.MaxDistance = lib2.flags["MaxDistance"]
    end
 
@@ -942,7 +942,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.HealthBar.bar.UIGradient.Color = returngradientcolor("Health_High", "Health_Low")
 
 
-    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) - distancemath, .88, 0)
+    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) - math.max(.05)) / distancemath, .88, 0)
     --dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath + .001, .88, 0)
     UI.HealthBar.Position = dim2(.17, 0 * distancemath - (1/2) + math.sign(.1), .12, 0)
     --dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) - math.sign(.1), .12, 0)
