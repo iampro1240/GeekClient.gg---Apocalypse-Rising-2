@@ -907,7 +907,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.DistanceText.Text = cache.distance
         UI.DistanceText.Visible = lib2.flags["Distance"] and os
-        UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .81 / distancemath / 10 + 20)
+        UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .81 / distancemath / 10 + 18)
         UI.DistanceText.Position = dim2(0.13, 0, .999, 0)
         UI.DistanceText.TextColor3 = returnflagcolor("Distance_Color")
         UI.DistanceText.TextSize = lib2.flags["TextSize"]
@@ -917,7 +917,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.WeaponText.Text = cache.getweapon()
         UI.WeaponText.Visible = lib2.flags["Weapon"] and os
-        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 25 + 50)
+        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 25 + 48)
         UI.WeaponText.Position = dim2(0.13, 0, .999, 0)
         UI.WeaponText.TextColor3 = returnflagcolor("Weapon_Color")
         UI.WeaponText.TextSize = lib2.flags["TextSize"]
@@ -944,7 +944,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
     UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath, .88, 0)
     --dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath + .001, .88, 0)
-    UI.HealthBar.Position = dim2(.16, 0 * distancemath - (1/2) / math.sign(.1), .12, 0)
+    UI.HealthBar.Position = dim2(.17, 0 * distancemath - (1/2) / math.sign(.1), .12, 0)
     --dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) - math.sign(.1), .12, 0)
     UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
    end
