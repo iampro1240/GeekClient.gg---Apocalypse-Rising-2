@@ -20,16 +20,16 @@ local dim2, Vector2, Vector3, CreateVector = clonefunction(UDim2.new), clonefunc
 
 
 
-writefile("ProggyClean1.ttf", game:HttpGet("https://github.com/bluescan/proggyfonts/raw/refs/heads/master/ProggyOriginal/ProggyClean.ttf"))
+writefile("Minecraftia1.ttf", game:HttpGet("https://github.com/i77lhm/storage/blob/refs/heads/main/fonts/Minecraftia-Regular.ttf"))
 writefile("SmallestPixel71.ttf", game:HttpGet("https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/smallest_pixel-7.ttf"))
-local ProggyClean = {
-	name = "ProggyClean",
+local Minecraftia = {
+	name = "Minecraftia",
 	faces = {
 	  {
 		name = "Regular",
-		weight = 200,
+		weight = 400,
 		style = "normal",
-		assetId = getcustomasset("ProggyClean1.ttf")
+		assetId = getcustomasset("Minecraftia1.ttf")
 	  }
 	}
 }
@@ -50,7 +50,7 @@ local SmallestPixel7 = {
 
 
 
-writefile("ProggyClean.ttf", HttpService:JSONEncode(ProggyClean))
+writefile("Minecraftia.ttf", HttpService:JSONEncode(Minecraftia))
 writefile("SmallestPixel7.ttf", HttpService:JSONEncode(SmallestPixel7))
 lib.ProggyClean = Font.new(getcustomasset("ProggyClean.ttf"), Enum.FontWeight.Regular)
 lib.SmallestPixel7 = Font.new(getcustomasset("SmallestPixel7.ttf"), Enum.FontWeight.Regular)
