@@ -736,6 +736,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     cache.character, cache.getName = self.Character, Players:GetPlayerFromCharacter(self.Character)
     cache.root, cache.humanoid, cache.weapon = cache.character["HumanoidRootPart"], cache.character["Humanoid"], services:findfirstchildofclass(cache.character["Equipped"], "Model")
     cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " (@" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health)
+    cache.isteamcornerbox, cache.isteamfullbox = lib2.flags["Team_Boxes"] and lib2.flags["Team_Box_Type"] == "Corner" and os, lib2.flags["Team_Boxes"] and lib2.flags["Team_Boxes"] == "Full" and os
     --cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
 
 
@@ -768,17 +769,113 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
 
    do
+    if lib2.get_priority(self) == "Friendly" then 
+    UI.chams.Enabled = lib2.flags["Team_ChamsToggle"] and os
+    UI.chams.Adornee = cache.character
+    UI.chams.OutlineColor = returnflagcolor("Team_ChamColor")
+    UI.chams.OutlineTransparency = returnflagtransparency("Team_ChamColor")
+    UI.chams.FillColor = returnflagcolor("Team_ChamColor2")
+    UI.chams.FillTransparency = returnflagtransparency("Team_ChamColor2") 
+
+    else
+
     UI.chams.Enabled = lib2.flags["ChamsToggle"] and os
     UI.chams.Adornee = cache.character
     UI.chams.OutlineColor = returnflagcolor("ChamColor")
     UI.chams.OutlineTransparency = returnflagtransparency("ChamColor")
     UI.chams.FillColor = returnflagcolor("ChamColor2")
     UI.chams.FillTransparency = returnflagtransparency("ChamColor2") 
+
+    end
    end
 
 
 
    do
+    if lib2.get_priority(self) == "Friendly" then 
+    UI.CornerTopSideL.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.CornerTopSideLC.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.CornerTopSideL2.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.CornerTopSideL2C.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+
+
+    UI.CornerTopSideR.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.CornerTopSideRC.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.CornerTopSideR2.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.CornerTopSideRC2.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+
+
+    UI.CornerBottomSideL.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.CornerBottomSideLC.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.CornerBottomSideL2.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.CornerBottomSideLC2.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+
+
+    UI.CornerBottomSideR.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.CornerBottomSideRC.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.CornerBottomSideR2.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.CornerBottomSideRC2.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+
+
+    UI.CornerTopSideL.Visible = cache.isteamcornerbox
+    UI.CornerTopSideLC.Visible = cache.isteamcornerbox
+    UI.CornerTopSideL2.Visible = cache.isteamcornerbox
+    UI.CornerTopSideL2C.Visible = cache.isteamcornerbox
+
+
+    UI.CornerTopSideR.Visible = cache.isteamcornerbox
+    UI.CornerTopSideRC.Visible = cache.isteamcornerbox
+    UI.CornerTopSideR2.Visible = cache.isteamcornerbox
+    UI.CornerTopSideRC2.Visible = cache.isteamcornerbox
+
+
+    UI.CornerBottomSideL.Visible = cache.isteamcornerbox
+    UI.CornerBottomSideLC.Visible = cache.isteamcornerbox
+    UI.CornerBottomSideL2.Visible = cache.isteamcornerbox
+    UI.CornerBottomSideLC2.Visible = cache.isteamcornerbox
+
+
+    UI.CornerBottomSideR.Visible = cache.isteamcornerbox
+    UI.CornerBottomSideRC.Visible = cache.isteamcornerbox
+    UI.CornerBottomSideR2.Visible = cache.isteamcornerbox
+    UI.CornerBottomSideRC2.Visible = cache.isteamcornerbox
+
+
+
+    UI.CornerTopSideL.Size = dim2(.3, 0 * distancemath / .75, 0, 1)
+    UI.CornerTopSideLC.Size = UI.CornerTopSideL.Size
+
+
+    UI.CornerTopSideL2.Size = dim2(0, 1 * distancemath - -.75, .3, 0)
+    UI.CornerTopSideL2C.Size = UI.CornerTopSideL.Size
+
+
+    UI.CornerTopSideR.Size = dim2(-.3, 0 * distancemath / .75, 0, 1)
+    UI.CornerTopSideRC.Size = UI.CornerTopSideR.Size
+       
+
+    UI.CornerTopSideR2.Size = dim2(0, 1 * distancemath - -.75, .3, 0)
+    UI.CornerTopSideRC2.Size = UI.CornerTopSideR.Size
+
+
+    UI.CornerBottomSideL.Size = dim2(0, 1 * distancemath - -.75, -.3, 0)
+    UI.CornerBottomSideLC.Size = UI.CornerBottomSideL.Size
+
+
+    UI.CornerBottomSideL2.Size = dim2(.3, 0 * distancemath - -.75, 0, -1)
+    UI.CornerBottomSideLC.Size = UI.CornerBottomSideL2.Size
+
+
+    UI.CornerBottomSideR.Size = dim2(0, 1 * distancemath - -.75, -.3, 0)
+    UI.CornerBottomSideRC.Size = UI.CornerBottomSideR.Size
+
+
+    UI.CornerBottomSideR2.Size = dim2(-.3, 0 * distancemath / .75, 0, -1)
+    UI.CornerBottomSideRC2.Size = UI.CornerBottomSideR2.Size
+
+
+    else
+
     UI.CornerTopSideL.BackgroundColor3 = returnflagcolor("Box_Color")
     UI.CornerTopSideLC.BackgroundColor3 = returnflagcolor("Box_Color")
     UI.CornerTopSideL2.BackgroundColor3 = returnflagcolor("Box_Color")
@@ -858,41 +955,117 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
     UI.CornerBottomSideR2.Size = dim2(-.3, 0 * distancemath / .75, 0, -1)
     UI.CornerBottomSideRC2.Size = UI.CornerBottomSideR2.Size
+
+
+    end
    end
 
 
 
    do
+    if lib2.get_priority(self) == "Friendly" then
     UI.Top.Size = dim2(1, 0 * distancemath / .75, 0, 1)
     UI.TopC.Size = UI.Top.Size
-    UI.TopC.BackgroundColor3 = returnflagcolor("Box_Color")
+    UI.TopC.BackgroundColor3 = returnflagcolor("Team_Box_Color")
     UI.Top.Visible = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os
     UI.TopC.Visible = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os
         
         
     UI.Bottom.Size = dim2(1, 0 * distancemath / -.75, 0, -1)
     UI.BottomC.Size = UI.Bottom.Size
-    UI.BottomC.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.Bottom.Visible = cache.isfullbox
-    UI.BottomC.Visible = cache.isfullbox
+    UI.BottomC.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.Bottom.Visible = cache.isteamfullbox
+    UI.BottomC.Visible = cache.isteamfullbox
 
 
     UI.Left.Size = dim2(0, 1 * distancemath - -.75, 1, 0)
     UI.LeftC.Size = UI.Left.Size
-    UI.LeftC.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.Left.Visible = cache.isfullbox
-    UI.LeftC.Visible = cache.isfullbox
+    UI.LeftC.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.Left.Visible = cache.isteamfullbox
+    UI.LeftC.Visible = cache.isteamfullbox
 
         
     UI.Right.Size = dim2(0, 1 * distancemath - -.75, 1, 0)
     UI.RightC.Size = UI.Right.Size
-    UI.RightC.BackgroundColor3 = returnflagcolor("Box_Color")
-    UI.Right.Visible = cache.isfullbox
-    UI.RightC.Visible = cache.isfullbox
+    UI.RightC.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.Right.Visible = cache.isteamfullbox
+    UI.RightC.Visible = cache.isteamfullbox
+else
+    UI.Top.Size = dim2(1, 0 * distancemath / .75, 0, 1)
+    UI.TopC.Size = UI.Top.Size
+    UI.TopC.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.Top.Visible = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os
+    UI.TopC.Visible = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os
+        
+        
+    UI.Bottom.Size = dim2(1, 0 * distancemath / -.75, 0, -1)
+    UI.BottomC.Size = UI.Bottom.Size
+    UI.BottomC.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.Bottom.Visible = cache.isteamfullbox
+    UI.BottomC.Visible = cache.isteamfullbox
+
+
+    UI.Left.Size = dim2(0, 1 * distancemath - -.75, 1, 0)
+    UI.LeftC.Size = UI.Left.Size
+    UI.LeftC.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.Left.Visible = cache.isteamfullbox
+    UI.LeftC.Visible = cache.isteamfullbox
+
+        
+    UI.Right.Size = dim2(0, 1 * distancemath - -.75, 1, 0)
+    UI.RightC.Size = UI.Right.Size
+    UI.RightC.BackgroundColor3 = returnflagcolor("Team_Box_Color")
+    UI.Right.Visible = cache.isteamfullbox
+    UI.RightC.Visible = cache.isteamfullbox
+
+
+    end
    end
 
    
     do
+
+      if lib2.get_priority(self) == "Friendly" then
+        UI.PlayerName.Text = cache.name
+        UI.PlayerName.Size = dim2(0.75, 0 * distancemath + .1, 0, .81 / distancemath / 8 - 20)
+        UI.PlayerName.Position = dim2(0.13, 0, .12, 0)
+        UI.PlayerName.Visible = lib2.flags["Names"] and os
+        UI.PlayerName.TextColor3 = returnflagcolor("Team_Name_Color")
+        UI.PlayerName.TextSize = lib2.flags["TextSize"]
+        UI.PlayerName.FontFace = lib.ProggyClean
+
+
+
+        UI.DistanceText.Text = cache.distance
+        UI.DistanceText.Visible = lib2.flags["Distance"] and os
+        UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .81 / distancemath / 12 + 18)
+        UI.DistanceText.Position = dim2(0.13, 0, .999, 0)
+        UI.DistanceText.TextColor3 = returnflagcolor("Team_Distance_Color")
+        UI.DistanceText.TextSize = lib2.flags["TextSize"]
+        UI.DistanceText.FontFace = lib.ProggyClean
+
+
+
+        UI.WeaponText.Text = cache.getweapon()
+        UI.WeaponText.Visible = lib2.flags["Weapon"] and os
+        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 26 + 48)
+        UI.WeaponText.Position = dim2(0.13, 0, .999, 0)
+        UI.WeaponText.TextColor3 = returnflagcolor("Team_Weapon_Color")
+        UI.WeaponText.TextSize = lib2.flags["TextSize"]
+        UI.WeaponText.FontFace = lib.ProggyClean
+
+
+
+        UI.FlagText.Text = cache.healthcount
+        UI.FlagText.Visible = lib2.flags["Flag"] and os
+        UI.FlagText.Size = dim2(0.085, 0 * distancemath - 35, 0, .042 / distancemath / 2 + 3)
+        UI.FlagText.Position = dim2(.0999, 0, .18, 0)
+        UI.FlagText.TextColor3 = returnflagcolor("Team_FlagColor")
+        UI.FlagText.TextSize = 12
+        UI.FlagText.FontFace = lib.SmallestPixel7
+
+     else
+
         UI.PlayerName.Text = cache.name
         UI.PlayerName.Size = dim2(0.75, 0 * distancemath + .1, 0, .81 / distancemath / 8 - 20)
         UI.PlayerName.Position = dim2(0.13, 0, .12, 0)
@@ -925,16 +1098,29 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.FlagText.Text = cache.healthcount
         UI.FlagText.Visible = lib2.flags["Flag"] and os
-        UI.FlagText.Size = dim2(0.085, 0 * distancemath - 45, 0, .042 / distancemath / .5 + 1)
+        UI.FlagText.Size = dim2(0.085, 0 * distancemath - 35, 0, .042 / distancemath / 2 + 3)
         UI.FlagText.Position = dim2(.0999, 0, .18, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = 12
         UI.FlagText.FontFace = lib.SmallestPixel7
+
+      end
+
    end
 
 
 
    do
+    if lib2.get_priority(self) == "Friendly" then 
+    UI.HealthBar.Visible = lib2.flags["Team_Healthbar"] and os
+    UI.HealthBar.bar.UIGradient.Color = returngradientcolor("Team_Health_High", "Team_Health_Low")
+
+
+    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath - .001, .88, 0)
+    UI.HealthBar.Position = dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) + math.sign(.1) / distancemath, .12, 0)
+    UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
+
+else
     UI.HealthBar.Visible = lib2.flags["Healthbar"] and os
     UI.HealthBar.bar.UIGradient.Color = returngradientcolor("Health_High", "Health_Low")
 
@@ -942,6 +1128,9 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) / math.max(.05)) / distancemath - .001, .88, 0)
     UI.HealthBar.Position = dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) + math.sign(.1) / distancemath, .12, 0)
     UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
+
+
+    end
    end
    
 
