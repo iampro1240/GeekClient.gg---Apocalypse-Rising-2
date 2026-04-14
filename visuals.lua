@@ -20,15 +20,14 @@ local dim2, Vector2, Vector3, CreateVector = clonefunction(UDim2.new), clonefunc
 
 
 
---game:HttpGet("https://github.com/bluescan/proggyfonts/raw/refs/heads/master/ProggyOriginal/ProggyClean.ttf")
-writefile("ProggyClean1.ttf", game:HttpGet("https://github.com/jakadak/TF2-extended-fonts/blob/master/fonts/TF2Professor.ttf"))
+writefile("ProggyClean1.ttf", game:HttpGet("https://github.com/bluescan/proggyfonts/raw/refs/heads/master/ProggyOriginal/ProggyClean.ttf"))
 writefile("SmallestPixel71.ttf", game:HttpGet("https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/smallest_pixel-7.ttf"))
 local ProggyClean = {
 	name = "ProggyClean",
 	faces = {
 	  {
 		name = "Regular",
-		weight = 400,
+		weight = 200,
 		style = "normal",
 		assetId = getcustomasset("ProggyClean1.ttf")
 	  }
@@ -929,7 +928,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         UI.FlagText.Size = dim2(0.08, 0 * distancemath - 55, 0, .042 / distancemath / .5 + 1)
         UI.FlagText.Position = dim2(.0999, 0, .18, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
-        UI.FlagText.TextSize = 12
+        UI.FlagText.TextSize = 9
         UI.FlagText.FontFace = lib.SmallestPixel7
    end
 
