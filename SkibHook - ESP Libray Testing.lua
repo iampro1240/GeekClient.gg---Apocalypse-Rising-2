@@ -909,7 +909,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
    
     do
         UI.PlayerName.Text = cache.name
-        UI.PlayerName.Size = dim2(0.75, 0 * distancemath + .1, 0, .81 / distancemath / 8 - 20)
+        UI.PlayerName.Size = dim2(0.75, 0 * distancemath + .1, 0, .8 / distancemath / 8 - 20)
         UI.PlayerName.Position = dim2(0.13, 0, .12, 0)
         UI.PlayerName.Visible = lib2.flags["Names"] and os
         UI.PlayerName.TextColor3 = returnflagcolor("Name_Color")
@@ -920,7 +920,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.DistanceText.Text = cache.distance
         UI.DistanceText.Visible = lib2.flags["Distance"] and os
-        UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .81 / distancemath / 12 + 18)
+        UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 12 + 18)
         UI.DistanceText.Position = dim2(0.13, 0, .999, 0)
         UI.DistanceText.TextColor3 = returnflagcolor("Distance_Color")
         UI.DistanceText.TextSize = lib2.flags["TextSize"]
@@ -940,7 +940,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.FlagText.Text = cache.healthcount
         UI.FlagText.Visible = lib2.flags["Flag"] and os
-        UI.FlagText.Size = dim2(0.08, 0 * distancemath - 19, 0, .042 / distancemath / 1 + 2)
+        UI.FlagText.Size = dim2(.08, 0 * distancemath - 19, 0, .042 / distancemath / 1 + 2)
         UI.FlagText.Position = dim2(.0999, 0, .14, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = lib2.flags["TextSize"]
@@ -954,7 +954,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.HealthBar.bar.UIGradient.Color = returngradientcolor("Health_High", "Health_Low")
 
 
-    UI.HealthBar.Size = dim2(0, 1 - distancemath * 2 / pos.Magnitude * math.sign(.35^2 * 1/2) / distancemath + (1/2), .88, 0)
+    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * math.sign(.01) / distancemath + .01, .88, 0)
     --dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) - math.max(.05)) / distancemath + .01, .88, 0)
     UI.HealthBar.Position = dim2(.16, 0 / distancemath * 3.5 + math.sign(.35 * 1/2) * distancemath - (.5/2), .12, 0)
     UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
