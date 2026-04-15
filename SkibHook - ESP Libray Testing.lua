@@ -931,7 +931,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.WeaponText.Text = cache.getweapon()
         UI.WeaponText.Visible = lib2.flags["Weapon"] and os
-        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 10 + 50)
+        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 9 + 50)
         UI.WeaponText.Position = dim2(0.13, 0, .999, 0)
         UI.WeaponText.TextColor3 = returnflagcolor("Weapon_Color")
         UI.WeaponText.TextSize = lib2.flags["TextSize"]
@@ -942,7 +942,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         UI.FlagText.Text = cache.healthcount
         UI.FlagText.Visible = lib2.flags["Flag"] and os
         UI.FlagText.Size = dim2(.08, 0 * distancemath - 18, 0, .042 / distancemath / 2 + 4)
-        UI.FlagText.Position = dim2(.0999, 0, 0, cache.humanoid.Health / cache.humanoid.MaxHealth)
+        UI.FlagText.Position = dim2(.0999, 0, .1, cache.humanoid.Health / cache.humanoid.MaxHealth)
         --dim2(.0999, 0, .14, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = lib2.flags["TextSize"]
