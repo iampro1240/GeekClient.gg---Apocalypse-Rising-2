@@ -38,6 +38,11 @@ function lib:findfirstchildofclass(arg1, arg2)
 end
 
 
+function lib:waitforchild(arg1, arg2)
+    return arg1:WaitForChild(arg2)
+end
+
+
 function lib:framelimit(deltatime)
     local rendertime = 0   
     rendertime += deltatime
