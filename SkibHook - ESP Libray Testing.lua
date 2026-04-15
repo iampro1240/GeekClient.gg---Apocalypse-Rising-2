@@ -748,7 +748,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     services:framelimit(deltatime)
     cache.character, cache.getName = self.Character, Players:GetPlayerFromCharacter(self.Character)
     cache.root, cache.humanoid, cache.weapon = nil, nil, nil
-    if not cache.character then
+    if not cache.character or cache.character.HumanoidRootPart then
         return
     else
         cache.root, cache.humanoid, cache.weapon = cache.character["HumanoidRootPart"], cache.character["Humanoid"], services:findfirstchildofclass(cache.character, "Tool")
