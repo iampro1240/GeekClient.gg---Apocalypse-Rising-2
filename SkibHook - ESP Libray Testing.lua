@@ -686,7 +686,7 @@ function lib:ESPObject(self, lib2)
     WeaponPadding.PaddingTop = dim(.1, 0)
     DistancePadding.PaddingTop = dim(.1, 0)
     FlagPadding.PaddingLeft = dim(-.1, 0)
-    HealthBarPadding.PaddingLeft = dim(.2, 0)
+    HealthBarPadding.PaddingLeft = dim(-.2, 0)
 
 
    
@@ -746,24 +746,21 @@ local UI = {
 
 esp.connection = RunService.PreRender:Connect(function(deltatime)
     services:framelimit(deltatime)
-    cache.character, cache.getName = self.Character, Players:GetPlayerFromCharacter(self.Character)
-    cache.root, cache.humanoid, cache.weapon = nil, nil, nil
-    if not cache.character or cache.character.HumanoidRootPart then
-        return
-    else
-        cache.root, cache.humanoid, cache.weapon = cache.character["HumanoidRootPart"], cache.character["Humanoid"], services:findfirstchildofclass(cache.character, "Tool")
-    end
+    cache.character = self.Character
+    cache.getName = Players:GetPlayerFromCharacter(cache.character)
     
-  if cache.character and services:findfirstchild(cache.character, "HumanoidRootPart") and services:findfirstchild(cache.character, "Humanoid") then
+
+  if cache.character and services:findfirstchild(cache.character, "HumanoidRootPart") then
     cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " ($" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health)
+    cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox = cache.character["HumanoidRootPart"], services:waitforchild(cache.character, "Humanoid") , services:findfirstchildofclass(cache.character, "Tool"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os
     --cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
 
 
 
 
-  if cache.root ~= nil and cache.humanoid ~= nil then
+  if cache.root ~= nil and cache.humanoid.Health ~= 0 then
     local pos, os = services:wtvp(cache.root.Position)
-    local distancemath = floor((cache.root.Size.X - cache.root.Size.Y / self.character.WorldPivot.Position.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * (1/2)))
+    local distancemath = floor((cache.root.Size.X - cache.root.Size.Y / cache.character.WorldPivot.Position.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * (1/2)))
     --floor((cache.root.Size.X - cache.root.Size.Y / self.character.WorldPivot.Position.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * 10))
     --floor((cache.root.Size.X - cache.root.Size.Y * 1 / CameraVector.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * 10))
 
@@ -772,7 +769,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
       if cache.weapon then
         return cache.weapon.Name
       else
-        return "Fists"
+        return "Hands"
       end
     end
         
@@ -946,7 +943,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.FlagText.Text = cache.healthcount
         UI.FlagText.Visible = lib2.flags["Flag"] and os
-        UI.FlagText.Size = dim2(.08, 0 * distancemath - 19, 0, .042 / distancemath / 1 + 2)
+        UI.FlagText.Size = dim2(.08, 0 * distancemath - 18, 0, .042 / distancemath / 1 + 2)
         UI.FlagText.Position = dim2(.0999, 0, .14, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = lib2.flags["TextSize"]
