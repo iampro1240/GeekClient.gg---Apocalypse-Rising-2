@@ -16,7 +16,7 @@ local New, hideui = clonefunction(Instance.new), gethui()
 
 
 local FromRGB, hex, NewGradient, GradientSequence, GradientNumberKeypoint, GradientNumberSequence = clonefunction(Color3.fromRGB), clonefunction(Color3.fromHex), clonefunction(ColorSequence.new), clonefunction(ColorSequenceKeypoint.new), clonefunction(NumberSequenceKeypoint.new), clonefunction(NumberSequence.new)
-local dim2, Vector2, Vector3, CreateVector = clonefunction(UDim2.new), clonefunction(Vector2.new), clonefunction(Vector3.new), clonefunction(vector.create)
+local dim2, dim, Vector2, Vector3, CreateVector = clonefunction(UDim2.new), clonefunction(UDim.new), clonefunction(Vector2.new), clonefunction(Vector3.new), clonefunction(vector.create)
 
 
 
@@ -679,12 +679,12 @@ function lib:ESPObject(self, lib2)
     local DistancePadding = New("UIPadding", esp.holder.DistanceText)
     local FlagPadding = New("UIPadding", esp.holder.FlagText)
 
-    
 
-    NamePadding.PaddingTop = dim2(-.2, 0)
-    WeaponPadding.PaddingTop = dim2(.2, 0)
-    DistancePadding.PaddingTop = dim2(.4, 0)
-    FlagPadding.PaddingLeft = dim2(.2, 0)
+
+    NamePadding.PaddingTop = dim(-.2, 0)
+    WeaponPadding.PaddingTop = dim(.2, 0)
+    DistancePadding.PaddingTop = dim(.4, 0)
+    FlagPadding.PaddingLeft = dim(.2, 0)
 
 
 
