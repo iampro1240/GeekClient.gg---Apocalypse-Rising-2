@@ -743,7 +743,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
   if cache.root ~= nil and cache.humanoid ~= nil then
     local pos, os = services:wtvp(cache.root.Position)
-    local distancemath = floor((cache.root.Size.X - cache.root.Size.Y / self.character.WorldPivot.Position.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * math.sin(10)))
+    local distancemath = floor((cache.root.Size.X - cache.root.Size.Y / self.character.WorldPivot.Position.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * (1/2)))
     --floor((cache.root.Size.X - cache.root.Size.Y / self.character.WorldPivot.Position.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * 10))
     --floor((cache.root.Size.X - cache.root.Size.Y * 1 / CameraVector.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * 10))
 
@@ -942,7 +942,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
     UI.HealthBar.Size = dim2(0, 1 - distancemath * 2 / pos.Magnitude * math.sign(.35^2 * 1/2) / distancemath + (1/2), .88, 0)
     --dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) - math.max(.05)) / distancemath + .01, .88, 0)
-    UI.HealthBar.Position = dim2(.16, 0 / distancemath * 2 - math.sign(.35^2 * 1/2) * distancemath - (1/2), .12, 0)
+    UI.HealthBar.Position = dim2(.16, 0 / distancemath * 2 - math.sign(.35^2 * 1/2) * distancemath + (1/2), .12, 0)
     UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
    end
    
