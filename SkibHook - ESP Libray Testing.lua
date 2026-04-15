@@ -16,7 +16,7 @@ local New, hideui = clonefunction(Instance.new), gethui()
 
 
 local FromRGB, hex, NewGradient, GradientSequence, GradientNumberKeypoint, GradientNumberSequence = clonefunction(Color3.fromRGB), clonefunction(Color3.fromHex), clonefunction(ColorSequence.new), clonefunction(ColorSequenceKeypoint.new), clonefunction(NumberSequenceKeypoint.new), clonefunction(NumberSequence.new)
-local dim2, Vector2, Vector3, CreateVector = clonefunction(UDim2.new), clonefunction(Vector2.new), clonefunction(Vector3.new), clonefunction(vector.create)
+local dim2, dim, Vector2, Vector3, CreateVector = clonefunction(UDim2.new), clonefunction(UDim.new), clonefunction(Vector2.new), clonefunction(Vector3.new), clonefunction(vector.create)
 
 
 
