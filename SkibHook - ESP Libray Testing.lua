@@ -743,18 +743,28 @@ local UI = {
 
 
 
-
 esp.connection = RunService.PreRender:Connect(function(deltatime)
-    services:framelimit(deltatime)
-    cache.character = self.Character
-    cache.getName = Players:GetPlayerFromCharacter(cache.character)
+    local rendertime = 0   
+    rendertime += deltatime
+	if (rendertime < 1 / 60) then
+		return
+	end
+	rendertime = 0
     
 
-  if cache.character and services:findfirstchild(cache.character, "HumanoidRootPart") then
+    cache.character = self.Character
+    cache.getName = Players:GetPlayerFromCharacter(cache.character)
+
+
+    if not cache.character then
+        return
+    end
+    
+
+  if services:findfirstchild(cache.character, "HumanoidRootPart") then
     cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox = cache.character["HumanoidRootPart"], services:waitforchild(cache.character, "Humanoid") , services:findfirstchildofclass(cache.character, "Tool"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os
     cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " ($" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health)
     --cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
-
 
 
 
@@ -779,7 +789,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.GUI.Enabled = lib2.flags["Enabled"] and os
     UI.GUI.Adornee = cache.root
 	UI.GUI.StudsOffset = Vector3(0, -.03, 0)
-    UI.GUI.Size = dim2(7, 0 * distancemath + 7, 7, 0 * distancemath + 7 / 1 + 2)
+    UI.GUI.Size = dim2(7, 0 * distancemath + 10, 7, 0 * distancemath + 7 / 1 + 2)
     UI.GUI.MaxDistance = lib2.flags["MaxDistance"]
    end
 
@@ -944,7 +954,8 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         UI.FlagText.Text = cache.healthcount
         UI.FlagText.Visible = lib2.flags["Flag"] and os
         UI.FlagText.Size = dim2(.08, 0 * distancemath - 18, 0, .042 / distancemath / 1 + 2)
-        UI.FlagText.Position = dim2(.0999, 0, .14, 0)
+        UI.FlagText.Position = dim2(.0999, 0, (.14 - cache.humanoid.Health / cache.humanoid.MaxHealth), 0)
+        --dim2(.0999, 0, .14, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = lib2.flags["TextSize"]
         UI.FlagText.FontFace = lib.SmallestPixel7
@@ -957,8 +968,8 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.HealthBar.bar.UIGradient.Color = returngradientcolor("Health_High", "Health_Low")
 
 
-    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) - math.max(.05)) / distancemath + .01, .88, 0)
-    UI.HealthBar.Position = dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) - math.sign(.35) * distancemath / (1/2), .12, 0)
+    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude, .88, 0)
+    UI.HealthBar.Position = dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) - math.sign(.35) * distancemath / (2/4), .12, 0)
     UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
    end
    
