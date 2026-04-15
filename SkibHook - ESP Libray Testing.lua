@@ -678,13 +678,15 @@ function lib:ESPObject(self, lib2)
     local WeaponPadding = New("UIPadding", esp.holder.WeaponText)
     local DistancePadding = New("UIPadding", esp.holder.DistanceText)
     local FlagPadding = New("UIPadding", esp.holder.FlagText)
+    local HealthBarPadding = New("UIPadding", esp.holder.HealthBar)
 
 
 
     NamePadding.PaddingTop = dim(-.1, 0)
     WeaponPadding.PaddingTop = dim(.1, 0)
-    DistancePadding.PaddingTop = dim(.2, 0)
+    DistancePadding.PaddingTop = dim(.1, 0)
     FlagPadding.PaddingLeft = dim(-.1, 0)
+    HealthBarPadding.PaddingLeft = dim(-.2, 0)
 
 
 
@@ -920,7 +922,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.DistanceText.Text = cache.distance
         UI.DistanceText.Visible = lib2.flags["Distance"] and os
-        UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 8 + 20)
+        UI.DistanceText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 5 + 20)
         UI.DistanceText.Position = dim2(0.13, 0, .999, 0)
         UI.DistanceText.TextColor3 = returnflagcolor("Distance_Color")
         UI.DistanceText.TextSize = lib2.flags["TextSize"]
@@ -930,7 +932,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
         UI.WeaponText.Text = cache.getweapon()
         UI.WeaponText.Visible = lib2.flags["Weapon"] and os
-        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 8 + 30)
+        UI.WeaponText.Size = dim2(0.75, 0 * distancemath - .1, 0, .8 / distancemath / 8 + 20)
         UI.WeaponText.Position = dim2(0.13, 0, .999, 0)
         UI.WeaponText.TextColor3 = returnflagcolor("Weapon_Color")
         UI.WeaponText.TextSize = lib2.flags["TextSize"]
