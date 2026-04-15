@@ -750,9 +750,9 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     
     cache.getweapon = function()
       if cache.weapon then
-        return "[" .. cache.weapon.Name .. "]"
+        return cache.weapon.Name
       else
-        return "[none]"
+        return "Fists"
       end
     end
         
