@@ -743,7 +743,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 
   if cache.root ~= nil and cache.humanoid ~= nil then
     local pos, os = services:wtvp(cache.root.Position)
-    local distancemath = floor((cache.root.Size.X^2 - cache.root.Size.Y^2 / self.character.WorldPivot.Position.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * 10))
+    local distancemath = floor((cache.root.Size.X - cache.root.Size.Y / self.character.WorldPivot.Position.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * math.sin(10)))
     --floor((cache.root.Size.X - cache.root.Size.Y / self.character.WorldPivot.Position.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * 10))
     --floor((cache.root.Size.X - cache.root.Size.Y * 1 / CameraVector.Magnitude * cache.root.Position.Magnitude / pos.Magnitude * 10))
 
