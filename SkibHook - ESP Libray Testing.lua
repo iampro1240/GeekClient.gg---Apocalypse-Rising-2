@@ -686,8 +686,7 @@ function lib:ESPObject(self, lib2)
     WeaponPadding.PaddingTop = dim(.1, 0)
     DistancePadding.PaddingTop = dim(.1, 0)
     FlagPadding.PaddingLeft = dim(-.1, 0)
-    HealthBarPadding.PaddingLeft = dim(-.2, 0)
-
+    HealthBarPadding.PaddingLeft = dim(.2, 0)
 
 
    
@@ -747,10 +746,15 @@ local UI = {
 
 esp.connection = RunService.PreRender:Connect(function(deltatime)
     services:framelimit(deltatime)
-    
-  if self.Character and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") then
     cache.character, cache.getName = self.Character, Players:GetPlayerFromCharacter(self.Character)
-    cache.root, cache.humanoid, cache.weapon = cache.character["HumanoidRootPart"], cache.character["Humanoid"], services:findfirstchildofclass(cache.character, "Tool")
+    cache.root, cache.humanoid, cache.weapon = nil, nil, nil
+    if not cache.character then
+        return
+    else
+        cache.root, cache.humanoid, cache.weapon = cache.character["HumanoidRootPart"], cache.character["Humanoid"], services:findfirstchildofclass(cache.character, "Tool")
+    end
+    
+  if cache.character and services:findfirstchild(cache.character, "HumanoidRootPart") and services:findfirstchild(cache.character, "Humanoid") then
     cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " ($" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health)
     --cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
 
@@ -956,9 +960,8 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.HealthBar.bar.UIGradient.Color = returngradientcolor("Health_High", "Health_Low")
 
 
-    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * math.sign(.01) / distancemath + .01, .88, 0)
-    --dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) - math.max(.05)) / distancemath + .01, .88, 0)
-    UI.HealthBar.Position = dim2(.16, 0 / distancemath * 3.5 + math.sign(.35 * 1/2) * distancemath - (.5/2), .12, 0)
+    UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) - math.max(.05)) / distancemath + .01, .88, 0)
+    UI.HealthBar.Position = dim2(.16, 0 / distancemath * clamp(2.2, 2, 2.5) - math.sign(.35) * distancemath / (1/2), .12, 0)
     UI.HealthBar.bar.Size = dim2(1, 0, cache.humanoid.Health / cache.humanoid.MaxHealth, 0)
    end
    
