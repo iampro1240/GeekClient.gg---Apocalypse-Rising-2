@@ -70,7 +70,7 @@ function lib:DrawGui(self)
 
 
 	lib[self].chams.Name = self.Name
-    lib[self].chams.Parent = lib2[self].holder
+    lib[self].chams.Parent = lib[self].holder
 
 
     lib[self].colors.Parent = lib[self].holder
