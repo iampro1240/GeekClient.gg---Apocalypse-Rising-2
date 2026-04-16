@@ -929,7 +929,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         --dim2(.0999, 0, 1 - -cache.humanoid.Health / -cache.humanoid.MaxHealth, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = returnflag(lib2, "TextSize")
-        UI.FlagText.FontFace = lib2.SmallestPixel7
+        UI.FlagText.FontFace = lib.SmallestPixel7
     end
 
 
