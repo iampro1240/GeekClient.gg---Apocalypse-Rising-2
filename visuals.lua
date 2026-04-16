@@ -16,7 +16,7 @@ local New, hideui = clonefunction(Instance.new), gethui()
 
 
 local FromRGB, hex, NewGradient, GradientSequence, GradientNumberKeypoint, GradientNumberSequence = clonefunction(Color3.fromRGB), clonefunction(Color3.fromHex), clonefunction(ColorSequence.new), clonefunction(ColorSequenceKeypoint.new), clonefunction(NumberSequenceKeypoint.new), clonefunction(NumberSequence.new)
-local dim2, Vector2, Vector3, CreateVector = clonefunction(UDim2.new), clonefunction(Vector2.new), clonefunction(Vector3.new), clonefunction(vector.create)
+local dim2, dim, Vector2, Vector3, CreateVector = clonefunction(UDim2.new), clonefunction(UDim.new), clonefunction(Vector2.new), clonefunction(Vector3.new), clonefunction(vector.create)
 
 
 
@@ -178,7 +178,6 @@ end
 function lib:ESPObject(self, lib2)
     local esp = lib:DrawGui(self)
     local cache = esp.cache
-	
 
 
 
@@ -729,11 +728,12 @@ HealthBarPadding.PaddingLeft = dim(-.1, 0)
 
 
 esp.connection = RunService.PreRender:Connect(function(deltatime)
-  if self.Character ~= nil and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") and services:findfirstchild(self.Character, "Equipped") then
-    cache.character, cache.getName = self.Character, Players:GetPlayerFromCharacter(self.Character)
+  if self.Character ~= nil and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") then
+    cache.character, cache.getName = Players:GetPlayerFromCharacter(self.Character).Character, Players:GetPlayerFromCharacter(self.Character)
 
-    cache.root, cache.humanoid = self.character["HumanoidRootPart"], services:findfirstchild(cache.getName.Character, "Humanoid")
-    cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount, cache.weapon  = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " ($" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health), services:findfirstchildofclass(cache.character["Equipped"], "Model")
+
+    cache.root, cache.humanoid = cache.character["HumanoidRootPart"], services:findfirstchild(cache.character, "Humanoid")
+    cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount, cache.weapon  = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " ($" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health), services:findfirstchildofclass(cache.character, "Tool")
     --cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
 
 
@@ -929,7 +929,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
         --dim2(.0999, 0, 1 - -cache.humanoid.Health / -cache.humanoid.MaxHealth, 0)
         UI.FlagText.TextColor3 = returnflagcolor("FlagColor")
         UI.FlagText.TextSize = returnflag(lib2, "TextSize")
-        UI.FlagText.FontFace = lib.SmallestPixel7
+        UI.FlagText.FontFace = lib2.SmallestPixel7
     end
 
 
@@ -958,6 +958,10 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     end
   end)
 end
+
+
+
+
 
 
 
