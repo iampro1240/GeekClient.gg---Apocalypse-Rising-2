@@ -728,12 +728,12 @@ HealthBarPadding.PaddingLeft = dim(-.1, 0)
 
 
 esp.connection = RunService.PreRender:Connect(function(deltatime)
-  if self.Character ~= nil and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") then
+  if self.Character ~= nil and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") and services:findfirstchild(self.Character, "Equipped") then
     cache.character, cache.getName = Players:GetPlayerFromCharacter(self.Character).Character, Players:GetPlayerFromCharacter(self.Character)
 
 
     cache.root, cache.humanoid = cache.character["HumanoidRootPart"], services:findfirstchild(cache.character, "Humanoid")
-    cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount, cache.weapon  = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " ($" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health), services:findfirstchildofclass(cache.character, "Tool")
+    cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount, cache.weapon  = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " ($" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health), services:findfirstchildofclass(cache.character["Equipped"], "Model")
     --cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
 
 
@@ -757,7 +757,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.GUI.Enabled = lib2.flags["Enabled"] and os
     UI.GUI.Adornee = cache.root
 	UI.GUI.StudsOffset = Vector3(0, cache.root.Size.Y^2 / -cache.root.Size.Y^2 + 1.05, 0)
-    UI.GUI.Size = dim2(cache.root.Size.X^2 - -cache.root.Size.X^2 / 1.8 * distancemath + 8, 0, cache.root.Size.Y^2 - -cache.root.Size.Y^2 / 1.8 + 8, 0)
+    UI.GUI.Size = dim2(cache.root.Size.X^2 - -cache.root.Size.X^2 * distancemath + 8 / 1.8, 0, cache.root.Size.Y^2 - -cache.root.Size.Y^2 * distancemath + 8 / 1.8, 0)
     UI.GUI.MaxDistance = returnflag(lib2, "MaxDistance")
     --UI.GUI.Size = dim2(cache.root.Size.X^2 - -cache.root.Size.X^2 + cache.root.Orientation.Magnitude / cache.root.ExtentsCFrame.Position.Magnitude, 0, cache.root.Size.Y^2 - -cache.root.Size.Y^2, 0)
    end
