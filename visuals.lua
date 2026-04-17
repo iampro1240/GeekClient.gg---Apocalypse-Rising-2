@@ -58,7 +58,16 @@ lib.SmallestPixel7 = Font.new(getcustomasset("SmallestPixel7.ttf"), Enum.FontWei
 
 
 function lib:DrawGui(self)
-	lib[self] = {holder = New("BillboardGui"), chams = New("Highlight"), cache = {}, connection, colors = New("Folder"), borders = New("Folder"), chamsholder = New("Folder")}
+	lib[self] = {
+        ["holder"] = New("BillboardGui"), 
+        ["chams"] = New("Highlight"), 
+        ["connection"], 
+        ["colors"] = New("Folder"), 
+        ["borders"] = New("Folder"), 
+        ["chamsholder"] = New("Folder")
+    }
+
+
 	lib[self].holder.Name = self.Name
     lib[self].holder.Size = dim2(7, 0, 8, 0)
 	lib[self].holder.Parent = hideui
@@ -67,8 +76,6 @@ function lib:DrawGui(self)
     
 
     lib[self].chamsholder.Parent = lib[self].holder
-
-
 	lib[self].chams.Name = self.Name
     lib[self].chams.Parent = lib[self].holder
 
@@ -757,7 +764,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.GUI.Enabled = lib2.flags["Enabled"] and os
     UI.GUI.Adornee = cache.root
 	UI.GUI.StudsOffset = Vector3(0, cache.root.Size.Y^2 / -cache.root.Size.Y^2 + 1.05, 0)
-    UI.GUI.Size = dim2(7 * distancemath + 8 / 1.8, 0, 7 * distancemath + 8 / 1.8, 0)
+    UI.GUI.Size = dim2(7 * distancemath + 8, 0, 7 * distancemath + 8 / 1 + 2, 0)
     --dim2(cache.root.Size.X^2 - -cache.root.Size.X^2 * distancemath + 8 / 1.8, 0, cache.root.Size.Y^2 - -cache.root.Size.Y^2 * distancemath + 8 / 1.8, 0)
     UI.GUI.MaxDistance = returnflag(lib2, "MaxDistance")
    end
