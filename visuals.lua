@@ -61,7 +61,7 @@ function lib:DrawGui(self)
 	lib[self] = {
         ["holder"] = New("BillboardGui"), 
         ["chams"] = New("Highlight"), 
-        ["connection"], 
+        ["connection"] = nil, 
         ["colors"] = New("Folder"), 
         ["borders"] = New("Folder"), 
         ["chamsholder"] = New("Folder")
