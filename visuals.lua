@@ -757,9 +757,9 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.GUI.Enabled = lib2.flags["Enabled"] and os
     UI.GUI.Adornee = cache.root
 	UI.GUI.StudsOffset = Vector3(0, cache.root.Size.Y^2 / -cache.root.Size.Y^2 + 1.05, 0)
-    UI.GUI.Size = dim2(cache.root.Size.X^2 - -cache.root.Size.X^2 * distancemath + 8 / 1.8, 0, cache.root.Size.Y^2 - -cache.root.Size.Y^2 * distancemath + 8 / 1.8, 0)
+    UI.GUI.Size = dim2(7 * distancemath + 8 / 1.8, 0, 7 * distancemath + 8 / 1.8, 0)
+    --dim2(cache.root.Size.X^2 - -cache.root.Size.X^2 * distancemath + 8 / 1.8, 0, cache.root.Size.Y^2 - -cache.root.Size.Y^2 * distancemath + 8 / 1.8, 0)
     UI.GUI.MaxDistance = returnflag(lib2, "MaxDistance")
-    --UI.GUI.Size = dim2(cache.root.Size.X^2 - -cache.root.Size.X^2 + cache.root.Orientation.Magnitude / cache.root.ExtentsCFrame.Position.Magnitude, 0, cache.root.Size.Y^2 - -cache.root.Size.Y^2, 0)
    end
 
 
