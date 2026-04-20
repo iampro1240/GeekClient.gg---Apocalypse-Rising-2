@@ -736,7 +736,7 @@ HealthBarPadding.PaddingLeft = dim(-.1, 0)
 
 esp.connection = RunService.PreRender:Connect(function(deltatime)
   if self.Character ~= nil and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") and services:findfirstchild(self.Character, "Equipped") then
-    cache.character, cache.getName = Players:GetPlayerFromCharacter(self.Character), Players:GetPlayerFromCharacter(self.Character)
+    cache.character, cache.getName = self.Character, Players:GetPlayerFromCharacter(self.Character)
 
 
     cache.root, cache.humanoid = cache.character["HumanoidRootPart"], services:findfirstchild(cache.character, "Humanoid")
