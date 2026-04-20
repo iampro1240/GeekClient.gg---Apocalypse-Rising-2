@@ -1516,7 +1516,7 @@ do
                 window.VisualPreview.Components.Flags["Text"] = preview_flags
                 window.VisualPreview.Components.Box["Outline"] = preview_boxoutline
                 window.VisualPreview.Components.Box["Box"] = preview_box
-                window.VisualPreview.Components.Box["Fill"] = preview_boxfill
+                window.VisualPreview.Components.Box["Fill"] = nil
                 window.VisualPreview.Components.HealthBar["Outline"] = preview_heatlhbaroutline
                 window.VisualPreview.Components.HealthBar["Box"] = preview_heatlhbar
                 window.VisualPreview.Components.HealthBar["Value"] = preview_healthbarvalue
