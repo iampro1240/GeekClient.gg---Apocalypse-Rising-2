@@ -739,7 +739,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     cache.character, cache.getName = self.Character, Players:GetPlayerFromCharacter(self.Character)
 
 
-    cache.root, cache.humanoid = cache.character["HumanoidRootPart"], services:findfirstchild(cache.character, "Humanoid")
+    cache.root, cache.humanoid = cache.character["HumanoidRootPart"], cache.character["Humanoid"]
     cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount, cache.weapon  = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " ($" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health), services:findfirstchildofclass(cache.character["Equipped"], "Model")
     --cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
 
