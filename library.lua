@@ -2061,11 +2061,13 @@
 
 		function library:esp_preview(properties)
 			local cfg = {items = {}, rotation = 0; objects = {};}
-			if lp.Character.Archivable ~= nil then
-			   lp.Character.Archivable = true
+			local character = players:GetPlayerFromCharacter(lp.Character)
+
+			if character.Archivable ~= nil then
+			   character.Archivable = true
 			end
 
-			local character = lp.Character:Clone()
+			local character = character:Clone()
 			character.Animate:Destroy()
 
 			local items = cfg.items; do 
