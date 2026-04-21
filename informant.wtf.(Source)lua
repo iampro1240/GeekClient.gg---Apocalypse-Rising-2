@@ -4607,7 +4607,7 @@ function library:init()
     self.targetDisplay = self.targetIndicator:AddValue({key = 'DName    :', value = 'nil'})
     self.targetHealth = self.targetIndicator:AddValue({key = 'Health   :', value = '0'})
     self.targetDistance = self.targetIndicator:AddValue({key = 'Distance :', value = '0m'})
-    self.targetTool = self.targetIndicator:AddValue({key = 'Weapon   :', value = 'nil'})
+    self.targetTool = self.targetIndicator:AddValue({key = 'Primary   :', value = 'nil'})
 
     self:SetTheme(library.theme);
     self:SetOpen(true);
@@ -4634,7 +4634,7 @@ function library:CreateSettingsTab(menu)
         library.options.selectedconfig:ClearValues();
         for _,v in next, listfiles(self.cheatname..'/'..self.gamename..'/configs') do
             local ext = '.'..v:split('.')[#v:split('.')];
-            if ext then
+            if ext == self.fileext then
                 library.options.selectedconfig:AddValue(v:split('\\')[#v:split('\\')]:sub(1,-#ext-1))
             end
         end
@@ -4647,12 +4647,13 @@ function library:CreateSettingsTab(menu)
     end})
 
     configSection:AddButton({text = 'Create', confirm = false, callback = function()
-        if library.flags.configinput == "" then 
-            return
-        end
-        if library:GetConfig(library.flags.configinput) then
-            return
-        end
+        --if library.flags.configinput == "" then 
+           --return
+        --end
+        --if library:GetConfig(library.flags.configinput) then
+            --return
+        --end
+
         writefile(self.cheatname..'/'..self.gamename..'/configs/'..library.flags.configinput.. self.fileext, http:JSONEncode({}));
         refreshConfigs()
     end}):AddButton({text = 'Delete', confirm = true, callback = function()
