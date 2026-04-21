@@ -943,7 +943,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
 -- healthbar
    do
     UI.HealthBar.Visible = returnflag(lib2, "Healthbar") and os
-    UI.HealthBar.bar.UIGradient.Color = returngradientcolor("Health_High", "Health_Low")
+    UI.HealthBar.bar.UIGradient.Color = returngradientcolor("Health_High", "Health_High")
 
 
     UI.HealthBar.Size = dim2(0, 1 + distancemath / pos.Magnitude * (math.min(.01) - math.max(.05)) / distancemath + .01, .88, 0)
