@@ -52,7 +52,7 @@ local SmallestPixel7 = {
 
 writefile("Minecraftia.ttf", HttpService:JSONEncode(Minecraftia))
 writefile("SmallestPixel7.ttf", HttpService:JSONEncode(SmallestPixel7))
-lib.ProggyClean = Font.new(getcustomasset("ProggyClean.ttf"), Enum.FontWeight.Regular)
+lib.ProggyClean = Font.new(getcustomasset("Minecraftia.ttf"), Enum.FontWeight.Regular)
 lib.SmallestPixel7 = Font.new(getcustomasset("SmallestPixel7.ttf"), Enum.FontWeight.Regular)
 
 
