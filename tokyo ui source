@@ -59,13 +59,13 @@ local library = {
         ['colortrans'] = 'https://raw.githubusercontent.com/portallol/luna/main/modules/trans.png';
     };
     numberStrings = {['Zero'] = 0, ['One'] = 1, ['Two'] = 2, ['Three'] = 3, ['Four'] = 4, ['Five'] = 5, ['Six'] = 6, ['Seven'] = 7, ['Eight'] = 8, ['Nine'] = 9};
-    signal = loadstring(game:HttpGet('https://raw.githubusercontent.com/drillygzzly/Other/main/1414'))();
+    signal = loadstring(game:HttpGet('https://raw.githubusercontent.com/iampro1240/GeekClient.gg---Apocalypse-Rising-2/refs/heads/main/signal(tokyo).lua'))();
     open = false;
     opening = false;
     hasInit = false;
     cheatname = startupArgs.cheatname or 'Clanware';
     gamename = startupArgs.gamename or 'Universal';
-    fileext = startupArgs.fileext or '.txt';
+    fileext = startupArgs.fileext or 'default.txt';
 }
 
 library.themes = {
@@ -603,7 +603,7 @@ function library:init()
     makefolder(self.cheatname..'/'..self.gamename)
     makefolder(self.cheatname..'/'..self.gamename..'/configs');
 
-    
+
     function self:SetTheme(theme)
         for i,v in next, theme do
             self.theme[i] = v;
