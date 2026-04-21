@@ -452,6 +452,7 @@
 			local list = {}
 		
 			for idx, file in next, listfiles(library.directory .. "/configs") do
+                if file == nil then return end
 				local name = string.sub(file:gsub(library.directory .. "/configs\\", ""):gsub(library.directory .. "\\configs\\", ""), 1, -5)
 				list[#list + 1] = name
 			end
