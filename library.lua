@@ -2061,13 +2061,15 @@
 
 		function library:esp_preview(properties)
 			local cfg = {items = {}, rotation = 0; objects = {};}
-			local character = players:GetPlayerFromCharacter(lp.Character)
+			local char = players:GetPlayerFromCharacter(lp.Character).Character
 
-			if character.Archivable ~= nil then
-			   character.Archivable = true
+			if char.Archivable ~= nil then
+			   char.Archivable = true
 			end
 
-			local character = character:Clone()
+			
+			local character = char:Clone()
+
 
 			local items = cfg.items; do 
 				items.viewportframe = library:create( "ViewportFrame" , {
