@@ -2068,7 +2068,6 @@
 			end
 
 			local character = character:Clone()
-			character.Animate:Destroy()
 
 			local items = cfg.items; do 
 				items.viewportframe = library:create( "ViewportFrame" , {
