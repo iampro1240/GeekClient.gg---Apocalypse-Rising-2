@@ -566,8 +566,8 @@ function library:init()
     end
 
     function self:GetConfig(name)
-        if isfile(self.cheatname..'/'..self.gamename..'/configs/'..name..self.fileext) then
-            return readfile(self.cheatname..'/'..self.gamename..'/configs/'..name..self.fileext);
+        if isfile(self.cheatname..'/universal/configs/'..name..self.fileext) then
+            return readfile(self.cheatname..'/universal/configs/'..name..self.fileext)
         end
     end
 
@@ -644,7 +644,6 @@ function library:init()
 
 
     local screenGui = Instance.new('ScreenGui');
-    if syn then syn.protect_gui(screenGui); end
     screenGui.Parent = game:GetService('CoreGui');
     screenGui.Enabled = true;
     utility:Instance('ImageButton', {
