@@ -1186,17 +1186,13 @@ SilentHook = hookfunction(cheat.modules.Bullets.Fire, newcclosure(function(p1, p
 
       local distance = (Target.Position - p5).Magnitude
       local timeToHit = distance / p4.FireConfig.MuzzleVelocity
-      local prediction = Target.Position + (Vector3(Target.Velocity.X, Target.Velocity.Y / distance, Target.Velocity.Z) * timeToHit)
+      local prediction = Target.Position + (Target.Velocity * timeToHit)
       --Target.Position + (Target.Velocity * timeToHit)
       local originEquation = Vector3(0,  distance / p4.FireConfig.MuzzleVelocity + math.sin(0) * timeToHit - bgravity / Target.Position.Magnitude  ,0)
       local equation = Vector3(0,  distance / p4.FireConfig.MuzzleVelocity + math.sin(0) * timeToHit - bgravity * timeToHit^2   ,0)
       
       p5 = p5 + originEquation
       p6 = CFrame.lookAt(p5, equation + prediction).LookVector * p6.Magnitude
-      bulletOrigin = p5
-
-      --p5 = p5 + originEquation
-      --p6 = CFrame.lookAt(p5, equation + prediction).LookVector * p6.Magnitude
 
      
     end
@@ -1340,7 +1336,6 @@ spoofAthleticPerk = hookfunction(spoofAthleticPerkFunc, newcclosure(function(p1,
     if not checkcaller() then
         --p1.Climbing = true
         --p1.Mounting = true
-        --p1.Vehicle = false
         --table.foreach(p1, warn)
 
 
@@ -1359,6 +1354,7 @@ spoofAthleticPerk = hookfunction(spoofAthleticPerkFunc, newcclosure(function(p1,
 
 
     if p1.EquippedItem then
+        p1.Sitting = false
         p1.EquippedItem.BlocksJumpWhileHeld = false
     end
 
@@ -1417,7 +1413,6 @@ setWeaponActionHook = hookfunction(setWeaponActionFunc, newcclosure(function(p1,
     if not checkcaller() then
         if library.flags["AllFireModes"] then
             p1.EquippedItem.FireModes = {"Automatic", "Semiautomatic", "Burst"}
-            p1.Sitting = false
         end
         return setWeaponActionHook(p1, p2, p3)
       end
@@ -1457,7 +1452,7 @@ for _, part in pairs(terrain:GetDescendants()) do
 for _, part in pairs(workspace.Vehicles:GetDescendants()) do
     if part:IsA("BasePart") or part:IsA("Part") or part:IsA("MeshPart") or part:IsA("Union") or part:IsA("Model") then
         part:AddTag("Bullets Penetrate")
-        --part.Name = "Fence"
+        part.Name = "Fence"
        -- part.Material = Enum.Material.Plastic
     end
   end
@@ -1468,7 +1463,7 @@ for _, part in pairs(workspace.Vehicles:GetDescendants()) do
     if part:IsA("BasePart") or part:IsA("Part") or part:IsA("MeshPart") or part:IsA("Union") then
 
         part:AddTag("Bullets Penetrate")
-        --part.Name = "Fence"
+        part.Name = "Fence"
         --part.Material = Enum.Material.Plastic
       end
     end
