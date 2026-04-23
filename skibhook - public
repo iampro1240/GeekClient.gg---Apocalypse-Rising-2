@@ -1452,7 +1452,7 @@ for _, part in pairs(terrain:GetDescendants()) do
 for _, part in pairs(workspace.Vehicles:GetDescendants()) do
     if part:IsA("BasePart") or part:IsA("Part") or part:IsA("MeshPart") or part:IsA("Union") or part:IsA("Model") then
         part:AddTag("Bullets Penetrate")
-        part.Name = "Fence"
+        --part.Name = "Fence"
        -- part.Material = Enum.Material.Plastic
     end
   end
@@ -1463,7 +1463,7 @@ for _, part in pairs(workspace.Vehicles:GetDescendants()) do
     if part:IsA("BasePart") or part:IsA("Part") or part:IsA("MeshPart") or part:IsA("Union") then
 
         part:AddTag("Bullets Penetrate")
-        part.Name = "Fence"
+        --part.Name = "Fence"
         --part.Material = Enum.Material.Plastic
       end
     end
