@@ -1,0 +1,1514 @@
+local services = loadstring(game:HttpGet("https://raw.githubusercontent.com/iampro1240/GeekClient.gg---Apocalypse-Rising-2/refs/heads/main/services.lua"))()
+local esplib = loadstring(game:HttpGet("https://raw.githubusercontent.com/iampro1240/GeekClient.gg---Apocalypse-Rising-2/refs/heads/main/SkibHook%20-%20ESP%20Libray%20Testing.lua"))()
+
+
+local WS, ws = services:GetService("Workspace"), services:CloneReference(workspace)
+local Players, ReplicatedStorage, RunService, TweenService, UserInputService, Lighting, Camera, Drawing, ReplicatedFirst = services:GetService("Players"), services:GetService("ReplicatedStorage"), services:GetService("RunService"), services:GetService("TweenService"), services:GetService("UserInputService"), services:GetService("Lighting"), services:CloneReference(workspace.CurrentCamera), Drawing.new, services:GetService("ReplicatedFirst")
+local Client, ClientChar = Players.LocalPlayer, Players.LocalPlayer.Character or Players.LocalPlayer.Character.CharacterAdded:Wait()
+local clientHumanoid = services:CloneReference(Client.Character:FindFirstChild("Humanoid"))
+local mousePos = Client:GetMouse()
+local CameraVector = Camera.CFrame.Position
+
+
+local tan, floor, rad, clamp, round = services:CloneFunction(math.tan), services:CloneFunction(math.floor), services:CloneFunction(math.rad), services:CloneFunction(math.clamp), services:CloneFunction(math.round)
+local New, hideui = services:CloneFunction(Instance.new), gethui()
+
+
+local FromRGB, hex, NewGradient, GradientSequence, GradientNumberKeypoint, GradientNumberSequence = services:CloneFunction(Color3.fromRGB), services:CloneFunction(Color3.fromHex), services:CloneFunction(ColorSequence.new), services:CloneFunction(ColorSequenceKeypoint.new), services:CloneFunction(NumberSequenceKeypoint.new), services:CloneFunction(NumberSequence.new)
+local dim2, Vector2, Vector3, CreateVector = services:CloneFunction(UDim2.new), services:CloneFunction(Vector2.new), services:CloneFunction(Vector3.new), services:CloneFunction(vector.create)
+
+
+local CameraViewport = Camera.ViewportSize
+local CameraOrigin = Vector2(CameraViewport.X / 2, CameraViewport.Y / 2)
+
+
+local bulletOrigin
+local projSpeed
+local bgravity
+local predictedPos
+local muzzleVelocity
+
+
+local library, themes = loadstring(game:HttpGet("https://raw.githubusercontent.com/iampro1240/GeekClient.gg---Apocalypse-Rising-2/refs/heads/main/library.lua"))()
+local window = library:window({name = os.date('$ SkibHook.xyz/GeekClient.gg $ | build: dev$ ~ %b %d %Y $$'), size = dim2(0, 900, 0, 800)})
+
+
+
+local cheat = {
+  tabs = {
+	aiming = window:tab({name = "Aiming"});
+	visuals = window:tab({name = "Visuals"});
+    movement = window:tab({name = "Movement"});
+    misc = window:tab({name = "Vehicle"});
+  };
+
+
+  visualcache = {circle = Drawing("Circle"), outlinecircle = Drawing("Circle"), lockCircle = Drawing("Circle"), lockOutlineCircle = Drawing("Circle"), predictLine = Drawing("Line")};
+  corpsecache = {};
+  vehiclecache = {};
+
+
+
+  globals = {
+    --projGravity = ReplicatedStorage.Globals.ProjectileGravity.Value
+    
+  };
+ 
+
+
+  connections = {
+    silent;
+    lock;
+    facetarget;
+    speedhack;
+    jumpheight;
+    zoom;
+    customfov;
+    removevfx;
+    customtime;
+    customambient;
+    TPKill;
+    chams;
+    selfchams;
+    noclip;
+    customatmosphere;
+    removeinventoryblur;
+    customclouds;
+    custombloom;
+  };
+
+
+
+  BulletTrails = {
+    Electricity = "rbxassetid://7151777149";
+    Lightning = "rbxassetid://7151778302";
+    Pulse = "rbxassetid://867619398";
+    LightPulse = "rbxassetid://917186750";
+    Reflex = "rbxassetid://833874434";
+    Shards = "rbxassetid://301657073";
+    SunBeam = "rbxassetid://156007523";
+    FireFlies = "rbxassetid://301714159";
+    Plasma = "rbxassetid://1030945960";
+    Shine = "rbxassetid://302321406";
+    
+  };
+
+
+
+  values = {
+  };
+
+
+
+  soundassets = {
+	xp = writefile("xp.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/Audios/minecraftxp.txt?ref_type=heads")));
+	neverlose = writefile("neverlose.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/Audios/neverlose.txt?ref_type=heads")));
+	rust  = writefile("rust.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/Audios/rust.txt?ref_type=heads")));
+	niggers  = writefile("niggers.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/niggers_string.txt?ref_type=heads")));
+    jewellxx = writefile("jewellxx.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/jewellxx.txt?ref_type=heads")));
+    tf2 = writefile("tf2.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/Audios/tf2.txt")));
+    skeet = writefile("skeet.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/Audios/skeet2.txt")));
+    sonic = writefile("sonic.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/Audios/sonic.txt")));
+    fingersnap = writefile("fingersnap.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/Audios/fingersnap.txt")));
+  }; 
+
+
+
+  modules = {
+    Bullets = require(ReplicatedStorage.Client.Libraries.Bullets),
+    Network = require(ReplicatedStorage.Client.Libraries.Network),
+    VehicleControler = require(ReplicatedStorage.Client.Classes.VehicleControler),
+    GunBuilder = require(ReplicatedStorage.Client.Libraries.GunBuilder),
+    Melee = require(ReplicatedStorage.Client.Abstracts.ItemInitializers.Melee)
+  };
+
+
+
+  locktarget;
+  gunmodel;
+  barrelspoof;
+  hitplr;
+  targetvis = false;
+  manipcastpart;
+
+}
+
+
+
+
+local currenthitsound
+local TestHitSound = function(sfx)
+  task.spawn(function()
+    if not getcustomasset(sfx) then
+        return
+    end
+
+    local asset_id = getcustomasset(sfx)
+    local sound = New("Sound", hideui)
+
+    sound.SoundId = asset_id
+    sound.Volume = library.flags["HitSoundVolume"]
+    currenthitsound = sfx
+    sound:Play()
+
+    task.wait(3)
+    sound:Destroy()
+      
+  end)
+end
+
+
+
+
+local esp;
+local function update_elements() if esp and esp.refresh_elements then esp.refresh_elements() end end 
+
+
+local column = cheat.tabs.visuals:column()
+local section, weapon_skin_section = column:multi_section({names = {"Enemy", "Weapon"}})
+
+
+local misccolumn = cheat.tabs.visuals:column()
+local world_section, camera_section, plr_chams_section = misccolumn:multi_section({names = {"World", "Camera", "Self Chams"}})
+
+
+local movementcolumn = cheat.tabs.movement:column()
+local movement_section = movementcolumn:multi_section({names = {"Player Movement"}})
+
+
+
+function returnflagcolor(color)
+    return library.flags[color].Color
+end
+
+
+
+function returnflagtransparency(color)
+    return library.flags[color].Transparency
+end
+
+
+
+function returngradientcolor(color, colortwo)
+    return NewGradient{GradientSequence(0, library.flags[color].Color), GradientSequence(1, library.flags[colortwo].Color)}
+end
+
+
+
+function returnGradientTransparency(color, colortwo)
+    return GradientNumberSequence{GradientNumberKeypoint(0, library.flags[color].Transparency), GradientNumberKeypoint(1, library.flags[colortwo].Transparency)}
+end
+
+
+
+function OnAdded(Player)
+    if Player ~= Client then
+        esplib:ESPObject(Player, library)
+        library:notification({time = 2, text = "[SkibHook] " .. Player.Name .. " Joined The Server", flashing = false;})
+    end
+end
+
+
+
+function OnRemoved(Player)
+    if Player ~= Client then
+        esplib:disconnect(Player)
+        library:notification({time = 2, text = "[SkibHook] " .. Player.Name .. " Left The Server", flashing = false;})
+    end
+end
+
+
+
+function RenderESP()
+ for _, Player in Players:GetPlayers() do 
+   if Player == Client then continue end
+     esplib:ESPObject(Player, library)
+   end
+end
+
+
+
+function RemoveESP()
+ for _, Player in Players:GetPlayers() do 
+     esplib:disconnect(Player)
+   end
+end
+
+
+
+local EnabledToggle = section:toggle({
+	name = "Enabled", 
+	flag = "Enabled", 
+	callback = update_elements
+})
+
+
+
+local NameToggle = section:toggle({
+	name = "Name", 
+	flag = "Names", 
+	callback = update_elements
+}):colorpicker({flag = "Name_Color", callback = update_elements})
+
+
+
+local settings = section:toggle({
+	name = "Box", 
+	flag = "Boxes", 
+	callback = update_elements
+})
+settings:colorpicker({name = "Box Color", flag = "Box_Color", callback = update_elements})
+section:dropdown({name = "Box Type", flag = "Box_Type", items = {"Corner", "Full"}, default = "Corner", callback = update_elements})
+
+
+
+local HealthBarToggle = section:toggle({
+	name = "Healthbar", 
+	flag = "Healthbar",
+	callback = update_elements
+})
+HealthBarToggle:colorpicker({name = "High HP Color", flag = "Health_High", callback = update_elements})
+HealthBarToggle:colorpicker({name = "Low HP Color", flag = "Health_Low", callback = update_elements})
+
+
+
+local HealthCountToggle = section:toggle({
+	name = "Health Count", 
+	flag = "Flag",
+    callback = update_elements
+}):colorpicker({name = "Color", flag = "FlagColor"})
+
+
+
+local DistanceToggle = section:toggle({
+	name = "Distance", 
+	flag = "Distance", 
+	callback = update_elements
+}):colorpicker({name = "Distance Color", flag = "Distance_Color", callback = update_elements})
+
+
+
+local WeaponToggle = section:toggle({
+	name = "Weapon", 
+	flag = "Weapon",
+	callback = update_elements
+}):colorpicker({name = "Weapon Color", flag = "Weapon_Color", callback = update_elements})
+
+
+
+local ChamsToggle = section:toggle({
+	name = "Chams", 
+	flag = "ChamsToggle"
+}):colorpicker({name = "Color", flag = "ChamColor"})
+:colorpicker({name = "Color", flag = "ChamColor2"})
+
+
+
+section:slider({
+    name = "Text Size", 
+    min = 5, 
+    max = 30, 
+    default = 12, 
+    interval = 1, 
+    flag = "TextSize"
+})
+
+
+
+section:slider({
+    name = "Max Distance", 
+    min = 10, 
+    max = 10000, 
+    default = 1000, 
+    interval = 1, 
+    flag = "MaxDistance"
+})
+
+
+
+
+
+
+
+local skins = {}
+for _, module in pairs(ReplicatedStorage.WeaponSkins:GetDescendants()) do
+    if module:IsA("ModuleScript") then
+        local source = require(module)
+        table.insert(skins, source.DisplayName)
+
+  end
+end
+
+
+
+local SkinChangerToggle = weapon_skin_section:toggle({
+	name = "SkinChanger",
+	flag = "SkinChanger"
+})
+
+
+
+weapon_skin_section:dropdown({
+    name = "Skins", 
+    flag = "WeaponSkin", 
+    items = skins, 
+    default = skins[1]
+})
+
+
+
+
+
+local WeaponChamsToggle = plr_chams_section:toggle({
+	name = "WeaponChams", 
+	flag = "WeaponChams",
+	callback = function(args)
+     if args then
+    end
+  end
+}):colorpicker({
+    name = "Viewmodel Color", 
+    flag = "WeaponChamColor", 
+})
+
+
+
+local WeaponMaterialDropdown = plr_chams_section:dropdown({
+	name = "Viewmodel Materials", 
+	flag = "Viewmodel_Cham_Material", 
+	items = {"Neon", "ForceField", "Glass", "Plastic"},
+	default = "ForceField"
+})
+
+
+
+function customfov()
+    cheat.connections.customfov = RunService.PreRender:Connect(function()
+        if library.flags["CustomFOV"] then
+            Camera.FieldOfView = library.flags["FOVAmount"]
+        else
+            cheat.connections.customfov:Disconnect()
+        end
+    end)
+end
+
+
+
+function zoomin()
+    cheat.connections.zoom = RunService.PreRender:Connect(function()
+        if library.flags["Zoom"] then
+            if library.flags["ZoomBind"].active then
+                Camera.FieldOfView = library.flags["ZoomAmount"]
+            end
+        else
+            cheat.connections.zoom:Disconnect()
+        end
+    end)
+end
+
+
+
+function customtime()
+    if not Lighting.TimeOfDay then
+        return
+    end
+
+    cheat.connections.customtime = RunService.PreRender:Connect(function()
+        if library.flags["CustomTime"] then
+            Lighting.TimeOfDay = library.flags["TimeOfDay"]
+        else
+            cheat.connections.customtime:Disconnect()
+        end
+    end)
+end
+
+
+
+function customambient()
+    if not Lighting.Ambient then
+        return
+    end
+
+    cheat.connections.customambient = RunService.PreRender:Connect(function()
+        if library.flags["CustomAmbient"] then
+            Lighting.Ambient = library.flags["AmbientColor"].Color
+        else
+            cheat.connections.customambient:Disconnect()
+        end
+    end)
+end
+
+
+
+function CustomAtmosphere()
+    if not Lighting.Atmosphere then
+        return
+    else
+        cheat.connections.customatmosphere = RunService.PreRender:Connect(function()
+        if library.flags["CustomAtmosphere"] then
+            Lighting.Atmosphere.Glare = library.flags["GlareAmount"]
+            Lighting.Atmosphere.Haze = library.flags["HazeAmount"]
+        else
+            cheat.connections.customatmosphere:Disconnect()
+        end
+    end)
+  end
+end
+
+
+
+function CustomClouds()
+    if not ws.Terrain.Clouds then
+     return
+else
+     cheat.connections.customclouds = RunService.PreRender:Connect(function()
+        if library.flags["CustomClouds"] then
+            ws.Terrain.Clouds.Color = library.flags["CloudColor"].Color
+            ws.Terrain.Clouds.Cover = library.flags["CloudCover"]
+            ws.Terrain.Clouds.Density = library.flags["CloudDensity"]
+        else
+            cheat.connections.customclouds:Disconnect()
+        end
+    end)
+  end
+
+end
+
+
+
+function RemoveInventoryBlur()
+    if not Lighting.GameMenuBlur then
+        return
+    else
+     cheat.connections.removeinventoryblur = RunService.PreRender:Connect(function()
+        if library.flags["RemoveInventoryBlur"] then
+            Lighting.GameMenuBlur.Enabled = false
+        else
+            cheat.connections.removeinventoryblur:Disconnect()
+        end
+    end)
+  end
+end
+
+
+
+local CustomTimeToggle = world_section:toggle({
+	name = "Time", 
+	flag = "CustomTime",
+	callback = function(args)
+     if args then
+        customtime()
+     end
+  end
+})
+
+
+
+local CustomAmbientToggle = world_section:toggle({
+	name = "Ambient", 
+	flag = "CustomAmbient",
+	callback = function(args)
+     if args then
+       customambient()
+     end  
+  end
+}):colorpicker({
+    name = "Ambient Color Color", 
+    flag = "AmbientColor",
+    callback = function(args)
+    if args and library.flags["CustomAmbient"] then
+        Lighting.Ambient = library.flags["AmbientColor"].Color
+    end
+ end
+})
+
+
+
+local CustomCloudsToggle = world_section:toggle({
+	name = "Custom Clouds", 
+	flag = "CustomClouds",
+	callback = function(args)
+     if args then
+       CustomClouds()
+     end  
+  end
+}):colorpicker({
+    name = "CloudColor", 
+    flag = "CloudColor"
+})
+
+
+
+local CustomAtmosphereToggle = world_section:toggle({
+	name = "Custom Atmosphere", 
+	flag = "CustomAtmosphere",
+	callback = function(args)
+     if args then
+        CustomAtmosphere()
+     end
+  end
+}):colorpicker({
+    name = "Atmosphere Color", 
+    flag = "AtmosphereColor"
+})
+:colorpicker({
+    name = "Decay Color", 
+    flag = "DecayColor"
+})
+
+
+
+world_section:slider({
+    name = "Time", 
+    min = 0, 
+    max = 24, 
+    default = 12, 
+    interval = 1, 
+    flag = "TimeOfDay"
+})
+
+
+
+world_section:slider({
+    name = "Glare", 
+    min = 0, 
+    max = 10, 
+    default = 0, 
+    interval = .1, 
+    flag = "GlareAmount"
+})
+
+
+
+world_section:slider({
+    name = "Haze", 
+    min = 0, 
+    max = 10, 
+    default = 0, 
+    interval = .1, 
+    flag = "HazeAmount"
+})
+
+
+
+world_section:slider({
+    name = "Cloud Cover", 
+    min = 0, 
+    max = 10, 
+    default = 0, 
+    interval = .1, 
+    flag = "CloudCover"
+})
+
+
+
+world_section:slider({
+    name = "Cloud Density", 
+    min = 0, 
+    max = 10, 
+    default = 0, 
+    interval = .1, 
+    flag = "CloudDensity"
+})
+
+
+
+
+local FOVToggle = camera_section:toggle({
+	name = "Custom FOV", 
+	flag = "CustomFOV",
+	callback = function(args)
+     if args then
+        customfov()
+     end
+  end
+})
+
+
+
+local ZoomToggle = camera_section:toggle({
+	name = "Zoom", 
+	flag = "Zoom",
+	callback = function(args)
+     if args then
+        zoomin()
+     end
+  end
+}):keybind({
+    name = "Zoom In/Out",
+    key = Enum.KeyCode.B,
+    mode = "toggle",
+    flag = "ZoomBind"
+})
+
+
+
+local NoFlinchToggle = camera_section:toggle({
+	name = "No Flinch", 
+	flag = "NoFlinch"
+})
+
+
+
+local RemoveInventoryBlurToggle = camera_section:toggle({
+	name = "Remove Inventory Blur", 
+	flag = "RemoveInventoryBlur",
+	callback = function(args)
+     if args then
+        RemoveInventoryBlur()
+     end
+  end
+})
+
+
+
+local removeDamageAffectToggle = camera_section:toggle({
+	name = "Remove Damage Affect", 
+	flag = "removeDamageAffect"
+})
+
+
+
+camera_section:slider({
+    name = "FOV Amount", 
+    min = 80, 
+    max = 120, 
+    default = 1, 
+    interval = 1, 
+    flag = "FOVAmount"
+})
+
+
+
+camera_section:slider({
+    name = "Zoom Amount", 
+    min = 1, 
+    max = 60, 
+    default = 1, 
+    interval = 1, 
+    flag = "ZoomAmount"
+})
+
+
+
+
+
+-- Combat
+
+
+local RenderFOV = function(Distance)
+  local maxdist
+
+
+  cheat.connections.silent = RunService.PreRender:Connect(function(deltatime)
+  if library.flags["SilentAimToggle"] then
+    services:framelimit(deltatime)
+    local distance
+    --setthreadlevel(8)
+
+
+	cheat.visualcache.circle.Radius = library.flags["FOVRadius"]
+    cheat.visualcache.circle.Color = library.flags["FOV_Color"].Color
+    cheat.visualcache.circle.NumSides = library.flags["FOVNumSides"]
+    cheat.visualcache.circle.Thickness = library.flags["Thickness"]
+    cheat.visualcache.circle.Visible = library.flags["SilentAimToggle"] and library.flags["FOVToggle"]
+
+    
+    cheat.visualcache.outlinecircle.Radius = library.flags["FOVRadius"]
+    cheat.visualcache.outlinecircle.Color = library.flags["Outline_Color"].Color
+    cheat.visualcache.outlinecircle.NumSides = library.flags["FOVNumSides"]
+    cheat.visualcache.outlinecircle.Thickness = library.flags["Thickness"] + 4
+    cheat.visualcache.outlinecircle.Visible = library.flags["SilentAimToggle"] and library.flags["FOVToggle"] and library.flags["FOVOutline"]
+    cheat.visualcache.outlinecircle.ZIndex = -25
+
+
+    cheat.visualcache.circle.Position = CameraOrigin
+    cheat.visualcache.outlinecircle.Position = CameraOrigin
+
+
+
+
+    for _, P in Players:GetPlayers() do 
+     if P == Client then continue end
+
+    if P.Character and services:findfirstchild(P.Character, "Head") and services:findfirstchild(P.Character, "Humanoid") and library.get_priority(P) ~= "Friendly" then
+      local targetP = P.Character["Head"]
+      local pos2, os = services:wtvp(targetP.Position)
+      local dist = (Vector2(mousePos.X, mousePos.Y) - Vector2(pos2.X, pos2.Y)).Magnitude
+
+
+    
+
+    if dist <= (distance or library.flags["FOVRadius"]) and os then
+       Target = targetP
+       distance = dist
+
+
+     end
+    end
+   end
+   
+
+   else
+
+    cheat.connections.silent:Disconnect()
+    cheat.visualcache.circle.Visible = false
+    cheat.visualcache.outlinecircle.Visible = false
+
+  end
+ end)
+end
+
+
+
+
+local silentcolumn = cheat.tabs.aiming:column()
+local silentsection, legitbotsection, gunmods_section, weaponmods_section = silentcolumn:multi_section({names = {"Silent", "Legitbot", "Mods", "Misc"}})
+
+
+
+silentsection:toggle({
+	name = "Silent Aim", 
+	flag = "SilentAimToggle",
+	callback = function(args)
+     if args then
+       RenderFOV()
+    end
+  end
+})
+
+
+
+silentsection:toggle({
+	name = "FOV", 
+	flag = "FOVToggle",
+}):colorpicker({name = "FOV Color", flag = "FOV_Color"})
+
+
+
+silentsection:toggle({
+	name = "FOV Outline", 
+	flag = "FOVOutline",
+}):colorpicker({name = "Outline Color", flag = "Outline_Color"})
+
+
+
+silentsection:toggle({
+	name = "Show Prediction", 
+	flag = "ShowPrediction",
+}):colorpicker({name = "Line Color", flag = "Prediction_Color"})
+
+
+
+silentsection:slider({
+    name = "Radius", 
+    min = 10, 
+    max = 500, 
+    default = 90, 
+    interval = 1, 
+    flag = "FOVRadius"
+})
+
+
+silentsection:slider({
+    name = "Vertices", 
+    min = 0, 
+    max = 90, 
+    default = 90, 
+    interval = 1, 
+    flag = "FOVNumSides"
+})
+
+
+silentsection:slider({
+    name = "Thickness", 
+    min = 0, 
+    max = 10, 
+    default = 1, 
+    interval = 1, 
+    flag = "Thickness"
+})
+
+
+
+silentsection:dropdown({
+	name = "Body Target", 
+	flag = "Silent_Target", 
+	items = {"Head", "HumanoidRootPart"}, 
+	default = "Head",
+    callback = function(args)
+ end
+})
+
+
+
+gunmods_section:toggle({
+	name = "No Recoil", 
+	flag = "NoRecoil",
+	callback = function(argument)
+  end
+})
+
+
+
+gunmods_section:toggle({
+	name = "No Spread", 
+	flag = "NoSpread"
+})
+
+
+
+gunmods_section:toggle({
+	name = "All FireModes[Switch Firemode To Work]", 
+	flag = "AllFireModes",
+})
+
+
+
+weaponmods_section:toggle({
+	name = "Hit Sounds", 
+	flag = "HitSoundsToggle",
+})
+
+
+
+weaponmods_section:toggle({
+	name = "Hit Notifications", 
+	flag = "HitNotifications",
+})
+
+
+
+weaponmods_section:toggle({
+	name = "Bullet Tracers", 
+	flag = "BulletTracers",
+}):colorpicker({name = "Trail Color", flag = "TracerColor"})
+
+
+
+weaponmods_section:dropdown({
+	name = "Hit Sounds", 
+	flag = "HitSounds", 
+	items = {"xp", "neverlose", "rust", "niggers", "jewellxx", "tf2", "skeet", "sonic", "fingersnap"}, 
+	default = "xp",
+    callback = function(sfx)
+    if sfx == "xp" then 
+		TestHitSound("xp.mp3") 
+	elseif sfx == "neverlose" then 
+		TestHitSound("neverlose.mp3") 
+	elseif sfx == "rust" then 
+		TestHitSound("rust.mp3") 
+	elseif sfx == "niggers" then 
+		TestHitSound("niggers.mp3") 
+    elseif sfx == "jewellxx" then
+        TestHitSound("jewellxx.mp3") 
+    elseif sfx == "tf2" then
+        TestHitSound("tf2.mp3") 
+    elseif sfx == "skeet" then
+        TestHitSound("skeet.mp3")
+    elseif sfx == "sonic" then
+        TestHitSound("sonic.mp3") 
+    elseif sfx == "fingersnap" then
+        TestHitSound("fingersnap.mp3") 
+      end
+	end
+})
+
+
+
+weaponmods_section:dropdown({
+	name = "Trails", 
+	flag = "TrailID", 
+	items = {"Electricity", "Pulse", "Lightning", "LightPulse", "Reflex", "Shards", "SunBeam", "FireFlies", "Plasma", "Shine"},
+	default = "Electricity",
+})
+
+
+
+weaponmods_section:slider({name = "Texture Speed", min = .1, max = 1, default = 1, interval = .1, suffix = "m", flag = "TextureSpeed", tooltip = "makes the texture faster/slower"})
+weaponmods_section:slider({name = "Texture Length", min = .1, max = 1, default = 1, interval = .1, suffix = "m", flag = "TextureLength", tooltip = "makes the texture longer/shorter"})
+weaponmods_section:slider({name = "Trail Lifetime", min = 1, max = 10, default = 1, interval = 1, suffix = "lft", flag = "TracerLifetime", tooltip = "destroy time"})
+
+
+weaponmods_section:slider({name = "Head Hit Sound Volume", min = .1, max = 10, default = 1, interval = .1, suffix = "vlm", flag = "HitSoundVolume"})
+weaponmods_section:slider({name = "Body Hit Sound Volume", min = .1, max = 10, default = 1, interval = .1, suffix = "vlm", flag = "BodyHitSoundVolume"})
+
+
+
+
+
+
+
+local speedhack = function()
+    cheat.connections.speedhack = RunService.PreRender:Connect(function(deltatime)
+     services:framelimit(deltatime, 30)
+      if Client.Character == nil then return end
+        if library.flags["SpeedHack"] then
+          if library.flags["SpeedBind"].active then
+            local hum = services:CloneReference(Client.Character:FindFirstChild("Humanoid"))
+            hum.WalkSpeed = library.flags["WalkSpeed"]
+        end
+    else
+        cheat.connections.speedhack:Disconnect()
+     end
+  end)
+end
+
+
+
+local jumphack = function()
+    cheat.connections.jumpheight = RunService.PreRender:Connect(function(deltatime)
+        services:framelimit(deltatime, 30)
+        if Client.Character == nil then return end
+
+        if library.flags["JumpHack"] then
+            local hum = services:CloneReference(Client.Character:FindFirstChild("Humanoid"))
+            hum.JumpPower = library.flags["JumpHeight"]
+            hum.JumpHeight = library.flags["JumpHeight"]
+        else
+            cheat.connections.jumpheight:Disconnect()
+        end
+    end)
+end
+
+
+
+local noclipvalue = function(value)
+  for _, part in pairs(Client.Character:GetChildren()) do
+    if part:IsA("MeshPart") or part:IsA("Part") then
+        part.CanCollide = value
+    end
+  end
+end
+
+
+
+local noclip = function()
+    cheat.connections.noclip = RunService.PreRender:Connect(function(deltatime)
+     services:framelimit(deltatime, 30)
+      if Client.Character == nil then return end
+        if library.flags["NoClip"] then
+            if library.flags["NoClipBind"].active then
+               noclipvalue(false)
+            else
+                noclipvalue(true)
+            end
+        else
+            cheat.connections.noclip:Disconnect()
+            --noclipvalue(true)
+        end
+    end)
+end
+
+
+
+local rakhook = function(packet)
+	if packet.PacketId == 0x1B then
+	   local buf = packet.AsBuffer
+	   buffer.writeu32(buf, 1, 0xFFFFFFFF)
+	   packet:SetData(buf)
+	end
+
+    if packet.PacketId == 0x86 then
+	   local buf = packet.AsBuffer
+	   buffer.writeu32(buf, 1, 0xFFFFFFFF)
+	   packet:SetData(buf)
+	end
+end
+
+
+
+local desync = function()
+ if library.flags["Desync"] then
+    raknet.add_send_hook(rakhook)
+    library:notification({time = 2, text = "[GeekClient.gg] Desync Started"})
+else
+	raknet.remove_send_hook(rakhook)
+    library:notification({time = 2, text = "[GeekClient.gg] Desync Canceled"})
+  end
+end
+
+
+
+movement_section:toggle({
+	name = "Speed Hack", 
+	flag = "SpeedHack",
+    callback = function(args)
+      if args then
+        speedhack()
+      end
+    end
+}):keybind({
+    name = "Speed Hack",
+    key = Enum.KeyCode.G,
+    mode = "hold",
+    flag = "SpeedBind",
+})
+
+
+
+movement_section:toggle({
+	name = "Jump Hack", 
+	flag = "JumpHack",
+	callback = function(args)
+      if args then
+        jumphack()
+    end
+  end
+})
+
+
+
+movement_section:toggle({
+	name = "No Clip", 
+	flag = "NoClip",
+    callback = function(args)
+      if args then
+        noclip()
+      end
+    end
+}):keybind({
+    name = "No Clip",
+    key = Enum.KeyCode.J,
+    mode = "hold",
+    flag = "NoClipBind",
+})
+
+
+
+movement_section:toggle({
+	name = "Desync", 
+	flag = "Desync",
+    callback = function(args)
+      if args then
+        desync()
+      end
+    end
+})
+
+
+movement_section:toggle({
+	name = "Remove Jump Debounce", 
+	flag = "NoJumpDebounce"
+})
+
+
+
+movement_section:toggle({
+	name = "Movement Spoofer", 
+	flag = "Spoofer"
+})
+
+
+
+movement_section:dropdown({name = "State Spoof", flag = "StateSpoof", items = {"Running", "Walking", "Crouching", "Climbing", "Falling", "Swimming", "Sitting", "nil", "FreeFalling"}, default = "Running"})
+movement_section:slider({name = "Walk Speed", min = 10, max = 33, default = 20, interval = 1, suffix = "wp", flag = "WalkSpeed"})
+movement_section:slider({name = "Jump Height", min = 4.5, max = 100, default = 20, interval = 1, suffix = "jh", flag = "JumpHeight"})
+
+
+
+
+
+local vehiclecolumn = cheat.tabs.misc:column()
+local vehiclemodssection= vehiclecolumn:multi_section({names = {"Vehicle Mods"}})
+
+
+
+local DriveOnWaterToggle = vehiclemodssection:toggle({
+	name = "Drive On Water", 
+	flag = "DriveOnWater"
+})
+
+
+
+esp = window.esp_section:esp_preview({})
+cheat.tabs.visuals.open_tab()
+library:config_list_update()
+
+for index, value in themes.preset do
+	pcall(function()
+		library:update_theme(index, value)
+	end)
+end
+
+
+
+task.wait()
+library.old_config = library:get_config()
+
+
+
+Players.PlayerAdded:Connect(OnAdded)
+Players.PlayerRemoving:Connect(OnRemoved)
+RenderESP()
+
+
+
+
+-- hooks
+do
+
+    
+
+local instantHitFunc = services:GarbageCollection("castLocalBullet")
+local instantHitHook
+instantHitHook = hookfunction(instantHitFunc, newcclosure(function(p1, p2, p3, p4, p5, p6, p7, p8)
+    if not checkcaller() and library.flags["SilentAimToggle"] then
+     if Target ~= nil then
+      setreadonly(p5, false)
+      setreadonly(p5.FireConfig, false)
+      --debug.getupvalue(instantHitFunc, 1).ProjectileGravity = 0
+      muzzleVelocity = p5.FireConfig.MuzzleVelocity
+      bgravity = debug.getupvalue(instantHitFunc, 1).ProjectileGravity
+      --p6 = CFrame.lookAt(CameraVector, Target.Position).LookVector
+
+
+      
+    --warn(debug.getinfo(debug.getstack(1, 10)).name)
+      
+
+    end
+    return instantHitHook(p1, p2, p3, p4, p5, p6, p7, p8)
+ end
+    return instantHitHook(p1, p2, p3, p4, p5, p6, p7, p8)
+end))
+
+
+
+local SilentHook
+SilentHook = hookfunction(cheat.modules.Bullets.Fire, newcclosure(function(p1, p2, p3, p4, p5, p6, p7)
+    if not checkcaller() and library.flags["SilentAimToggle"] then
+      if Target ~= nil and bgravity ~= nil then
+        setreadonly(p4.FireConfig, false)
+
+        bulletOrigin = p5
+
+
+      local distance = (Target.Position - p5).Magnitude
+      local timeToHit = distance / p4.FireConfig.MuzzleVelocity
+      local prediction = Target.Position + (Vector3(Target.Velocity.X, Target.Velocity.Y / distance, Target.Velocity.Z) * timeToHit)
+      --Target.Position + (Target.Velocity * timeToHit)
+      local originEquation = Vector3(0,  distance / p4.FireConfig.MuzzleVelocity + math.sin(0) * timeToHit - bgravity / Target.Position.Magnitude  ,0)
+      local equation = Vector3(0,  distance / p4.FireConfig.MuzzleVelocity + math.sin(0) * timeToHit - bgravity * timeToHit^2   ,0)
+      
+      p5 = p5 + originEquation
+      p6 = CFrame.lookAt(p5, equation + prediction).LookVector * p6.Magnitude
+      bulletOrigin = p5
+
+      --p5 = p5 + originEquation
+      --p6 = CFrame.lookAt(p5, equation + prediction).LookVector * p6.Magnitude
+
+     
+    end
+
+
+
+      if library.flags["BulletTracers"] then
+          task.spawn(function()
+            local part = New("Part", workspace)
+            local part2 = New("Part", workspace)
+            local beam = New("Beam", part)
+            local at1 = New("Attachment", beam)
+            local at2 = New("Attachment", part2)
+            
+
+            part.CanCollide = false
+            part.Transparency = 1
+            part.Anchored = true
+            part.Position = p5
+            part.Size = Vector3(0.001, 0.001, 0.001)
+            part.Shape = "Ball"
+
+
+            part2.CanCollide = false
+            part2.Transparency = 1
+            part2.Anchored = true
+            part2.Position = Target.Position
+            part2.Size = Vector3(0.001, 0.001, 0.001)
+            part2.Shape = "Ball"
+
+
+
+            beam.Texture = cheat.BulletTrails[library.flags["TrailID"]]
+            beam.Color =  ColorSequence.new{ColorSequenceKeypoint.new(0, library.flags["TracerColor"].Color), ColorSequenceKeypoint.new(1, library.flags["TracerColor"].Color)}
+            beam.TextureSpeed = library.flags["TextureSpeed"]
+            beam.TextureLength = library.flags["TextureLength"]
+            beam.TextureMode = Enum.TextureMode.Stretch
+            beam.Attachment0 = at1
+            beam.Attachment1 = at2
+            beam.LightInfluence = 0
+            beam.LightEmission = 0
+            beam.ZOffset = 0
+
+
+
+            task.wait(library.flags["TracerLifetime"] / 1)
+              part:Destroy()
+              part2:Destroy()
+          end)
+           return SilentHook(p1, p2, p3, p4, p5, p6, p7)
+        end
+
+    else
+        return SilentHook(p1, p2, p3, p4, p5, p6, p7)
+    end
+
+    return SilentHook(p1, p2, p3, p4, p5, p6, p7)
+end))
+
+
+
+local flinchFunc = services:GarbageCollection("flintchCamera")
+local flinchHook
+flinchHook = hookfunction(flinchFunc, newcclosure(function(p1, p2, p3)
+    if not checkcaller() and library.flags["NoFlinch"] then
+       return nil
+    else
+        return flinchHook(p1, p2, p3)
+    end
+    return flinchHook(p1, p2, p3)
+end))
+
+
+
+local recoilFunc = services:GarbageCollection("getFireImpulse")
+local recoilHook
+recoilHook = hookfunction(recoilFunc, newcclosure(function(p1, p2, p3)
+    if not checkcaller() and library.flags["NoRecoil"] then
+        return 0
+    else
+        return recoilHook(p1, p2, p3)
+    end
+    return recoilHook(p1, p2, p3)
+end))
+
+
+
+local spreadFunc = services:GarbageCollection("getSpredAngle")
+local spreadHook
+spreadHook = hookfunction(spreadFunc, newcclosure(function(p1, p2, p3)
+    if not checkcaller() then
+      if library.flags["NoSpread"] then
+        return 0
+      end
+
+       return spreadHook(p1, p2, p3)
+    end
+    return spreadHook(p1, p2, p3)
+end))
+
+
+
+local fireHook3
+fireHook3 = hookfunction(cheat.modules.Network.Send, newcclosure(function(p1, p2, ...)
+    local arguments = {...}
+
+    if not checkcaller() and p2 == "Bullet Impact" then
+        setthreadidentity(8)
+        if library.flags["HitNotifications"] then
+          library:notification({time = 2, text = "[GeekClient.gg] Hit Player"})
+        end
+
+
+        if library.flags["HitSounds"] then
+           TestHitSound(currenthitsound)
+        end
+
+       return fireHook3(p1, p2, unpack(arguments))
+    end
+    return fireHook3(p1, p2, ...)
+end))
+
+
+
+local removeDamageAffect
+local removeDamageAffectFunc = services:GarbageCollection("damageEffect")
+removeDamageAffect = hookfunction(removeDamageAffectFunc, newcclosure(function(p1)
+    if not checkcaller() and library.flags["removeDamageAffect"] then
+        return nil
+    else
+       return removeDamageAffect(p1)
+    end
+   return removeDamageAffect(p1)
+end))
+
+
+
+local spoofAthleticPerk
+local spoofAthleticPerkFunc = services:GarbageCollection("attemptJump")
+spoofAthleticPerk = hookfunction(spoofAthleticPerkFunc, newcclosure(function(p1, p2)
+    if not checkcaller() then
+        --p1.Climbing = true
+        --p1.Mounting = true
+        --p1.Vehicle = false
+        --table.foreach(p1, warn)
+
+
+     for index, value in pairs(debug.getupvalues(spoofAthleticPerkFunc)) do
+        if typeof(value) == "table" then
+            setreadonly(value, false)
+            --table.foreach(value, print)
+            value.LadderMountDistance = 9999
+        end
+    end
+
+
+    if library.flags["NoJumpDebounce"] then
+        p1.JumpDebounce = 0
+    end
+
+
+    if p1.EquippedItem then
+        p1.EquippedItem.BlocksJumpWhileHeld = false
+    end
+
+       return spoofAthleticPerk(p1, p2)
+    end
+   return spoofAthleticPerk(p1, p2)
+end))
+
+
+
+local sprintSpoofHook
+sprintSpoofHook = hookfunction(cheat.modules.Network.Send, newcclosure(function(p1, p2, ...)
+    local arguments = {...}
+    if p2 == "Character State Report" then
+        if library.flags["Spoofer"] then
+            --arguments[3] = Client.Character["HumanoidRootPart"].Position + Vector3(0, 15, 0)
+            arguments[4] = library.flags["StateSpoof"]
+            return sprintSpoofHook(p1, p2, unpack(arguments))
+        end
+    end
+    return sprintSpoofHook(p1, p2, ...)
+end))
+
+
+
+local driveOnWaterHook
+local driveOnWaterFunc = services:GarbageCollection("setWheelSpeeds")
+driveOnWaterHook = hookfunction(driveOnWaterFunc, newcclosure(function(p1, p2)
+    if library.flags["DriveOnWater"] then
+        p1.Config.Physics.BoatMode = true
+    else
+        return driveOnWaterHook(p1, p2)
+      end
+
+    return driveOnWaterHook(p1, p2)
+end))
+
+
+
+local isItemUsableHook
+local isItemUsableFunc = services:GarbageCollection("isItemUsable")
+isItemUsableHook = hookfunction(isItemUsableFunc, newcclosure(function(p1, p2)
+    if not checkcaller() then
+        p2.CanUseInInventory = true
+        return isItemUsableHook(p1, p2)
+      end
+
+    return isItemUsableHook(p1, p2)
+end))
+
+
+
+local setWeaponActionHook
+local setWeaponActionFunc = services:GarbageCollection("setWeaponAction")
+setWeaponActionHook = hookfunction(setWeaponActionFunc, newcclosure(function(p1, p2, p3)
+    if not checkcaller() then
+        if library.flags["AllFireModes"] then
+            p1.EquippedItem.FireModes = {"Automatic", "Semiautomatic", "Burst"}
+            p1.Sitting = false
+        end
+        return setWeaponActionHook(p1, p2, p3)
+      end
+
+    return setWeaponActionHook(p1, p2, p3)
+end))
+
+
+
+local skinHook
+skinHook = hookfunction(cheat.modules.GunBuilder.BuildFromSerialization, newcclosure(function(p1, p2, p3)
+    if not checkcaller() then
+        if library.flags["SkinChanger"] then
+            p3.SkinId = library.flags["WeaponSkin"]
+        end
+
+        return skinHook(p1, p2, p3)
+      end
+
+    return skinHook(p1, p2, p3)
+end))
+
+
+
+
+-- semi-wallbang
+
+local terrain = workspace.Map
+local semiwallbang = function()
+for _, part in pairs(terrain:GetDescendants()) do
+    if part:IsA("BasePart") or part:IsA("Part") or part:IsA("MeshPart") or part:IsA("Union") then
+        part:AddTag("Bullets Penetrate")
+    end
+  end
+
+
+for _, part in pairs(workspace.Vehicles:GetDescendants()) do
+    if part:IsA("BasePart") or part:IsA("Part") or part:IsA("MeshPart") or part:IsA("Union") or part:IsA("Model") then
+        part:AddTag("Bullets Penetrate")
+        --part.Name = "Fence"
+       -- part.Material = Enum.Material.Plastic
+    end
+  end
+
+
+  workspace.Vehicles.ChildAdded:Connect(function(child)
+    for _, part in pairs(child:GetDescendants()) do
+    if part:IsA("BasePart") or part:IsA("Part") or part:IsA("MeshPart") or part:IsA("Union") then
+
+        part:AddTag("Bullets Penetrate")
+        --part.Name = "Fence"
+        --part.Material = Enum.Material.Plastic
+      end
+    end
+  end)
+
+
+  workspace.terrain.ChildAdded:Connect(function(child)
+    for _, part in pairs(child:GetDescendants()) do
+   if part:IsA("BasePart") or part:IsA("Part") or part:IsA("MeshPart") or part:IsA("Union") then
+        part:AddTag("Bullets Penetrate")
+        --part.Material = Enum.Material.Plastic
+      end
+    end
+  end)
+
+
+end
+
+
+
+local success, error = pcall(semiwallbang)
+if success then
+    return
+else
+    warn('Failed To Register semiwallbang!')
+end
+
+
+
+
+end
+
+
+
+
+
+
+
+
+--library:indicator()
+
+
+
