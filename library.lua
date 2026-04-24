@@ -2065,11 +2065,11 @@
 			local cfg = {items = {}, rotation = 0; objects = {};}
 			local char = lp.Character
 
-			if char.Character.Archivable ~= nil then
-			   char.Character.Archivable = true
+			if char.Archivable ~= nil then
+			   char.Archivable = true
 			end
 
-			local character = char.Character:Clone()
+			local character = char:Clone()
 
 			local items = cfg.items; do 
 				items.viewportframe = library:create( "ViewportFrame" , {
