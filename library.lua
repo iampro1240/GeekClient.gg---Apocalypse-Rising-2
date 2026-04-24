@@ -1213,7 +1213,7 @@
 					Name = "\0";
 					Size = dim2(1, 0, 1, 0);
 					BorderSizePixel = 0;
-					Position = dim2(1.08, 0, -.05, 0);
+					Position = dim2(1.08, 0, .25, 0);
 				});	
 
 
@@ -1228,7 +1228,7 @@
 				});            
 			end
 
-			
+
 			function cfg.set_visible(bool)
 				items.Window.Visible = bool
 			end 
@@ -1242,11 +1242,11 @@
 			function cfg.change_profile()
 				items.label.set(string.format("Player: %s (%s)", library.target.Name, library.target.DisplayName))
 				items.Profile.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=".. library.target.UserId .."&width=420&height=420&format=png"
-				items.Primary.Image = library.Weapon
-				if library.Weapon == nil then
-                    items.Primary.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="
-				else
+
+				if library.Weapon then
 					items.Primary.Image = library.Weapon
+				else
+					items.Primary.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="
 				end
 			end 
 
