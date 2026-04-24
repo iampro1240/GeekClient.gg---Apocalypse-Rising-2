@@ -779,7 +779,6 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.GUI.Size = dim2(7, 0 * distancemath + 10 / pos.Magnitude, 7, 0 * distancemath + 7 / pos.Magnitude)
     --dim2(7, 0 * distancemath + 10, 7, 0 * distancemath + 7 / 1 + 2)
     UI.GUI.MaxDistance = lib2.flags["MaxDistance"]
-	lib2.target.Weapon = cache.weapon
    end
 
 
