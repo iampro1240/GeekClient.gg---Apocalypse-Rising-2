@@ -2063,7 +2063,7 @@
 
 		function library:esp_preview(properties)
 			local cfg = {items = {}, rotation = 0; objects = {};}
-			local char = players:GetPlayerFromCharacter(lp)
+			local char = lp.Character
 
 			if char.Character.Archivable ~= nil then
 			   char.Character.Archivable = true
