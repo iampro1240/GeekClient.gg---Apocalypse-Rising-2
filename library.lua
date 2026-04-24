@@ -1208,19 +1208,20 @@
 				items.Primary = library:create( "ImageLabel" , {
 					BorderColor3 = rgb(0, 0, 0);
 					Parent = items.LowContrast;
-					Image = library.Weapon;
-					BackgroundTransparency = 1;
+					ImageContent = library.Weapon;
+					BackgroundTransparency = 0;
+					ImageTransparency = 0;
 					Name = "\0";
 					Size = dim2(1, 0, 1, 0);
 					BorderSizePixel = 0;
-					Position = dim2(1.08, 0, .65, 0);
+					Position = dim2(1.095, 0, .7, 0);
 					ZIndex = 25
 				});	
 
 
 
 				local section = setmetatable(items, library)
-				items.label = section:label({name = "Player: "})
+				items.label = section:label({name = "Target: "})
 				items.slider = section:slider({name = "Health", custom = rgb(255, 0, 0), min = 0, max = 100, default = 50, input = true})
 
 				
@@ -1244,8 +1245,12 @@
 				items.label.set(string.format("Player: %s (%s)", library.target.Name, library.target.DisplayName))
 				items.Profile.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=".. library.target.UserId .."&width=420&height=420&format=png"
 				
-				if library.Weapon == nil then return end
-				items.Primary.Image = library.Weapon
+				
+				if not library.Weapon == nil then 
+                    items.Primary.ImageContent = "https://www.roblox.com/headshot-thumbnail/image?userId="
+				else
+					items.Primary.ImageContent = library.Weapon
+				end
 
 
 			end 
