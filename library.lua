@@ -960,7 +960,7 @@
 			}
 
 			library.Weapon = "rbxasset://textures/ui/GuiImagePlaceholder.png"
-			
+
 			local items = cfg.items; do 
 				items.Window = library:create( "Frame" , {
 					Parent = sgui;
@@ -1204,6 +1204,7 @@
 
 
 
+
 				items.Primary = library:create( "ImageLabel" , {
 					BorderColor3 = rgb(0, 0, 0);
 					Parent = items.LowContrast;
@@ -1212,7 +1213,7 @@
 					Name = "\0";
 					Size = dim2(1, 0, 1, 0);
 					BorderSizePixel = 0;
-					Position = dim2(1.08, 0, -.6, 0);
+					Position = dim2(1.08, 0, -.05, 0);
 				});	
 
 
@@ -1227,17 +1228,26 @@
 				});            
 			end
 
+			
 			function cfg.set_visible(bool)
 				items.Window.Visible = bool
 			end 
+
 
 			function cfg.change_health(int)
 				items.slider.set(int)
 			end
 
+
 			function cfg.change_profile()
 				items.label.set(string.format("Player: %s (%s)", library.target.Name, library.target.DisplayName))
 				items.Profile.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=".. library.target.UserId .."&width=420&height=420&format=png"
+				items.Primary.Image = library.Weapon
+				if library.Weapon == nil then
+                    items.Primary.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="
+				else
+					items.Primary.Image = library.Weapon
+				end
 			end 
 
 
