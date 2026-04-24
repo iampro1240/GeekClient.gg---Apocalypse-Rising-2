@@ -1227,7 +1227,11 @@
 
 
 				local findWeapon = function()
-					if library.target.Weapon ~= "Fists" then
+					if library.target.Weapon ~= nil or "Fists" then
+						return
+					end
+
+					if library.target.Weapon and images[library.target.Weapon] then
 					   local encoded = images[library.target.Weapon]
                        writefile(library.target.Weapon, ".png", base64decode(encoded))
                        local asset_id = getcustomasset(library.target.Weapon, ".png")
