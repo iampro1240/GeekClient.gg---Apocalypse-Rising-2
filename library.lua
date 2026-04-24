@@ -1214,7 +1214,7 @@
 					Name = "\0";
 					Size = dim2(1, 0, 1, 0);
 					BorderSizePixel = 0;
-					Position = dim2(1.095, 0, .7, 0);
+					Position = dim2(1.1, 0, .7, 0);
 					ZIndex = 25
 				});	
 
