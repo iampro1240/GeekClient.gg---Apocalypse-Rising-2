@@ -1337,7 +1337,7 @@
 
 
 			run.PreRender:Connect(function()
-				if not library.target or library.target == nil then return end
+				if library.target == nil then return end
 
 				cfg.change_profile()
 				cfg.set_visible(library.flags["Indicator"])
