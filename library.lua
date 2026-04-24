@@ -452,7 +452,6 @@
 			local list = {}
 		
 			for idx, file in next, listfiles(library.directory .. "/configs") do
-                if file == nil or idx == nil then return end
 				local name = string.sub(file:gsub(library.directory .. "/configs\\", ""):gsub(library.directory .. "\\configs\\", ""), 1, -5)
 				list[#list + 1] = name
 			end
@@ -2061,15 +2060,12 @@
 
 		function library:esp_preview(properties)
 			local cfg = {items = {}, rotation = 0; objects = {};}
-			local char = players:GetPlayerFromCharacter(lp.Character).Character
-
-			if char.Archivable ~= nil then
-			   char.Archivable = true
+			if lp.Character.Archivable ~= nil then
+			   lp.Character.Archivable = true
 			end
 
-			
-			local character = char:Clone()
-
+			local character = lp.Character:Clone()
+			character.Animate:Destroy()
 
 			local items = cfg.items; do 
 				items.viewportframe = library:create( "ViewportFrame" , {
@@ -3406,7 +3402,18 @@
 				colorpicker = options.color or nil,
 				visible = options.visible or true,
 				tooltip = options.tooltip or nil,
+				risky = options.risky or false,
 			}
+
+
+			local risky = function()
+				if cfg.risky then
+					return rgb(162, 10, 10)
+				else
+					return themes.preset.text
+				end
+			end
+
 
 			-- instances
 				local toggle_holder = library:create("TextButton", {
@@ -3466,7 +3473,7 @@
 				local text = library:create("TextLabel", {
 					Parent = left_components,
 					FontFace = library.font,
-					TextColor3 = themes.preset.text,
+					TextColor3 = risky(),
 					BorderColor3 = rgb(0, 0, 0),
 					Text = cfg.name,
 					Name = "text",
