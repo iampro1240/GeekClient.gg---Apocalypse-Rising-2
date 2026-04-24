@@ -960,7 +960,7 @@
 			}
 
 			library.Weapon = "rbxasset://textures/ui/GuiImagePlaceholder.png"
-"
+			
 			local items = cfg.items; do 
 				items.Window = library:create( "Frame" , {
 					Parent = sgui;
