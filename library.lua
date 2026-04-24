@@ -1337,7 +1337,7 @@
 
 
 			run.PreRender:Connect(function()
-				if library.target == nil then return end
+				if not library.target or library.target == nil then return end
 
 				cfg.change_profile()
 				cfg.set_visible(library.flags["Indicator"])
@@ -2063,12 +2063,13 @@
 
 		function library:esp_preview(properties)
 			local cfg = {items = {}, rotation = 0; objects = {};}
-			if lp.Character.Archivable ~= nil then
-			   lp.Character.Archivable = true
+			local char = players:GetPlayerFromCharacter(lp)
+
+			if char.Character.Archivable ~= nil then
+			   char.Character.Archivable = true
 			end
 
-			local character = lp.Character:Clone()
-			character.Animate:Destroy()
+			local character = char.Character:Clone()
 
 			local items = cfg.items; do 
 				items.viewportframe = library:create( "ViewportFrame" , {
@@ -2098,7 +2099,7 @@
 
 				library:connection(run.RenderStepped, function()
 					task.wait()
-					cfg.rotation += 0.5
+					cfg.rotation += 1
 					character:SetPrimaryPartCFrame(cfr(Vector3.new(0, 0, -6)) * angle(0, math.rad(cfg.rotation), 0))
 				end)
 			end 
