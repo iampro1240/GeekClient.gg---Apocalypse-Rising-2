@@ -1208,7 +1208,7 @@
 				items.Primary = library:create( "ImageLabel" , {
 					BorderColor3 = rgb(0, 0, 0);
 					Parent = items.LowContrast;
-					ImageContent = library.Weapon;
+					Image = library.Weapon;
 					BackgroundTransparency = 0;
 					ImageTransparency = 0;
 					Name = "\0";
@@ -1247,9 +1247,9 @@
 				
 
 				if not library.Weapon == nil then 
-                    items.Primary.ImageContent = "https://www.roblox.com/headshot-thumbnail/image?userId="
+                    items.Primary.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="
 				else
-					items.Primary.ImageContent = library.Weapon
+					items.Primary.Image = library.Weapon
 				end
 
 
