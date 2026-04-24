@@ -1227,14 +1227,14 @@
 
 
 				local findWeapon = function()
-					if library.target.Weapon ~= nil or "Fists" then
+					if library.Weapon ~= nil or "Fists" then
 						return
 					end
 
-					if library.target.Weapon and images[library.target.Weapon] then
-					   local encoded = images[library.target.Weapon]
-                       writefile(library.target.Weapon, ".png", base64decode(encoded))
-                       local asset_id = getcustomasset(library.target.Weapon, ".png")
+					if library.Weapon and images[library.Weapon] then
+					   local encoded = images[library.Weapon]
+                       writefile(library.Weapon, ".png", base64decode(encoded))
+                       local asset_id = getcustomasset(library.Weapon, ".png")
 					   image = asset_id
 					end
 				end
@@ -1315,10 +1315,7 @@
 			function cfg.change_profile()
 				items.label.set(string.format("Player: %s (%s)", library.target.Name, library.target.DisplayName))
 				items.Profile.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=".. library.target.UserId .."&width=420&height=420&format=png"
-
-				if library.target.Weapon ~= nil then
-					findWeapon()
-				end
+				findWeapon()
 
 			end 
 
