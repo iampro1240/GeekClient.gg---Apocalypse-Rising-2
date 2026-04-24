@@ -1336,15 +1336,18 @@
 			end 
 
 
-			while true do
-				task.wait()
+			run.PreRender:Connect(function()
+				if library.target == nil then return end
+
 				cfg.change_profile()
 				cfg.set_visible(library.flags["Indicator"])
 				if library.target.Character then
 					local humanoid = library.target.Character:FindFirstChild("Humanoid")
 					cfg.change_health(humanoid.Health)
 				end
-			end
+
+			end)
+
 
 			return setmetatable(cfg, library)
 		end     
