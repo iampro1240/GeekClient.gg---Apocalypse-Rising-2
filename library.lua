@@ -1203,18 +1203,50 @@
 
 
 				-- inventory shit
+				local image
+				local images = {
+					["M21"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/M21.txt?ref_type=heads");
+					["M249"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/M249.txt?ref_type=heads");
+					["M249 Paratrooper"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/M249_Paratrooper.txt?ref_type=heads");
+					["M2 Carbine"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/M2_Carbine.txt?ref_type=heads");
+					["M4A1"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/M4A1.txt?ref_type=heads");
+					["M9"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/M9.txt?ref_type=heads");
+					["Mini 14"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/Mini-14.txt?ref_type=heads");
+					["Model 44"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/Model_44.txt?ref_type=heads");
+					["Model 94 Ranger"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/Model_94_Ranger.txt?ref_type=heads");
+					["OTs-14 Groza"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/OTS-14_Groza.txt?ref_type=heads");
+					["Operator M4A1"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/Operator_M4A1.txt?ref_type=heads");
+					["PKM"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/PKM.txt?ref_type=heads");
+					["PP-19 Bizon"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/PP-19_Bizon.txt?ref_type=heads");
+					["RPK-74M"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/RPK-74M.txt?ref_type=heads");
+					["RPK"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/RPK.txt?ref_type=heads");
+					["SIG P220"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/SIG_P220.txt?ref_type=heads");
+					["UMP45"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/UMP45.txt?ref_type=heads");
+					["Winchester 1894"] = game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/esp%20images/AR2%20Inventory%20Images/UMP45.txt?ref_type=heads");
+				}
 
 
-				items.inventoryholder = library:create( "ViewportFrame" , {
-					Parent = items.LowContrast;
-					BackgroundTransparency = 1;
-					Size = dim2(1, -80, 0, 0);
+				local findWeapon = function()
+					if library.target.Weapon ~= "Fists" then
+					   local encoded = images[library.target.Weapon]
+                       writefile(library.target.Weapon, ".png", base64decode(encoded))
+                       local asset_id = getcustomasset(library.target.Weapon, ".png")
+					   image = asset_id
+					end
+				end
+
+
+				items.inventoryholder = library:create( "ImageLabel" , {
 					BorderColor3 = rgb(0, 0, 0);
-					ZIndex = 1;
-					Position = dim2(0, 108, 0, 43);
+					Parent = items.LowContrast;
+					Image = image;
+					BackgroundTransparency = 1;
+					Name = "\0";
+					Size = dim2(1, 0, 1, 0);
 					BorderSizePixel = 0;
-					BackgroundColor3 = rgb(255, 255, 255)
 				});
+				--Size = dim2(1, -80, 0, 0);
+				--Position = dim2(0, 198, 0, 43);
 
 	
 
@@ -1256,66 +1288,12 @@
 					BackgroundColor3 = themes.preset.low_contrast
 				});	library:apply_theme(items.LowContrast, "low_contrast", "BackgroundColor3")
 
-
-
-			-- inventory viewer 2
-
-				items.inventoryholder2 = library:create( "ViewportFrame" , {
-					Parent = items.LowContrast;
-					BackgroundTransparency = 1;
-					Size = dim2(1, -80, 0, 0);
-					BorderColor3 = rgb(0, 0, 0);
-					ZIndex = 1;
-					Position = dim2(0, 198, 0, 43);
-					BorderSizePixel = 0;
-					BackgroundColor3 = rgb(255, 255, 255)
-				});
-
-	
-
-				library:create("UIListLayout", {
-					Parent = items.inventoryholder2,
-					Padding = dim(0, 4),
-					HorizontalAlignment = Enum.HorizontalAlignment.Center,
-					SortOrder = Enum.SortOrder.LayoutOrder
-				})
-
-				items.InventoryInline2 = library:create( "Frame" , {
-					Parent = items.inventoryholder2;
-					Name = "\0";
-					Position = dim2(0, 10, 0, 28);
-					BorderColor3 = rgb(0, 0, 0);
-					Size = dim2(0, 68, 0, 67);
-					BorderSizePixel = 0;
-					BackgroundColor3 = themes.preset.outline
-				});	library:apply_theme(items.Inline, "outline", "BackgroundColor3")
-				
-				items.InventoryOutline2 = library:create( "Frame" , {
-					Parent = items.InventoryInline2;
-					Name = "\0";
-					Position = dim2(0, 1, 0, 1);
-					BorderColor3 = rgb(0, 0, 0);
-					Size = dim2(1, -2, 1, -2);
-					BorderSizePixel = 0;
-					BackgroundColor3 = themes.preset.inline
-				});	library:apply_theme(items.Outline, "inline", "BackgroundColor3")
-				
-				
-				items.InventoryLowContrast2 = library:create( "Frame" , {
-					Parent = items.InventoryOutline2;
-					Name = "\0";
-					Position = dim2(0, 1, 0, 1);
-					BorderColor3 = rgb(0, 0, 0);
-					Size = dim2(1, -2, 1, -2);
-					BorderSizePixel = 0;
-					BackgroundColor3 = themes.preset.low_contrast
-				});	library:apply_theme(items.LowContrast, "low_contrast", "BackgroundColor3")
-
 		    
 
 				local section = setmetatable(items, library)
 				items.label = section:label({name = "Player: "})
 				items.slider = section:slider({name = "Health", custom = rgb(255, 0, 0), min = 0, max = 100, default = 50, input = true})
+				items.weaponlabel = section:label({name = "Weapon: "})
 				
 				library:create( "UIStroke" , {
 					Parent = items.InfoTitle
@@ -1332,7 +1310,14 @@
 
 			function cfg.change_profile()
 				items.label.set(string.format("Player: %s (%s)", library.target.Name, library.target.DisplayName))
+				items.weaponlabel.set(string.format("Weapon: %s (%s)", library.target.Weapon))
 				items.Profile.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=".. library.target.UserId .."&width=420&height=420&format=png"
+
+				if library.target.Weapon ~= nil then
+					items.weaponlabel.set(string.format("Weapon: %s (%s)", library.target.Weapon))
+					findWeapon()
+				end
+
 			end 
 
 
