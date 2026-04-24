@@ -1222,7 +1222,7 @@
 
 				local section = setmetatable(items, library)
 				items.label = section:label({name = "Target: "})
-				items.slider = section:slider({name = "Health", custom = rgb(255, 0, 0), min = 0, max = 100, default = 50, input = true})
+				items.slider = section:slider({name = "Health", custom = rgb(0, 255, 0), min = 0, max = 100, default = 100, input = true})
 
 				
 				library:create( "UIStroke" , {
@@ -1245,7 +1245,7 @@
 				items.label.set(string.format("Player: %s (%s)", library.target.Name, library.target.DisplayName))
 				items.Profile.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=".. library.target.UserId .."&width=420&height=420&format=png"
 				
-				
+
 				if not library.Weapon == nil then 
                     items.Primary.ImageContent = "https://www.roblox.com/headshot-thumbnail/image?userId="
 				else
