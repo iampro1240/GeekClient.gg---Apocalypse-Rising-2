@@ -1293,7 +1293,7 @@
 				local section = setmetatable(items, library)
 				items.label = section:label({name = "Player: "})
 				items.slider = section:slider({name = "Health", custom = rgb(255, 0, 0), min = 0, max = 100, default = 50, input = true})
-				items.weaponlabel = section:label({name = "Weapon: "})
+
 				
 				library:create( "UIStroke" , {
 					Parent = items.InfoTitle
@@ -1310,11 +1310,9 @@
 
 			function cfg.change_profile()
 				items.label.set(string.format("Player: %s (%s)", library.target.Name, library.target.DisplayName))
-				items.weaponlabel.set(string.format("Weapon: %s (%s)", library.target.Weapon))
 				items.Profile.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=".. library.target.UserId .."&width=420&height=420&format=png"
 
 				if library.target.Weapon ~= nil then
-					items.weaponlabel.set(string.format("Weapon: %s (%s)", library.target.Weapon))
 					findWeapon()
 				end
 
@@ -1322,15 +1320,13 @@
 
 
 			run.PreRender:Connect(function()
-				if library.target == nil then return end
-
+			 if library.target == nil then return end
 				cfg.change_profile()
 				cfg.set_visible(library.flags["Indicator"])
 				if library.target.Character then
 					local humanoid = library.target.Character:FindFirstChild("Humanoid")
 					cfg.change_health(humanoid.Health)
 				end
-
 			end)
 
 
