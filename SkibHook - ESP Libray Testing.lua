@@ -751,7 +751,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     cache.character, cache.getName = self.Character, Players:GetPlayerFromCharacter(self.Character)
     cache.root, cache.humanoid = cache.character["HumanoidRootPart"], cache.character["Humanoid"]
     cache.iscornerbox, cache.isfullbox, cache.distance, cache.name, cache.healthcount, cache.weapon = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", cache.getName.Name .. " (卐" .. cache.getName.DisplayName .. ")", round(cache.humanoid.Health), services:findfirstchildofclass(cache.character["Equipped"], "Model")
-    --cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
+				--cache.root, cache.humanoid, cache.weapon, cache.iscornerbox, cache.isfullbox, cache.isgradientenabled = cache.character["HumanoidRootPart"], cache.character["Humanoid"], findfirstchildofclass(cache.character["Equipped"], "Model"), lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, lib2.flags["BoxFillToggle"] and lib2.flags["Boxes"] and os
 
 
 
@@ -779,6 +779,7 @@ esp.connection = RunService.PreRender:Connect(function(deltatime)
     UI.GUI.Size = dim2(7, 0 * distancemath + 10 / pos.Magnitude, 7, 0 * distancemath + 7 / pos.Magnitude)
     --dim2(7, 0 * distancemath + 10, 7, 0 * distancemath + 7 / 1 + 2)
     UI.GUI.MaxDistance = lib2.flags["MaxDistance"]
+	lib2.target.Weapon = cache.weapon
    end
 
 
