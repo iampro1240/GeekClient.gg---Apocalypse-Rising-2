@@ -959,6 +959,8 @@
 				items = {};
 			}
 
+			library.Weapon = "rbxasset://textures/ui/GuiImagePlaceholder.png
+"
 			local items = cfg.items; do 
 				items.Window = library:create( "Frame" , {
 					Parent = sgui;
@@ -1202,15 +1204,15 @@
 
 
 
-				items.PRimary = library:create( "ImageLabel" , {
+				items.Primary = library:create( "ImageLabel" , {
 					BorderColor3 = rgb(0, 0, 0);
 					Parent = items.LowContrast;
-					Image = "rbxasset://textures/ui/GuiImagePlaceholder.png";
+					Image = library.Weapon;
 					BackgroundTransparency = 1;
 					Name = "\0";
 					Size = dim2(1, 0, 1, 0);
 					BorderSizePixel = 0;
-					Position = dim2(1, 0, -.3, 0);
+					Position = dim2(1.08, 0, -.6, 0);
 				});	
 
 
