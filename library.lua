@@ -959,7 +959,6 @@
 				items = {};
 			}
 
-			library.Weapon = "rbxasset://textures/ui/GuiImagePlaceholder.png"
 
 			local items = cfg.items; do 
 				items.Window = library:create( "Frame" , {
@@ -967,7 +966,7 @@
 					Name = "\0";
 					Position = dim2(0, 400, 0, 500);
 					BorderColor3 = rgb(0, 0, 0);
-					Size = dim2(0, 350, 0, 190);
+					Size = dim2(0, 320, 0, 140);
 					BorderSizePixel = 0;
 					BackgroundColor3 = themes.preset.outline
 				});	library:apply_theme(items.Window, "outline", "BackgroundColor3"); library:draggify(items.Window)
@@ -1205,22 +1204,8 @@
 
 
 
-				items.Primary = library:create( "ImageLabel" , {
-					BorderColor3 = rgb(0, 0, 0);
-					Parent = items.LowContrast;
-					Image = library.Weapon;
-					BackgroundTransparency = 1;
-					Name = "\0";
-					Size = dim2(1.4, 0, .95, 0);
-					BorderSizePixel = 0;
-					Position = dim2(1.18, 0, .7, 0);
-					ZIndex = 100
-				});	
-
-
-
 				local section = setmetatable(items, library)
-				items.label = section:label({name = "Target: "})
+				items.label = section:label({name = "[skibhook.xyz] Target: "})
 				items.slider = section:slider({name = "Health", custom = rgb(0, 255, 0), min = 0, max = 100, default = 100, input = true})
 
 				
@@ -1228,9 +1213,6 @@
 					Parent = items.InfoTitle
 				});   
 				
-				library:create( "UIStroke" , {
-					Parent = items.Primary
-				});   
 			end
 
 
@@ -1247,7 +1229,6 @@
 			function cfg.change_profile()
 				items.label.set(string.format("Player: %s (%s)", library.target.Name, library.target.DisplayName))
 				items.Profile.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=".. library.target.UserId .."&width=420&height=420&format=png"
-				items.Primary.Image = library.Weapon
 			end 
 
 
