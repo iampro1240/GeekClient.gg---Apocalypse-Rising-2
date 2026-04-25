@@ -1211,7 +1211,7 @@
 					Image = library.Weapon;
 					BackgroundTransparency = 1;
 					Name = "\0";
-					Size = dim2(1.2, 0, .8, 0);
+					Size = dim2(1.4, 0, .95, 0);
 					BorderSizePixel = 0;
 					Position = dim2(1.18, 0, .7, 0);
 					ZIndex = 100
