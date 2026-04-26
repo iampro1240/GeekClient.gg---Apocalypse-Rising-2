@@ -1,12 +1,12 @@
 -- settings (so u dont have to scroll)
 local settings = {
     folder_name = "zephyrus"; -- stupid shit
-    default_accent = Color3.fromRGB(61, 100, 227); -- also stupid shit
+    default_accent = Color3.fromRGB(255, 31, 236); -- also stupid shit
 };
 
-local drawing = loadstring(game:HttpGet("https://github.com/GhostDuckyy/UI-Libraries/blob/main/DEADCELL%20REMAKE/misc/extension.lua?raw=true"))();
-local tween = loadstring(game:HttpGet("https://raw.githubusercontent.com/vozoid/utility/main/Tween.lua"))()
-local bxor = loadstring(game:HttpGet('https://github.com/GhostDuckyy/GhostDuckyy/blob/main/Tool/bxor.lua?raw=true'))()
+local drawing = loadstring(game:HttpGet("https://raw.githubusercontent.com/iampro1240/GeekClient.gg---Apocalypse-Rising-2/refs/heads/main/deadcell%20drawing%20extension.lua"))();
+local tween = loadstring(game:HttpGet("https://raw.githubusercontent.com/iampro1240/GeekClient.gg---Apocalypse-Rising-2/refs/heads/main/tween(deadcell).lua"))()
+
 
 -- // UI LIBRARY
 if not isfolder(settings.folder_name) then
