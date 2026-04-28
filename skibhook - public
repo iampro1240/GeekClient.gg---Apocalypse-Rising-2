@@ -1,59 +1,64 @@
 local services = loadstring(game:HttpGet("https://raw.githubusercontent.com/iampro1240/GeekClient.gg---Apocalypse-Rising-2/refs/heads/main/services.lua"))()
-local esplib = loadstring(game:HttpGet("https://raw.githubusercontent.com/iampro1240/GeekClient.gg---Apocalypse-Rising-2/refs/heads/main/SkibHook%20-%20ESP%20Libray%20Testing.lua"))()
+local lib = {}
+setfpscap(99999)
+
 
 
 local WS, ws = services:GetService("Workspace"), services:CloneReference(workspace)
 local Players, ReplicatedStorage, RunService, TweenService, UserInputService, Lighting, Camera, Drawing, ReplicatedFirst = services:GetService("Players"), services:GetService("ReplicatedStorage"), services:GetService("RunService"), services:GetService("TweenService"), services:GetService("UserInputService"), services:GetService("Lighting"), services:CloneReference(workspace.CurrentCamera), Drawing.new, services:GetService("ReplicatedFirst")
-local Client, ClientChar = Players.LocalPlayer, Players.LocalPlayer.Character or Players.LocalPlayer.Character.CharacterAdded:Wait()
-local clientHumanoid = services:CloneReference(Client.Character:FindFirstChild("Humanoid"))
+local HttpService = services:GetService("HttpService")
+local Client, ClientChar = Players.LocalPlayer, Players.LocalPlayer.Character
 local mousePos = Client:GetMouse()
 local CameraVector = Camera.CFrame.Position
+
 
 
 local tan, floor, rad, clamp, round = services:CloneFunction(math.tan), services:CloneFunction(math.floor), services:CloneFunction(math.rad), services:CloneFunction(math.clamp), services:CloneFunction(math.round)
 local New, hideui = services:CloneFunction(Instance.new), gethui()
 
 
+
 local FromRGB, hex, NewGradient, GradientSequence, GradientNumberKeypoint, GradientNumberSequence = services:CloneFunction(Color3.fromRGB), services:CloneFunction(Color3.fromHex), services:CloneFunction(ColorSequence.new), services:CloneFunction(ColorSequenceKeypoint.new), services:CloneFunction(NumberSequenceKeypoint.new), services:CloneFunction(NumberSequence.new)
-local dim2, Vector2, Vector3, CreateVector = services:CloneFunction(UDim2.new), services:CloneFunction(Vector2.new), services:CloneFunction(Vector3.new), services:CloneFunction(vector.create)
+local dim2, dim, Vector2, Vector3, CreateVector = clonefunction(UDim2.new), clonefunction(UDim.new), clonefunction(Vector2.new), clonefunction(Vector3.new), clonefunction(vector.create)
+
 
 
 local CameraViewport = Camera.ViewportSize
 local CameraOrigin = Vector2(CameraViewport.X / 2, CameraViewport.Y / 2)
 
 
-local bulletOrigin
-local projSpeed
-local bgravity
-local predictedPos
-local muzzleVelocity
-
 
 local library, themes = loadstring(game:HttpGet("https://raw.githubusercontent.com/iampro1240/GeekClient.gg---Apocalypse-Rising-2/refs/heads/main/library.lua"))()
-local window = library:window({name = os.date('$ SkibHook.xyz/GeekClient.gg $ | build: dev$ ~ %b %d %Y $$'), size = dim2(0, 900, 0, 800)})
+local window = library:window({name = os.date('$ SkibHook.xyz $ | executor: dev ~ %b %d %Y '), size = dim2(2, 900, 2, 900)})
+local muzzleVelocity
+local bgravity
+library.target = Client
 
 
 
 local cheat = {
   tabs = {
 	aiming = window:tab({name = "Aiming"});
+    weapon = window:tab({name = "Weapon"});
 	visuals = window:tab({name = "Visuals"});
     movement = window:tab({name = "Movement"});
-    misc = window:tab({name = "Vehicle"});
   };
 
 
-  visualcache = {circle = Drawing("Circle"), outlinecircle = Drawing("Circle"), lockCircle = Drawing("Circle"), lockOutlineCircle = Drawing("Circle"), predictLine = Drawing("Line")};
+  visualcache = {circle = Drawing("Circle"), outlinecircle = Drawing("Circle")};
   corpsecache = {};
   vehiclecache = {};
 
 
 
-  globals = {
-    --projGravity = ReplicatedStorage.Globals.ProjectileGravity.Value
-    
+  gunImages = {
   };
- 
+
+
+
+  gunAssetIds = {
+  };
+
 
 
   connections = {
@@ -82,20 +87,10 @@ local cheat = {
   BulletTrails = {
     Electricity = "rbxassetid://7151777149";
     Lightning = "rbxassetid://7151778302";
-    Pulse = "rbxassetid://867619398";
+    Pulse = "rbxassetid://11226108137";
     LightPulse = "rbxassetid://917186750";
     Reflex = "rbxassetid://833874434";
-    Shards = "rbxassetid://301657073";
-    SunBeam = "rbxassetid://156007523";
-    FireFlies = "rbxassetid://301714159";
-    Plasma = "rbxassetid://1030945960";
-    Shine = "rbxassetid://302321406";
-    
-  };
-
-
-
-  values = {
+    Shards = "rbxassetid://13712007292";
   };
 
 
@@ -105,7 +100,6 @@ local cheat = {
 	neverlose = writefile("neverlose.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/Audios/neverlose.txt?ref_type=heads")));
 	rust  = writefile("rust.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/Audios/rust.txt?ref_type=heads")));
 	niggers  = writefile("niggers.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/niggers_string.txt?ref_type=heads")));
-    jewellxx = writefile("jewellxx.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/jewellxx.txt?ref_type=heads")));
     tf2 = writefile("tf2.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/Audios/tf2.txt")));
     skeet = writefile("skeet.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/Audios/skeet2.txt")));
     sonic = writefile("sonic.mp3", base64decode(game:HttpGet("https://gitlab.com/jaydenmyers215/sigma-hook-assets/-/raw/main/Audios/sonic.txt")));
@@ -119,7 +113,9 @@ local cheat = {
     Network = require(ReplicatedStorage.Client.Libraries.Network),
     VehicleControler = require(ReplicatedStorage.Client.Classes.VehicleControler),
     GunBuilder = require(ReplicatedStorage.Client.Libraries.GunBuilder),
-    Melee = require(ReplicatedStorage.Client.Abstracts.ItemInitializers.Melee)
+    Melee = require(ReplicatedStorage.Client.Abstracts.ItemInitializers.Melee),
+    Characters = require(ReplicatedStorage.Client.Classes.Characters),
+    Stats = require(ReplicatedStorage.Client.Classes.Stats)
   };
 
 
@@ -130,50 +126,762 @@ local cheat = {
   hitplr;
   targetvis = false;
   manipcastpart;
+}
+
+
+--isfile(gun .. ".png")
+
+
+
+
+--if getcustomasset(gun .. ".png") and isfile(gun .. ".png") then
+
+
+
+
+writefile("Minecraftia1.ttf", game:HttpGet("https://github.com/i77lhm/storage/blob/refs/heads/main/fonts/Minecraftia-Regular.ttf"))
+writefile("SmallestPixel71.ttf", game:HttpGet("https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/smallest_pixel-7.ttf"))
+local Minecraftia = {
+	name = "Minecraftia",
+	faces = {
+	  {
+		name = "Regular",
+		weight = 400,
+		style = "normal",
+		assetId = getcustomasset("Minecraftia1.ttf")
+	  }
+	}
+}
+
+
+
+local SmallestPixel7 = {
+	name = "SmallestPixel7",
+	faces = {
+	  {
+		name = "Regular",
+		weight = 400,
+		style = "normal",
+		assetId = getcustomasset("SmallestPixel71.ttf")
+	  }
+	}
+}
+
+
+
+writefile("Minecraftia.ttf", HttpService:JSONEncode(Minecraftia))
+writefile("SmallestPixel7.ttf", HttpService:JSONEncode(SmallestPixel7))
+lib.ProggyClean = Font.new(getcustomasset("Minecraftia.ttf"), Enum.FontWeight.Regular)
+lib.SmallestPixel7 = Font.new(getcustomasset("SmallestPixel7.ttf"), Enum.FontWeight.Regular)
+
+
+
+function lib:DrawGui(self)
+	lib[self] = {holder = New("BillboardGui"), chams = New("Highlight"), cache = {}, connection, Colors = New("Folder"), Borders = New("Folder"), chamsholder = New("Folder")}
+	lib[self].holder.Name = self.Name
+    lib[self].holder.Size = dim2(7, 0, 7, 0)
+	lib[self].holder.Parent = hideui
+	lib[self].holder.AlwaysOnTop = true
+    lib[self].holder.StudsOffset = Vector3(0, .45)
+    
+
+    lib[self].chamsholder.Parent = lib[self].holder
+
+
+	lib[self].chams.Name = self.Name
+    lib[self].chams.Parent = lib[self].holder
+
+
+    lib[self].Colors.Parent = lib[self].holder
+    lib[self].Borders.Parent = lib[self].holder
+
+
+    return lib[self]
+end
+
+
+
+function lib:DrawGradient(properties)
+    local obj = New("UIGradient")
+    obj.Name = "UIGradient"
+    obj.Parent = properties.Parent
+
+    obj.Rotation = properties.Rotation
+    obj.Color = properties.Color
+end
+
+
+
+function lib:DrawUIStroke(properties)
+    local obj = New("UIStroke")
+    obj.Parent = properties.Parent
+end
+
+
+
+function lib:DrawText(properties)
+    local obj = New("TextLabel")
+    local stroke = New("UIStroke")
+        
+    obj.Name = properties.Name
+    obj.TextSize = properties.TextSize
+
+    obj.Parent = properties.Parent
+    obj.BackgroundTransparency = 1
+        
+    obj.BorderColor3 = FromRGB(0, 0, 0)
+    obj.BorderSizePixel = 0
+
+    obj.TextStrokeTransparency = 1
+	obj.FontFace = lib.SmallestPixel7
+
+    obj.AnchorPoint = properties.AnchorPoint
+    stroke.Parent = obj
+end
+
+
+
+function lib:DrawFrame(properties)
+    local obj = New("Frame")
+    obj.Name = properties.Name
+    obj.Parent = properties.Parent
+
+    obj.BackgroundTransparency = properties.BackgroundTransparency
+	obj.BackgroundColor3 = properties.Color
+	obj.BorderColor3 = FromRGB(0, 0, 0)
+
+	obj.BorderSizePixel = properties.BorderSizePixel
+	obj.Position = properties.Position
+	obj.Size = properties.Size
+
+    obj.ZIndex = properties.Zindex
+    obj.Rotation = properties.Rotation
+    obj.AnchorPoint = properties.AnchorPoint
+end
+
+
+
+function lib:DrawImage(properties)
+    local obj = New("ImageLabel")
+    obj.Name = properties.Name
+    obj.Parent = properties.Parent
+    obj.Image = properties.Image
+
+    obj.BackgroundTransparency = 1
+	obj.BorderColor3 = FromRGB(0, 0, 0)
+
+	obj.BorderSizePixel = properties.BorderSizePixel
+	obj.Position = properties.Position
+	obj.Size = properties.Size
+
+    obj.ZIndex = properties.Zindex
+    obj.Rotation = properties.Rotation
+    obj.AnchorPoint = properties.AnchorPoint
+end
+
+
+function lib:disconnect(self)
+    lib[self].holder:Destroy()
+    lib[self].connection:Disconnect()
+    task.wait()
+    lib[self] = nil
+end
+
+
+
+local returnflag = function(library, flag)
+    return library.flags[flag]
+end
+
+
+
+local GetPFromChar = function(p)
+    return Players:GetPlayerFromCharacter(p)
+end
+
+
+
+local getweapon = function(weapon)
+    if weapon then
+       return weapon.Name
+    else
+       return "Hands"
+    end
+end
+
+
+
+function lib:ESPObject(self, lib2)
+    if self == Client then return end
+    local esp = lib:DrawGui(self)
+    local cache = esp.cache
+
+
+
+do -- main text
+    lib:DrawFrame({
+        Name = "PName",
+        Parent = esp.holder,
+        Color = FromRGB(255, 255, 255),
+        BackgroundTransparency = 0,
+        BorderSizePixel = 1,
+        Position = dim2(.5, 0, .12, 0),
+        Size = dim2(0, 0, 0, 0),
+        Zindex = 1,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+
+    lib:DrawFrame({
+        Name = "UpperFlags",
+        Parent = esp.holder,
+        Color = FromRGB(255, 255, 255),
+        BackgroundTransparency = 1,
+        BorderSizePixel = 0,
+        Position = dim2(.995, 0, 0, 0),
+        Size = dim2(0, 0, 0, 0),
+        Zindex = 1,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+
+    lib:DrawFrame({
+        Name = "Flags",
+        Parent = esp.holder,
+        Color = FromRGB(255, 255, 255),
+        BackgroundTransparency = 1,
+        BorderSizePixel = 0,
+        Position = dim2(.5, 0, .99, 0),
+        Size = dim2(0, 0, .5, 0),
+        Zindex = 1,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+    local FlagPadding = New("UIPadding", esp.holder["Flags"])
+    local NamePadding = New("UIPadding", esp.holder["PName"])
+    
+
+    FlagPadding.PaddingTop = dim(-0.01, 0)
+    FlagPadding.PaddingBottom = dim(0.4, 0)
+    NamePadding.PaddingTop = dim(0.5, 0)
+
+
+
+    lib:DrawText({
+        Name = "PName", 
+		Parent = esp.holder["PName"],
+        TextSize = 9,
+        AnchorPoint = Vector2(0, 0)
+    })
+
+
+
+    lib:DrawText({
+        Name = "Distance", 
+		Parent = esp.holder["Flags"],
+        TextSize = 9,
+        AnchorPoint = Vector2(0, .05)
+    })
+
+
+
+    lib:DrawText({
+        Name = "Weapon", 
+		Parent = esp.holder["Flags"],
+        TextSize = 9,
+        AnchorPoint = Vector2(0, .05)
+    })
+
+
+
+end
+
+
+
+do -- upper flags
+    lib:DrawText({
+        Name = "Priority", 
+		Parent = esp.holder["UpperFlags"],
+        TextSize = 9,
+        AnchorPoint = Vector2(0, .05)
+    })
+
+
+
+    lib:DrawText({
+        Name = "Velocity", 
+		Parent = esp.holder["UpperFlags"],
+        TextSize = 9,
+        AnchorPoint = Vector2(0, .05)
+    })
+
+
+
+    lib:DrawText({
+        Name = "WalkSpeed", 
+		Parent = esp.holder["Flags"],
+        TextSize = 9,
+        AnchorPoint = Vector2(0, .05)
+    })
+
+
+end
+
+
+
+do -- box
+        
+    lib:DrawFrame({
+        Name = "Box",
+        Parent = esp.holder,
+        Color = FromRGB(255, 255, 255),
+        BackgroundTransparency = 1,
+        BorderSizePixel = 1,
+        Position = dim2(0.17, 0, 0.12, 0),
+        Size = dim2(0.65, 0, 0.88, 0),
+        Zindex = 1,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+
+    local Colors = esp["Colors"]
+    local Borders = esp["Borders"]
+    Colors.Parent = esp.holder["Box"]
+    Borders.Parent = esp.holder["Box"]
+
+
+
+    lib:DrawFrame({
+        Name = "TopC",
+        Parent = Colors,
+        Color = FromRGB(255, 255, 255),
+        BackgroundTransparency = 0,
+        BorderSizePixel = 0,
+        Position = dim2(0, 0, 0, 0),
+        Size = dim2(0, 0, 0, 0),
+        Zindex = 1,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+
+    lib:DrawFrame({
+        Name = "LeftC",
+        Parent = Colors,
+        Color = FromRGB(255, 255, 255),
+        BackgroundTransparency = 0,
+        BorderSizePixel = 0,
+        Position = dim2(0, 0, 0, 0),
+        Size = dim2(0, 0, 0, 0),
+        Zindex = 1,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+
+    lib:DrawFrame({
+        Name = "RightC",
+        Parent = Colors,
+        Color = FromRGB(255, 255, 255),
+        BackgroundTransparency = 0,
+        BorderSizePixel = 0,
+        Position = dim2(1, 0, 0, 0),
+        Size = dim2(0, 0, 0, 0),
+        Zindex = 1,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+
+    lib:DrawFrame({
+        Name = "BottomC",
+        Parent = Colors,
+        Color = FromRGB(255, 255, 255),
+        BackgroundTransparency = 0,
+        BorderSizePixel = 0,
+        Position = dim2(0, 0, 1, 0),
+        Size = dim2(0, 0, 0, 0),
+        Zindex = 1,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+
+
+    lib:DrawFrame({
+        Name = "TopB",
+        Parent = Borders,
+        Color = FromRGB(255, 255, 255),
+        BackgroundTransparency = 0,
+        BorderSizePixel = 1,
+        Position = dim2(0, 0, 0, 0),
+        Size = dim2(0, 0, 0, 0),
+        Zindex = -25,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+
+    lib:DrawFrame({
+        Name = "LeftB",
+        Parent = Borders,
+        Color = FromRGB(255, 255, 255),
+        BackgroundTransparency = 0,
+        BorderSizePixel = 1,
+        Position = dim2(0, 0, 0, 0),
+        Size = dim2(0, 0, 0, 0),
+        Zindex = -25,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+
+    lib:DrawFrame({
+        Name = "RightB",
+        Parent = Borders,
+        Color = FromRGB(255, 255, 255),
+        BackgroundTransparency = 0,
+        BorderSizePixel = 1,
+        Position = dim2(1, 0, 0, 0),
+        Size = dim2(0, 0, 0, 0),
+        Zindex = -25,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+
+    lib:DrawFrame({
+        Name = "BottomB",
+        Parent = Borders,
+        Color = FromRGB(255, 255, 255),
+        BackgroundTransparency = 0,
+        BorderSizePixel = 1,
+        Position = dim2(0, 0, 1, 0),
+        Size = dim2(0, 0, 0, 0),
+        Zindex = -25,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+end
+
+
+
+do -- HealthBar
+    lib:DrawFrame({
+        Name = "HealthBar",
+        Parent = esp.holder,
+        Color = FromRGB(0, 0, 0),
+        BackgroundTransparency = 0,
+        BorderSizePixel = 1,
+        Position = dim2(0.075, 0, 0.059, 0),
+        Size = dim2(0.0049, 0, 0.87, 0),
+        Zindex = 0,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+
+
+
+    lib:DrawFrame({
+        Name = "Bar",
+        Parent = esp.holder["HealthBar"],
+        Color = FromRGB(0, 240, 0),
+        BackgroundTransparency = 0,
+        BorderSizePixel = 0,
+        Position = dim2(0, 0, 0, 0),
+        Size = dim2(1, 0, 1, 0),
+        Zindex = 0,
+        Rotation = 0,
+        AnchorPoint = Vector2(0, 0, 0)
+    })
+    
+end
+
+
+
+local Colors = esp["Colors"]
+local Borders = esp["Borders"]
+Colors.Parent = esp.holder["Box"]
+Borders.Parent = esp.holder["Box"]
+
+
+
+local UI = {
+    GUI = esp.holder;
+    chams = esp.holder[self.Name];
+
+
+
+    PName = esp.holder["PName"]["PName"];
+    Distance = esp.holder["Flags"]["Distance"];
+    Weapon = esp.holder["Flags"]["Weapon"];
+    WalkSpeed = esp.holder["Flags"]["WalkSpeed"];
+
+
+
+    Priority = esp.holder["UpperFlags"]["Priority"];
+    Velocity = esp.holder["UpperFlags"]["Velocity"];
+
+
+
+    UpperFlags = esp.holder["UpperFlags"];
+    Flags = esp.holder["Flags"];
+
+
+
+    Box = esp.holder["Box"];
+    TopB = Borders["TopB"];
+    LeftB = Borders["LeftB"];
+    RightB = Borders["RightB"];
+    BottomB = Borders["BottomB"];
+
+    TopC = Colors["TopC"];
+    LeftC = Colors["LeftC"];
+    RightC = Colors["RightC"];
+    BottomC = Colors["BottomC"];
+
+
+
+    HealthBar = esp.holder["HealthBar"];
+    Bar = esp.holder["HealthBar"]["Bar"];
 
 }
 
 
 
 
-local currenthitsound
-local TestHitSound = function(sfx)
-  task.spawn(function()
-    if not getcustomasset(sfx) then
-        return
+esp.connection = RunService.PreRender:Connect(function(deltatime)
+    services:framelimit(deltatime)
+  if self.Character ~= nil and services:findfirstchild(self.Character, "HumanoidRootPart") and services:findfirstchild(self.Character, "Humanoid") and services:findfirstchild(self.Character, "Equipped") then
+    local character, getName = GetPFromChar(self.Character).Character, GetPFromChar(self.Character)
+    local root, humanoid, equipped = character["HumanoidRootPart"], character["Humanoid"], character["Equipped"]
+    local iscornerbox, isfullbox, distance, name, healthcount, weapon = lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Corner" and os, lib2.flags["Boxes"] and lib2.flags["Box_Type"] == "Full" and os, round(UI.GUI.CurrentDistance) .. "st", getName.Name .. " ($" .. getName.DisplayName .. ")", round(humanoid.Health), services:findfirstchildofclass(equipped, "Model")
+
+
+
+  if character and root and humanoid then
+    local pos, os = services:wtvp(root.Position)
+    local scaleFactor = 15 / (pos.Z * tan(rad(character.WorldPivot.Position.Magnitude * .5)) * 2) * 100
+    local distancemath = floor((root.Size.X - root.Size.Z / character.WorldPivot.Position.Magnitude * root.Position.Magnitude / pos.Magnitude * (1/2)))
+    local health = humanoid.Health / humanoid.MaxHealth
+    --floor((root.Size.X - root.Size.Z / character.WorldPivot.Position.Magnitude * root.Position.Magnitude / pos.Magnitude * (1/2)))
+    --local distancemath = floor((root.Size.X - root.Size.Z / cache.character.WorldPivot.Position.Magnitude * root.Position.Magnitude / pos.Magnitude * pos.Z))
+
+
+
+
+-- GUI
+   do
+    UI.GUI.Enabled = lib2.flags["Enabled"] and os
+    UI.GUI.Adornee = root
+	UI.GUI.StudsOffset = Vector3(0, root.Size.Y^2 / -root.Size.Y^2 + 1, 0)
+    UI.GUI.Size = dim2(7, 0 * distancemath + 12, 7, 0 * distancemath + 12, 0)
+    --dim2(root.Size.X^2 - -root.Size.X^2 / 1.8, 0, root.Size.Y^2 - -root.Size.Y^2 / .95, 0)
+    UI.GUI.MaxDistance = returnflag(lib2, "MaxDistance")
+
+
+   end
+
+
+
+   do-- chams
+    UI.chams.Enabled = returnflag(lib2, "ChamsToggle") and os
+    UI.chams.Adornee = cache.character
+    UI.chams.OutlineTransparency = returnflagtransparency("ChamColor")
+    UI.chams.FillTransparency = returnflagtransparency("ChamColor2")
+   end
+
+
+
+-- full box
+   do
+    UI.TopB.Size = dim2(1, 0 / distancemath * scaleFactor + .001, 0, 1)
+    UI.TopC.Size = UI.TopB.Size
+    UI.TopB.Visible = isfullbox
+    UI.TopC.Visible = isfullbox
+        
+        
+    UI.BottomB.Size = dim2(1, 0 / distancemath * scaleFactor + .001, 0, -1)
+    UI.BottomC.Size = UI.BottomB.Size
+    UI.BottomB.Visible = isfullbox
+    UI.BottomC.Visible = isfullbox
+
+
+    UI.LeftB.Size = dim2(0, 1 * distancemath - -.001, 1, 0)
+    --dim2(0, 1 * distancemath - -.1, 1, 0)
+    --dim2(0, 1 * distancemath - -.75, 1, 0)
+    UI.LeftC.Size = UI.LeftB.Size
+    UI.LeftB.Visible = isfullbox
+    UI.LeftC.Visible = isfullbox
+
+        
+    UI.RightB.Size = dim2(0, 1 * distancemath - -.001, 1, 0)
+    --dim2(0, 1 * distancemath - -.75, 1, 0)
+    UI.RightC.Size = UI.RightB.Size
+    UI.RightB.Visible = isfullbox
+    UI.RightC.Visible = isfullbox
+   end
+
+   
+-- texts   
+    do
+
+        if library.target == self and library.flags["TargetColor"] then
+            UI.PName.TextColor3 = returnflagcolor("Target_Color")
+            UI.Distance.TextColor3 = returnflagcolor("Target_Color")
+            UI.Weapon.TextColor3 = returnflagcolor("Target_Color")
+            UI.WalkSpeed.TextColor3 = returnflagcolor("Target_Color")
+            UI.Priority.TextColor3 = returnflagcolor("Target_Color")
+            UI.Velocity.TextColor3 = returnflagcolor("Target_Color")
+
+
+            UI.chams.OutlineColor = returnflagcolor("Target_Color")
+            UI.chams.FillColor = returnflagcolor("Target_Color")
+
+
+            UI.TopC.BackgroundColor3 = returnflagcolor("Target_Color")
+            UI.BottomC.BackgroundColor3 = returnflagcolor("Target_Color")
+            UI.LeftC.BackgroundColor3 = returnflagcolor("Target_Color")
+            UI.RightC.BackgroundColor3 = returnflagcolor("Target_Color")
+            
+        else
+
+            UI.PName.TextColor3 = returnflagcolor("Name_Color")
+            UI.Distance.TextColor3 = returnflagcolor("Distance_Color")
+            UI.Weapon.TextColor3 = returnflagcolor("Weapon_Color")
+            UI.WalkSpeed.TextColor3 = returnflagcolor("WalkSpeed_Color")
+            UI.Priority.TextColor3 = returnflagcolor("Priority_Color")
+            UI.Velocity.TextColor3 = returnflagcolor("Velocity_Color")
+
+
+            UI.chams.OutlineColor = returnflagcolor("ChamColor")
+            UI.chams.FillColor = returnflagcolor("ChamColor2")
+
+
+            UI.TopC.BackgroundColor3 = returnflagcolor("Box_Color")
+            UI.BottomC.BackgroundColor3 = returnflagcolor("Box_Color")
+            UI.LeftC.BackgroundColor3 = returnflagcolor("Box_Color")
+            UI.RightC.BackgroundColor3 = returnflagcolor("Box_Color")
+        end
+
+
+
+        UI.PName.Text = name
+        UI.PName.Size = dim2(0.751, 0 * distancemath + .1, 0, .8 / distancemath / 8 - 20)
+        UI.PName.Position = dim2(0.5, 0, 0.1, 0)
+        UI.PName.Visible = returnflag(lib2, "Names") and os
+        UI.PName.TextSize = lib2.flags["TextSize"]
+        UI.PName.FontFace = lib.SmallestPixel7
+
+
+
+        UI.Distance.Text = distance
+        UI.Distance.Visible = returnflag(lib2, "Distance") and os
+        UI.Distance.Size = dim2(0.75, 0 * distancemath - .1, 0, 1 / distancemath / 5 + 20)
+        UI.Distance.Position = dim2(1, 0, 1, 0)
+        UI.Distance.TextSize = lib2.flags["TextSize"]
+        UI.Distance.FontFace = lib.SmallestPixel7
+
+
+
+        UI.Weapon.Text = getweapon(weapon)
+        UI.Weapon.Visible = returnflag(lib2, "Weapon") and os
+        UI.Weapon.Size = dim2(0.75, 0 * distancemath - .1, 0, 1 / distancemath / 9 + 48)
+        UI.Weapon.Position = dim2(1, 0, 1, 0)
+        UI.Weapon.TextSize = returnflag(lib2, "TextSize")
+        UI.Weapon.FontFace = lib.SmallestPixel7
+
+
+
+        UI.WalkSpeed.Text = "WalkSpeed: " .. humanoid.WalkSpeed
+        UI.WalkSpeed.Visible = returnflag(lib2, "WalkSpeedText") and os
+        UI.WalkSpeed.Size = dim2(0.75, 0 * distancemath - .1, 0, 1 / distancemath / 30 + 75)
+        UI.WalkSpeed.Position = dim2(1, 0, 1, 0)
+        UI.WalkSpeed.TextSize = returnflag(lib2, "TextSize")
+        UI.WalkSpeed.FontFace = lib.SmallestPixel7
+        
+
+
+        UI.Flags.Size = dim2(.371, 0, .8, 0)
+        UI.Flags.Position = dim2(0, 0, .52, 0)
+
+
+
+        UI.UpperFlags.Size = dim2(.34, 0, .48, 0)
+        UI.UpperFlags.Position = dim2(.48, 0, -.35, 0)
+
+
+
+        UI.Priority.Text = library.get_priority(self)
+        UI.Priority.Visible = returnflag(lib2, "Priority") and os
+        UI.Priority.Size = dim2(0, 1 / distancemath * 15 + 30, 0, 1 / distancemath / 5 + 10)
+        UI.Priority.Position = dim2(1, 0, 1, 0)
+        UI.Priority.TextSize = returnflag(lib2, "TextSize")
+        UI.Priority.FontFace = lib.SmallestPixel7
+
+
+
+        UI.Velocity.Text = "      Vehicle: " .. tostring(humanoid.Sit)
+        UI.Velocity.Visible = returnflag(lib2, "Velocity") and os
+        UI.Velocity.Size = dim2(0, 1 / distancemath * 15 + 30, 0, 1 / distancemath / 20 + 40)
+        UI.Velocity.Position = dim2(1, 0, 1, 0)
+        UI.Velocity.TextSize = returnflag(lib2, "TextSize")
+        UI.Velocity.FontFace = lib.SmallestPixel7
+
+
     end
 
-    local asset_id = getcustomasset(sfx)
-    local sound = New("Sound", hideui)
 
-    sound.SoundId = asset_id
-    sound.Volume = library.flags["HitSoundVolume"]
-    currenthitsound = sfx
-    sound:Play()
+-- healthbar
+   do
 
-    task.wait(3)
-    sound:Destroy()
-      
+
+
+    UI.HealthBar.Visible = returnflag(lib2, "Healthbar") and os
+    UI.HealthBar.Size = dim2(0, 1 + distancemath + -2.5 - distancemath + math.abs(.08), .88, 0)
+    UI.HealthBar.Position = dim2(.16, 0 * distancemath + -4.5 - distancemath + math.abs(2.5) / math.cos(.01) - .0001, .12, 0)
+    UI.HealthBar.Rotation = 180
+    UI.Bar.BackgroundColor3 = returnflagcolor("Health_High")
+    UI.Bar.Size = dim2(1, 0, humanoid.Health / humanoid.MaxHealth, 0)
+
+
+
+    if health < .25 then
+        UI.Bar.BackgroundColor3 = returnflagcolor("Health_Low")
+    elseif health < .55 then
+        UI.Bar.BackgroundColor3 = returnflagcolor("Health_Medium")
+    elseif health < 1 then
+        UI.Bar.BackgroundColor3 = returnflagcolor("Health_High")
+    end
+   end
+   
+
+
+   else
+
+       lib:disconnect(self)
+
+      end
+    end
   end)
 end
-
-
-
-
-local esp;
-local function update_elements() if esp and esp.refresh_elements then esp.refresh_elements() end end 
-
-
-local column = cheat.tabs.visuals:column()
-local section, weapon_skin_section = column:multi_section({names = {"Enemy", "Weapon"}})
-
-
-local misccolumn = cheat.tabs.visuals:column()
-local world_section, camera_section, plr_chams_section = misccolumn:multi_section({names = {"World", "Camera", "Self Chams"}})
-
-
-local movementcolumn = cheat.tabs.movement:column()
-local movement_section = movementcolumn:multi_section({names = {"Player Movement"}})
 
 
 
@@ -203,7 +911,7 @@ end
 
 function OnAdded(Player)
     if Player ~= Client then
-        esplib:ESPObject(Player, library)
+        lib:ESPObject(Player, library)
         library:notification({time = 2, text = "[SkibHook] " .. Player.Name .. " Joined The Server", flashing = false;})
     end
 end
@@ -212,7 +920,7 @@ end
 
 function OnRemoved(Player)
     if Player ~= Client then
-        esplib:disconnect(Player)
+        lib:disconnect(Player)
         library:notification({time = 2, text = "[SkibHook] " .. Player.Name .. " Left The Server", flashing = false;})
     end
 end
@@ -221,22 +929,50 @@ end
 
 function RenderESP()
  for _, Player in Players:GetPlayers() do 
-   if Player == Client then continue end
-     esplib:ESPObject(Player, library)
+     lib:ESPObject(Player, library)
    end
 end
 
 
 
-function RemoveESP()
- for _, Player in Players:GetPlayers() do 
-     esplib:disconnect(Player)
-   end
+local currenthitsound
+local TestHitSound = function(sfx)
+  task.spawn(function()
+    if not getcustomasset(sfx) then
+        return
+    end
+
+    local asset_id = getcustomasset(sfx)
+    local sound = New("Sound", hideui)
+
+    sound.SoundId = asset_id
+    sound.Volume = library.flags["HitSoundVolume"]
+    currenthitsound = sfx
+    sound:Play()
+
+    task.wait(3)
+    sound:Destroy()
+      
+  end)
 end
 
 
 
-local EnabledToggle = section:toggle({
+local esp;
+local function update_elements() if esp and esp.refresh_elements then esp.refresh_elements() end end 
+
+
+local column = cheat.tabs.visuals:column()
+local section, weapon_skin_section, spectate_section = column:multi_section({names = {"Enemy", "Team", "Spectate"}})
+
+
+local misccolumn = cheat.tabs.visuals:column()
+local world_section, camera_section, weapon_visual_section = misccolumn:multi_section({names = {"World", "Camera", "Weapon"}})
+
+
+
+do -- Visuals
+    local EnabledToggle = section:toggle({
 	name = "Enabled", 
 	flag = "Enabled", 
 	callback = update_elements
@@ -268,7 +1004,8 @@ local HealthBarToggle = section:toggle({
 	callback = update_elements
 })
 HealthBarToggle:colorpicker({name = "High HP Color", flag = "Health_High", callback = update_elements})
-HealthBarToggle:colorpicker({name = "Low HP Color", flag = "Health_Low", callback = update_elements})
+HealthBarToggle:colorpicker({name = "Medium HP Color", flag = "Health_Medium"})
+HealthBarToggle:colorpicker({name = "Low HP Color", flag = "Health_Low"})
 
 
 
@@ -293,6 +1030,30 @@ local WeaponToggle = section:toggle({
 	flag = "Weapon",
 	callback = update_elements
 }):colorpicker({name = "Weapon Color", flag = "Weapon_Color", callback = update_elements})
+
+
+
+local PriorityToggle = section:toggle({
+	name = "Priority", 
+	flag = "Priority",
+	callback = update_elements
+}):colorpicker({name = "Priority Color", flag = "Priority_Color", callback = update_elements})
+
+
+
+local VelocityToggle = section:toggle({
+	name = "Vehicle Check", 
+	flag = "Velocity",
+	callback = update_elements
+}):colorpicker({name = "Velocity Color", flag = "Velocity_Color", callback = update_elements})
+
+
+
+local WalkSpeedToggle = section:toggle({
+	name = "Walk Speed", 
+	flag = "WalkSpeedText",
+	callback = update_elements
+}):colorpicker({name = "WalkSpeed Color", flag = "WalkSpeed_Color", callback = update_elements})
 
 
 
@@ -327,57 +1088,79 @@ section:slider({
 
 
 
+weapon_visual_section:toggle({
+	name = "Hit Notifications", 
+	flag = "HitNotifications",
+})
 
 
 
-local skins = {}
-for _, module in pairs(ReplicatedStorage.WeaponSkins:GetDescendants()) do
-    if module:IsA("ModuleScript") then
-        local source = require(module)
-        table.insert(skins, source.DisplayName)
-
-  end
-end
+weapon_visual_section:toggle({
+	name = "Bullet Tracers", 
+	flag = "BulletTracers",
+}):colorpicker({name = "Trail Color", flag = "TracerColor"})
 
 
 
-local SkinChangerToggle = weapon_skin_section:toggle({
+local SkinChangerToggle = weapon_visual_section:toggle({
 	name = "SkinChanger",
 	flag = "SkinChanger"
 })
 
 
 
-weapon_skin_section:dropdown({
+weapon_visual_section:dropdown({
+	name = "Trails", 
+	flag = "TrailID", 
+	items = {"Electricity", "Pulse", "Lightning", "LightPulse", "Reflex", "Shards"},
+	default = "Electricity",
+})
+
+
+
+weapon_visual_section:dropdown({
     name = "Skins", 
     flag = "WeaponSkin", 
     items = skins, 
-    default = skins[1]
+    default = ""
 })
 
 
 
+weapon_visual_section:slider({name = "Texture Speed", min = .1, max = 1, default = 1, interval = .1, suffix = "m", flag = "TextureSpeed", tooltip = "makes the texture faster/slower"})
+weapon_visual_section:slider({name = "Texture Length", min = .1, max = 1, default = 1, interval = .1, suffix = "m", flag = "TextureLength", tooltip = "makes the texture longer/shorter"})
+weapon_visual_section:slider({name = "Trail Lifetime", min = 1, max = 10, default = 1, interval = 1, suffix = "lft", flag = "TracerLifetime", tooltip = "destroy time"})
 
 
-local WeaponChamsToggle = plr_chams_section:toggle({
-	name = "WeaponChams", 
-	flag = "WeaponChams",
+
+local players = {}
+for _, p in pairs(Players:GetPlayers()) do
+    table.insert(players, tostring(p))
+end
+
+
+
+spectate_section:dropdown({
+	name = "Players", 
+	flag = "PlayerToSpectate", 
+	items = players,
+	default = "",
+})
+
+
+
+spectate_section:button({
+    name = "Spectate Player",
 	callback = function(args)
-     if args then
     end
-  end
-}):colorpicker({
-    name = "Viewmodel Color", 
-    flag = "WeaponChamColor", 
 })
 
 
 
-local WeaponMaterialDropdown = plr_chams_section:dropdown({
-	name = "Viewmodel Materials", 
-	flag = "Viewmodel_Cham_Material", 
-	items = {"Neon", "ForceField", "Glass", "Plastic"},
-	default = "ForceField"
+spectate_section:button({
+    name = "UnSpectate Player",
+	callback = function(args)
+    end
 })
 
 
@@ -425,23 +1208,23 @@ end
 
 
 function customambient()
-    if not Lighting.Ambient then
+    if not services:findfirstchildofclass(Lighting, "Ambient") then
         return
-    end
-
-    cheat.connections.customambient = RunService.PreRender:Connect(function()
+    else
+        cheat.connections.customambient = RunService.PreRender:Connect(function()
         if library.flags["CustomAmbient"] then
             Lighting.Ambient = library.flags["AmbientColor"].Color
         else
             cheat.connections.customambient:Disconnect()
         end
     end)
+  end
 end
 
 
 
 function CustomAtmosphere()
-    if not Lighting.Atmosphere then
+    if not services:findfirstchildofclass(Lighting, "Atmosphere") then
         return
     else
         cheat.connections.customatmosphere = RunService.PreRender:Connect(function()
@@ -458,10 +1241,10 @@ end
 
 
 function CustomClouds()
-    if not ws.Terrain.Clouds then
-     return
-else
-     cheat.connections.customclouds = RunService.PreRender:Connect(function()
+    if not services:findfirstchildofclass(ws.Terrain, "Clouds") then
+        return
+    else
+        cheat.connections.customclouds = RunService.PreRender:Connect(function()
         if library.flags["CustomClouds"] then
             ws.Terrain.Clouds.Color = library.flags["CloudColor"].Color
             ws.Terrain.Clouds.Cover = library.flags["CloudCover"]
@@ -471,7 +1254,6 @@ else
         end
     end)
   end
-
 end
 
 
@@ -613,7 +1395,6 @@ world_section:slider({
 
 
 
-
 local FOVToggle = camera_section:toggle({
 	name = "Custom FOV", 
 	flag = "CustomFOV",
@@ -669,6 +1450,13 @@ local removeDamageAffectToggle = camera_section:toggle({
 
 
 
+local removeMuzzleFlashToggle = camera_section:toggle({
+	name = "Remove Muzzle Flash", 
+	flag = "RemoveMuzzleFlash"
+})
+
+
+
 camera_section:slider({
     name = "FOV Amount", 
     min = 80, 
@@ -691,12 +1479,14 @@ camera_section:slider({
 
 
 
+end
 
 
--- Combat
 
 
-local RenderFOV = function(Distance)
+
+do -- Combat
+  local RenderFOV = function(Distance)
   local maxdist
 
 
@@ -709,6 +1499,7 @@ local RenderFOV = function(Distance)
 
 	cheat.visualcache.circle.Radius = library.flags["FOVRadius"]
     cheat.visualcache.circle.Color = library.flags["FOV_Color"].Color
+    cheat.visualcache.circle.Transparency = returnflagtransparency("FOV_Color")
     cheat.visualcache.circle.NumSides = library.flags["FOVNumSides"]
     cheat.visualcache.circle.Thickness = library.flags["Thickness"]
     cheat.visualcache.circle.Visible = library.flags["SilentAimToggle"] and library.flags["FOVToggle"]
@@ -716,6 +1507,7 @@ local RenderFOV = function(Distance)
     
     cheat.visualcache.outlinecircle.Radius = library.flags["FOVRadius"]
     cheat.visualcache.outlinecircle.Color = library.flags["Outline_Color"].Color
+    cheat.visualcache.outlinecircle.Transparency = returnflagtransparency("Outline_Color")
     cheat.visualcache.outlinecircle.NumSides = library.flags["FOVNumSides"]
     cheat.visualcache.outlinecircle.Thickness = library.flags["Thickness"] + 4
     cheat.visualcache.outlinecircle.Visible = library.flags["SilentAimToggle"] and library.flags["FOVToggle"] and library.flags["FOVOutline"]
@@ -727,22 +1519,21 @@ local RenderFOV = function(Distance)
 
 
 
-
     for _, P in Players:GetPlayers() do 
      if P == Client then continue end
 
-    if P.Character and services:findfirstchild(P.Character, "Head") and services:findfirstchild(P.Character, "Humanoid") and library.get_priority(P) ~= "Friendly" then
-      local targetP = P.Character["Head"]
+    if P.Character and services:findfirstchild(P.Character, library.flags["Silent_Target"]) and services:findfirstchild(P.Character, "Humanoid") and library.get_priority(P) ~= "Friendly" then
+      local targetP = P.Character[library.flags["Silent_Target"]]
       local pos2, os = services:wtvp(targetP.Position)
       local dist = (Vector2(mousePos.X, mousePos.Y) - Vector2(pos2.X, pos2.Y)).Magnitude
-
 
     
 
     if dist <= (distance or library.flags["FOVRadius"]) and os then
        Target = targetP
        distance = dist
-
+       library.target = Players:GetPlayerFromCharacter(P.Character)
+       
 
      end
     end
@@ -751,9 +1542,10 @@ local RenderFOV = function(Distance)
 
    else
 
-    cheat.connections.silent:Disconnect()
     cheat.visualcache.circle.Visible = false
     cheat.visualcache.outlinecircle.Visible = false
+    task.wait()
+    cheat.connections.silent:Disconnect()
 
   end
  end)
@@ -761,15 +1553,16 @@ end
 
 
 
-
 local silentcolumn = cheat.tabs.aiming:column()
-local silentsection, legitbotsection, gunmods_section, weaponmods_section = silentcolumn:multi_section({names = {"Silent", "Legitbot", "Mods", "Misc"}})
+local silentsection, manipulation_section, weaponmods_section = silentcolumn:multi_section({names = {"Silent", "Manipulation"}})
 
 
 
 silentsection:toggle({
-	name = "Silent Aim", 
+	name = "Silent Aim",
 	flag = "SilentAimToggle",
+    tooltip = "tracks targets nigga",
+    risky = true,
 	callback = function(args)
      if args then
        RenderFOV()
@@ -794,9 +1587,16 @@ silentsection:toggle({
 
 
 silentsection:toggle({
-	name = "Show Prediction", 
-	flag = "ShowPrediction",
-}):colorpicker({name = "Line Color", flag = "Prediction_Color"})
+	name = "Target Info",
+	flag = "Indicator",
+})
+
+
+
+silentsection:toggle({
+	name = "Target Color",
+	flag = "TargetColor",
+}):colorpicker({name = "Target Color", flag = "Target_Color"})
 
 
 
@@ -834,15 +1634,30 @@ silentsection:slider({
 silentsection:dropdown({
 	name = "Body Target", 
 	flag = "Silent_Target", 
-	items = {"Head", "HumanoidRootPart"}, 
+	items = {"Head", "HeadCollider", "HumanoidRootPart"}, 
 	default = "Head",
-    callback = function(args)
- end
 })
 
 
 
-gunmods_section:toggle({
+manipulation_section:toggle({
+	name = "Bullet Manipulation", 
+	flag = "BulletManipulation",
+    risky = true,
+})
+
+
+
+end
+
+
+
+do -- Weapon Modifications
+
+  local modcolumn = cheat.tabs.weapon:column()
+  local weaponmods_section = modcolumn:multi_section({names = {"Modifications", "Misc"}})
+
+  weaponmods_section:toggle({
 	name = "No Recoil", 
 	flag = "NoRecoil",
 	callback = function(argument)
@@ -851,45 +1666,24 @@ gunmods_section:toggle({
 
 
 
-gunmods_section:toggle({
+ weaponmods_section:toggle({
 	name = "No Spread", 
 	flag = "NoSpread"
 })
 
 
 
-gunmods_section:toggle({
-	name = "All FireModes[Switch Firemode To Work]", 
-	flag = "AllFireModes",
-})
-
-
-
-weaponmods_section:toggle({
+ weaponmods_section:toggle({
 	name = "Hit Sounds", 
 	flag = "HitSoundsToggle",
 })
 
 
 
-weaponmods_section:toggle({
-	name = "Hit Notifications", 
-	flag = "HitNotifications",
-})
-
-
-
-weaponmods_section:toggle({
-	name = "Bullet Tracers", 
-	flag = "BulletTracers",
-}):colorpicker({name = "Trail Color", flag = "TracerColor"})
-
-
-
 weaponmods_section:dropdown({
 	name = "Hit Sounds", 
 	flag = "HitSounds", 
-	items = {"xp", "neverlose", "rust", "niggers", "jewellxx", "tf2", "skeet", "sonic", "fingersnap"}, 
+	items = {"xp", "neverlose", "rust", "niggers", "tf2", "skeet", "sonic", "fingersnap"}, 
 	default = "xp",
     callback = function(sfx)
     if sfx == "xp" then 
@@ -900,8 +1694,6 @@ weaponmods_section:dropdown({
 		TestHitSound("rust.mp3") 
 	elseif sfx == "niggers" then 
 		TestHitSound("niggers.mp3") 
-    elseif sfx == "jewellxx" then
-        TestHitSound("jewellxx.mp3") 
     elseif sfx == "tf2" then
         TestHitSound("tf2.mp3") 
     elseif sfx == "skeet" then
@@ -913,39 +1705,29 @@ weaponmods_section:dropdown({
       end
 	end
 })
+weaponmods_section:slider({name = "Hit Sound Volume", min = .1, max = 10, default = 1, interval = .1, suffix = "vlm", flag = "HitSoundVolume"})
+
+
+end
 
 
 
-weaponmods_section:dropdown({
-	name = "Trails", 
-	flag = "TrailID", 
-	items = {"Electricity", "Pulse", "Lightning", "LightPulse", "Reflex", "Shards", "SunBeam", "FireFlies", "Plasma", "Shine"},
-	default = "Electricity",
-})
+do -- movement
+    local movementcolumn = cheat.tabs.movement:column()
+    local movement_section, spoofer_movement_section = movementcolumn:multi_section({names = {"Movement", "Spoofer"}})
 
 
 
-weaponmods_section:slider({name = "Texture Speed", min = .1, max = 1, default = 1, interval = .1, suffix = "m", flag = "TextureSpeed", tooltip = "makes the texture faster/slower"})
-weaponmods_section:slider({name = "Texture Length", min = .1, max = 1, default = 1, interval = .1, suffix = "m", flag = "TextureLength", tooltip = "makes the texture longer/shorter"})
-weaponmods_section:slider({name = "Trail Lifetime", min = 1, max = 10, default = 1, interval = 1, suffix = "lft", flag = "TracerLifetime", tooltip = "destroy time"})
-
-
-weaponmods_section:slider({name = "Head Hit Sound Volume", min = .1, max = 10, default = 1, interval = .1, suffix = "vlm", flag = "HitSoundVolume"})
-weaponmods_section:slider({name = "Body Hit Sound Volume", min = .1, max = 10, default = 1, interval = .1, suffix = "vlm", flag = "BodyHitSoundVolume"})
-
-
-
-
-
-
-
-local speedhack = function()
+    local speedhack = function()
     cheat.connections.speedhack = RunService.PreRender:Connect(function(deltatime)
+     if Client.Character == nil then
+        return 
+     end
+
      services:framelimit(deltatime, 30)
-      if Client.Character == nil then return end
         if library.flags["SpeedHack"] then
-          if library.flags["SpeedBind"].active then
-            local hum = services:CloneReference(Client.Character:FindFirstChild("Humanoid"))
+          if library.flags["SpeedBind"].active and Client.Character:FindFirstChild("Humanoid") then
+            local hum = services:CloneReference(Client.Character["Humanoid"])
             hum.WalkSpeed = library.flags["WalkSpeed"]
         end
     else
@@ -959,10 +1741,13 @@ end
 local jumphack = function()
     cheat.connections.jumpheight = RunService.PreRender:Connect(function(deltatime)
         services:framelimit(deltatime, 30)
-        if Client.Character == nil then return end
+        if Client.Character == nil then 
+           return 
+        end
 
-        if library.flags["JumpHack"] then
-            local hum = services:CloneReference(Client.Character:FindFirstChild("Humanoid"))
+
+        if library.flags["JumpHack"] and services:findfirstchild(Client.Character, "Humanoid") then
+            local hum = services:CloneReference(Client.Character["Humanoid"])
             hum.JumpPower = library.flags["JumpHeight"]
             hum.JumpHeight = library.flags["JumpHeight"]
         else
@@ -974,6 +1759,8 @@ end
 
 
 local noclipvalue = function(value)
+ if Client.Character == nil then return end
+
   for _, part in pairs(Client.Character:GetChildren()) do
     if part:IsA("MeshPart") or part:IsA("Part") then
         part.CanCollide = value
@@ -1070,60 +1857,49 @@ movement_section:toggle({
 }):keybind({
     name = "No Clip",
     key = Enum.KeyCode.J,
-    mode = "hold",
+    mode = "toggle",
     flag = "NoClipBind",
 })
 
 
 
-movement_section:toggle({
+movement_section:slider({name = "Walk Speed", min = 10, max = 100, default = 20, interval = 1, suffix = "wp", flag = "WalkSpeed"})
+movement_section:slider({name = "Jump Height", min = 4.5, max = 100, default = 20, interval = 1, suffix = "jh", flag = "JumpHeight"})
+
+
+
+spoofer_movement_section:toggle({
 	name = "Desync", 
 	flag = "Desync",
+    risky = true,
+    tooltip = "freezes your character on the server",
     callback = function(args)
       if args then
-        desync()
+        --desync()
       end
     end
 })
 
 
-movement_section:toggle({
-	name = "Remove Jump Debounce", 
-	flag = "NoJumpDebounce"
-})
 
-
-
-movement_section:toggle({
+spoofer_movement_section:toggle({
 	name = "Movement Spoofer", 
-	flag = "Spoofer"
+	flag = "Spoofer",
+    risky = true,
+    tooltip = "best used for speedhack",
 })
+spoofer_movement_section:dropdown({name = "State Spoof", flag = "StateSpoof", items = {"Running", "Walking", "Crouching", "Climbing", "Falling", "Swimming", "Sitting", "nil", "FreeFalling"}, default = "Running"})
 
 
-
-movement_section:dropdown({name = "State Spoof", flag = "StateSpoof", items = {"Running", "Walking", "Crouching", "Climbing", "Falling", "Swimming", "Sitting", "nil", "FreeFalling"}, default = "Running"})
-movement_section:slider({name = "Walk Speed", min = 10, max = 33, default = 20, interval = 1, suffix = "wp", flag = "WalkSpeed"})
-movement_section:slider({name = "Jump Height", min = 4.5, max = 100, default = 20, interval = 1, suffix = "jh", flag = "JumpHeight"})
-
-
-
-
-
-local vehiclecolumn = cheat.tabs.misc:column()
-local vehiclemodssection= vehiclecolumn:multi_section({names = {"Vehicle Mods"}})
-
-
-
-local DriveOnWaterToggle = vehiclemodssection:toggle({
-	name = "Drive On Water", 
-	flag = "DriveOnWater"
-})
+end
 
 
 
 esp = window.esp_section:esp_preview({})
 cheat.tabs.visuals.open_tab()
 library:config_list_update()
+
+
 
 for index, value in themes.preset do
 	pcall(function()
@@ -1144,12 +1920,12 @@ RenderESP()
 
 
 
+library:indicator()
 
--- hooks
+
+
+
 do
-
-    
-
 local instantHitFunc = services:GarbageCollection("castLocalBullet")
 local instantHitHook
 instantHitHook = hookfunction(instantHitFunc, newcclosure(function(p1, p2, p3, p4, p5, p6, p7, p8)
@@ -1157,8 +1933,6 @@ instantHitHook = hookfunction(instantHitFunc, newcclosure(function(p1, p2, p3, p
      if Target ~= nil then
       setreadonly(p5, false)
       setreadonly(p5.FireConfig, false)
-      --debug.getupvalue(instantHitFunc, 1).ProjectileGravity = 0
-      muzzleVelocity = p5.FireConfig.MuzzleVelocity
       bgravity = debug.getupvalue(instantHitFunc, 1).ProjectileGravity
       --p6 = CFrame.lookAt(CameraVector, Target.Position).LookVector
 
@@ -1177,23 +1951,30 @@ end))
 
 local SilentHook
 SilentHook = hookfunction(cheat.modules.Bullets.Fire, newcclosure(function(p1, p2, p3, p4, p5, p6, p7)
-    if not checkcaller() and library.flags["SilentAimToggle"] then
+    if library.flags["SilentAimToggle"] then
       if Target ~= nil and bgravity ~= nil then
         setreadonly(p4.FireConfig, false)
 
-        bulletOrigin = p5
+        --bulletOrigin = p5
 
 
-      local distance = (Target.Position - p5).Magnitude
+      local distance = (Target.Position - p5).Magnitude  
       local timeToHit = distance / p4.FireConfig.MuzzleVelocity
-      local prediction = Target.Position + (Target.Velocity * timeToHit)
-      --Target.Position + (Target.Velocity * timeToHit)
       local originEquation = Vector3(0,  distance / p4.FireConfig.MuzzleVelocity + math.sin(0) * timeToHit - bgravity / Target.Position.Magnitude  ,0)
-      local equation = Vector3(0,  distance / p4.FireConfig.MuzzleVelocity + math.sin(0) * timeToHit - bgravity * timeToHit^2   ,0)
+      --Vector3(0,  distance / p4.FireConfig.MuzzleVelocity + math.sin(0) * timeToHit - bgravity / Target.Position.Magnitude  ,0)
       
-      p5 = p5 + originEquation
-      p6 = CFrame.lookAt(p5, equation + prediction).LookVector * p6.Magnitude
 
+      local equation = Vector3(0,  distance / p4.FireConfig.MuzzleVelocity + math.sin(0) * timeToHit - bgravity * timeToHit^2   ,0)
+      local prediction = Target.Position + (Target.Velocity * timeToHit)
+      --Target.Position + (Target.Velocity / Target.Velocity * timeToHit)
+
+
+       p5 = p5 + originEquation
+       --p5 = p5 + originEquation
+       p6 = CFrame.lookAt(p5, equation + prediction).LookVector * p6.Magnitude
+
+    
+      --CFrame.lookAt(p5, equation + prediction).LookVector * p6.Magnitude
      
     end
 
@@ -1238,7 +2019,7 @@ SilentHook = hookfunction(cheat.modules.Bullets.Fire, newcclosure(function(p1, p
 
 
 
-            task.wait(library.flags["TracerLifetime"] / 1)
+            task.wait(library.flags["TracerLifetime"])
               part:Destroy()
               part2:Destroy()
           end)
@@ -1257,7 +2038,7 @@ end))
 local flinchFunc = services:GarbageCollection("flintchCamera")
 local flinchHook
 flinchHook = hookfunction(flinchFunc, newcclosure(function(p1, p2, p3)
-    if not checkcaller() and library.flags["NoFlinch"] then
+    if library.flags["NoFlinch"] then
        return nil
     else
         return flinchHook(p1, p2, p3)
@@ -1270,7 +2051,7 @@ end))
 local recoilFunc = services:GarbageCollection("getFireImpulse")
 local recoilHook
 recoilHook = hookfunction(recoilFunc, newcclosure(function(p1, p2, p3)
-    if not checkcaller() and library.flags["NoRecoil"] then
+    if library.flags["NoRecoil"] then
         return 0
     else
         return recoilHook(p1, p2, p3)
@@ -1280,17 +2061,28 @@ end))
 
 
 
-local spreadFunc = services:GarbageCollection("getSpredAngle")
-local spreadHook
-spreadHook = hookfunction(spreadFunc, newcclosure(function(p1, p2, p3)
-    if not checkcaller() then
-      if library.flags["NoSpread"] then
-        return 0
-      end
-
-       return spreadHook(p1, p2, p3)
+local lerpFunc = services:GarbageCollection("lerp")
+local lerpHook
+lerpHook = hookfunction(lerpFunc, newcclosure(function(p1, p2, p3)
+    if library.flags["NoSpread"] then
+       return CFrame.lookAt(p2, Target.Position).LookVector * 9999
+    else
+       return lerpHook(p1, p2, p3)
     end
-    return spreadHook(p1, p2, p3)
+    return lerpHook(p1, p2, p3)
+end))
+
+
+
+local spreadFunc2 = services:GarbageCollection("getSpredAngle")
+local spreadHook2
+spreadHook2 = hookfunction(spreadFunc2, newcclosure(function(p1, p2, p3)
+    if library.flags["NoSpread"] then
+       return 0
+    else
+       return spreadHook2(p1, p2, p3)
+    end
+    return spreadHook2(p1, p2, p3)
 end))
 
 
@@ -1299,10 +2091,11 @@ local fireHook3
 fireHook3 = hookfunction(cheat.modules.Network.Send, newcclosure(function(p1, p2, ...)
     local arguments = {...}
 
-    if not checkcaller() and p2 == "Bullet Impact" then
+
+    if p2 == "Bullet Impact" then
         setthreadidentity(8)
         if library.flags["HitNotifications"] then
-          library:notification({time = 2, text = "[GeekClient.gg] Hit Player"})
+          library:notification({time = 2, text = "GeekClient Hit Player"})
         end
 
 
@@ -1317,10 +2110,18 @@ end))
 
 
 
+
+local networkHook
+networkHook = hookfunction(cheat.modules.Network.ReplicationWait, newcclosure(function(p1, p2)
+    return math.huge
+end))
+
+
+
 local removeDamageAffect
 local removeDamageAffectFunc = services:GarbageCollection("damageEffect")
 removeDamageAffect = hookfunction(removeDamageAffectFunc, newcclosure(function(p1)
-    if not checkcaller() and library.flags["removeDamageAffect"] then
+    if library.flags["removeDamageAffect"] then
         return nil
     else
        return removeDamageAffect(p1)
@@ -1333,32 +2134,10 @@ end))
 local spoofAthleticPerk
 local spoofAthleticPerkFunc = services:GarbageCollection("attemptJump")
 spoofAthleticPerk = hookfunction(spoofAthleticPerkFunc, newcclosure(function(p1, p2)
-    if not checkcaller() then
-        --p1.Climbing = true
-        --p1.Mounting = true
-        --table.foreach(p1, warn)
-
-
-     for index, value in pairs(debug.getupvalues(spoofAthleticPerkFunc)) do
-        if typeof(value) == "table" then
-            setreadonly(value, false)
-            --table.foreach(value, print)
-            value.LadderMountDistance = 9999
-        end
-    end
-
-
     if library.flags["NoJumpDebounce"] then
         p1.JumpDebounce = 0
-    end
-
-
-    if p1.EquippedItem then
-        p1.Sitting = false
-        p1.EquippedItem.BlocksJumpWhileHeld = false
-    end
-
-       return spoofAthleticPerk(p1, p2)
+    else
+        return spoofAthleticPerk(p1, p2)
     end
    return spoofAthleticPerk(p1, p2)
 end))
@@ -1370,140 +2149,81 @@ sprintSpoofHook = hookfunction(cheat.modules.Network.Send, newcclosure(function(
     local arguments = {...}
     if p2 == "Character State Report" then
         if library.flags["Spoofer"] then
-            --arguments[3] = Client.Character["HumanoidRootPart"].Position + Vector3(0, 15, 0)
             arguments[4] = library.flags["StateSpoof"]
-            return sprintSpoofHook(p1, p2, unpack(arguments))
+            arguments[8] = true
         end
+
+
+        return sprintSpoofHook(p1, p2, unpack(arguments))
     end
     return sprintSpoofHook(p1, p2, ...)
 end))
 
 
 
-local driveOnWaterHook
-local driveOnWaterFunc = services:GarbageCollection("setWheelSpeeds")
-driveOnWaterHook = hookfunction(driveOnWaterFunc, newcclosure(function(p1, p2)
-    if library.flags["DriveOnWater"] then
-        p1.Config.Physics.BoatMode = true
+local removeFlashHook
+local removeFlashFunc = services:GarbageCollection("animateMuzzleFlash")
+removeFlashHook = hookfunction(removeFlashFunc, newcclosure(function(p1, p2, p3)
+    if library.flags["RemoveMuzzleFlash"] then
+        return nil
     else
-        return driveOnWaterHook(p1, p2)
-      end
-
-    return driveOnWaterHook(p1, p2)
+        return removeFlashHook(p1, p2, p3)
+    end
+   return removeFlashHook(p1, p2, p3)
 end))
 
 
 
-local isItemUsableHook
-local isItemUsableFunc = services:GarbageCollection("isItemUsable")
-isItemUsableHook = hookfunction(isItemUsableFunc, newcclosure(function(p1, p2)
+local fallDamageHook
+local fallDamageFunc = services:GarbageCollection("characterLogicStep")
+fallDamageHook = hookfunction(fallDamageFunc, newcclosure(function(p1, p2, p3, p4)
     if not checkcaller() then
-        p2.CanUseInInventory = true
-        return isItemUsableHook(p1, p2)
-      end
 
-    return isItemUsableHook(p1, p2)
+     if p1.MoveState == "Falling" then
+		p1.FallingTime = 0
+		--p1.Falling:Fire(p1.FallingTime)
+     end
+      
+      return fallDamageHook(p1, p2, p3, p4)
+    end
+   return fallDamageHook(p1, p2, p3, p4)
 end))
 
 
 
-local setWeaponActionHook
-local setWeaponActionFunc = services:GarbageCollection("setWeaponAction")
-setWeaponActionHook = hookfunction(setWeaponActionFunc, newcclosure(function(p1, p2, p3)
+local itemHook
+itemHook = hookfunction(cheat.modules.Stats.Get, newcclosure(function(p1, p2)
+
     if not checkcaller() then
-        if library.flags["AllFireModes"] then
-            p1.EquippedItem.FireModes = {"Automatic", "Semiautomatic", "Burst"}
-        end
-        return setWeaponActionHook(p1, p2, p3)
-      end
+      --p1.Value = 100
+      --p1.Max = 100
+      --print(p1.Value, p1.Max)
+        
 
-    return setWeaponActionHook(p1, p2, p3)
+      return itemHook(p1, p2)
+    end
+    return itemHook(p1, p2)
 end))
 
 
 
-local skinHook
-skinHook = hookfunction(cheat.modules.GunBuilder.BuildFromSerialization, newcclosure(function(p1, p2, p3)
+local stepperFunc = services:GarbageCollection("stepperLogic")
+local stepperHook
+stepperHook = hookfunction(stepperFunc, newcclosure(function(p1)
     if not checkcaller() then
-        if library.flags["SkinChanger"] then
-            p3.SkinId = library.flags["WeaponSkin"]
-        end
-
-        return skinHook(p1, p2, p3)
-      end
-
-    return skinHook(p1, p2, p3)
+        p1.Enabled = true
+        p1.FireNextStepInstantly = true
+        p1.Rate = math.nan
+        --p1.Rate = math.nan
+        --print(p1.Rate)
+        return stepperHook(p1)
+    end
+    return stepperHook(p1)
 end))
-
-
-
-
--- semi-wallbang
-
-local terrain = workspace.Map
-local semiwallbang = function()
-for _, part in pairs(terrain:GetDescendants()) do
-    if part:IsA("BasePart") or part:IsA("Part") or part:IsA("MeshPart") or part:IsA("Union") then
-        part:AddTag("Bullets Penetrate")
-    end
-  end
-
-
-for _, part in pairs(workspace.Vehicles:GetDescendants()) do
-    if part:IsA("BasePart") or part:IsA("Part") or part:IsA("MeshPart") or part:IsA("Union") or part:IsA("Model") then
-        part:AddTag("Bullets Penetrate")
-        --part.Name = "Fence"
-       -- part.Material = Enum.Material.Plastic
-    end
-  end
-
-
-  workspace.Vehicles.ChildAdded:Connect(function(child)
-    for _, part in pairs(child:GetDescendants()) do
-    if part:IsA("BasePart") or part:IsA("Part") or part:IsA("MeshPart") or part:IsA("Union") then
-
-        part:AddTag("Bullets Penetrate")
-        --part.Name = "Fence"
-        --part.Material = Enum.Material.Plastic
-      end
-    end
-  end)
-
-
-  workspace.terrain.ChildAdded:Connect(function(child)
-    for _, part in pairs(child:GetDescendants()) do
-   if part:IsA("BasePart") or part:IsA("Part") or part:IsA("MeshPart") or part:IsA("Union") then
-        part:AddTag("Bullets Penetrate")
-        --part.Material = Enum.Material.Plastic
-      end
-    end
-  end)
 
 
 end
 
-
-
-local success, error = pcall(semiwallbang)
-if success then
-    return
-else
-    warn('Failed To Register semiwallbang!')
-end
-
-
-
-
-end
-
-
-
-
-
-
-
-
---library:indicator()
 
 
 
