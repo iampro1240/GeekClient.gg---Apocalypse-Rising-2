@@ -1824,8 +1824,18 @@
 				local items = holder.items
 				local column = setmetatable(items, library):column() 
 				window.esp_section = column:section({name = "Enemy"})
-				window.esp_section2 = column:section({name = "Vehicle"})
-				window.esp_section3 = column:section({name = "Item"})
+
+				window.esp_section:toggle({
+	            name = "Spin Character", 
+	            flag = "Spin_Character",
+				tooltip = "concept, doesn't work yet."
+                })
+
+				window.esp_section:toggle({
+	            name = "Show Friendly", 
+	            flag = "Show_Friendly",
+				tooltip = "concept, doesn't work yet."
+                })
 				
 			--  
 
