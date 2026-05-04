@@ -1748,7 +1748,7 @@
 						game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, data.id)
 					end 
 				end})
-				section:slider({name = "Max Players", flag = "max_players", min = 0, max = 40, default = 15, interval = 1})
+				section:slider({name = "Max Player Count", flag = "max_players", min = 0, max = 40, default = 15, interval = 1})
 			-- 
 
 			-- cfg holder
@@ -1813,17 +1813,19 @@
 					
 			-- esp preview
 				local holder = library:panel({
-					name = "ESP Preview", 
+					name = "Preview", 
 					anchor_point = vec2(0, 0),
 					size = dim2(0, 300, 0, 325),
 					position = dim2(0, style.items.main_holder.AbsolutePosition.X, 0, style.items.main_holder.AbsolutePosition.Y + style.items.main_holder.AbsoluteSize.Y + 2),
 					image = "rbxassetid://77684377836328",
 				})  
 				
+
 				local items = holder.items
-				
 				local column = setmetatable(items, library):column() 
-				window.esp_section = column:section({name = "Main"})
+				window.esp_section = column:section({name = "Enemy"})
+				window.esp_section2 = column:section({name = "Vehicle"})
+				window.esp_section3 = column:section({name = "Item"})
 				
 			--  
 
