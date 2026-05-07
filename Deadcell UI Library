@@ -1555,7 +1555,7 @@ function library:new_window(cfg)
                     end;
                 end;
                 set(toggle_state);
-                flags[toggle_flag] = set(toggle_state);
+                flags[toggle_flag] = setstate;
                 -- toggle functions
                 local toggletypes = {}
                 function toggletypes:set(bool)
