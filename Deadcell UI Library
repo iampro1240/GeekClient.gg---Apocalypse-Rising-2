@@ -1549,13 +1549,13 @@ function library:new_window(cfg)
                 holder.MouseButton1Click:Connect(setstate);
                 --
                 local function set(bool)
-                    bool = type(bool) == "boolean" and bool or false
+                    bool = bool or false
                     if toggled ~= bool then
                         setstate()
                     end;
                 end;
                 set(toggle_state);
-                flags[toggle_flag] = setstate;
+                flags[toggle_flag] = set(toggle_state);
                 -- toggle functions
                 local toggletypes = {}
                 function toggletypes:set(bool)
