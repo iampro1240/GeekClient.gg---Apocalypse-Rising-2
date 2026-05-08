@@ -1951,69 +1951,6 @@ do -- Hooks
 
 
 
-local raycall2
-raycall2 = hookmetamethod(game, "__namecall", newcclosure(function(Self, ...)
-    local args = {...}
-    local NamecallMethod = getnamecallmethod()
-
-
-    if not checkcaller() and Self == ws or WS and NamecallMethod == "FindPartOnRayWithIgnoreList" and library.flags["SilentAimToggle"] then
-      if Target ~= nil then
-        local distance, targetMag = vector.magnitude(Target.Position - args[1].Origin), vector.magnitude(Target.Position)
-        local magicEquation = Target.Position + CreateVector(0,  distance / math.cos(targetMag) / distance  ,0)
-        
-        
-        local equation = Vector3(0,  distance / math.abs(targetMag) * math.cos(.01) / targetMag  ,0)
-
-        --table.foreach(args, print)
-
-        args[1] = Ray.new(args[1].Origin, CFrame.lookAt(args[1].Origin, Target.Position).LookVector * 9e9)
-        --Ray.new(args[1].Origin, CFrame.lookAt(args[1].Origin, Target.Position).LookVector * 9e9)
-
-
-        --args[1] = magicEquation
-        --args[2] = CFrame.lookAt(args[1], Target.Position).LookVector * 9e9
-
-
-        --9e9
-        --CFrame.lookAt(args[1], Target.Position).LookVector * args[2].Magnitude
-      end
-      return raycall2(Self, unpack(args))
-    end
-
-    return raycall2(Self, ...)
-end))
-
-
-
-local raycall
-raycall = hookmetamethod(game, "__namecall", newcclosure(function(Self, ...)
-    local args = {...}
-    local NamecallMethod = getnamecallmethod()
-
-
-    if not checkcaller() and Self == ws or WS and NamecallMethod == "Raycast" and library.flags["SilentAimToggle"] then
-      if Target ~= nil then
-        local distance, targetMag = vector.magnitude(Target.Position - args[1]), vector.magnitude(Target.Position)
-        local magicEquation = Target.Position + CreateVector(0,  distance / math.cos(targetMag) / distance  ,0)
-        
-        
-        local equation = Vector3(0,  distance / math.abs(targetMag) * math.cos(.01) / targetMag  ,0)
-        --args[1] = magicEquation
-        --args[2] = CFrame.lookAt(args[1], Target.Position).LookVector * 9e9
-
-
-        --9e9
-        --CFrame.lookAt(args[1], Target.Position).LookVector * args[2].Magnitude
-      end
-      return raycall(Self, unpack(args))
-    end
-
-    return raycall(Self, ...)
-end))
-
-
-
 local rayNew
 rayNew = hookfunction(Ray.new, newcclosure(function(origin, direction)
     if not checkcaller() and library.flags["SilentAimToggle"] and Target ~= nil then
