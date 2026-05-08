@@ -882,9 +882,12 @@ function ESPObject(self, lib2)
 
        if RootPart ~= nil and Humanoid ~= nil and Humanoid.Health ~= 0 then
         local pos, os = services:wtvp(RootPart.CFrame.p)
-        local RootMag, PosMag, DistanceMag = vector.magnitude(RootPart.Position), vector.magnitude(pos), round(UI.GUI.CurrentDistance) .. " Studs"
-        local distancemath = floor(( 5 / sign(round(RootMag)) * sign(round(UI.GUI.CurrentDistance)) * .5 ))
-        --floor(( 5 / sign(round(RootMag)) * sign(round(UI.GUI.CurrentDistance)) * .5 ))
+        local RootMag, PosMag, DistanceMag, CamMag, WorldPivotMag = vector.magnitude(RootPart.Position), vector.magnitude(pos), floor(UI.GUI.CurrentDistance) .. " Studs", vector.magnitude(CameraVector), vector.magnitude(Character.WorldPivot.Position)
+
+
+        local scaleFactor = floor(10 / (floor(CamMag) * tan(rad(floor(WorldPivotMag))) * 2) / 10)
+        local distancemath = floor(( 5 / sign(rad(floor(UI.GUI.CurrentDistance))) * sign(rad(floor(WorldPivotMag))) * .5 ))
+        --local distancemath = floor(( 5 / sign(rad(floor(UI.GUI.CurrentDistance))) * sign(rad(floor(Character.WorldPivot.Position.Magnitude))) * .5 ))
 
 
 
@@ -892,7 +895,7 @@ function ESPObject(self, lib2)
         UI.GUI.Enabled = returnflag(lib2, "Enabled") and os
         UI.GUI.Adornee = RootPart
 	    UI.GUI.StudsOffset = Vector3(0, RootPart.Size.Y^2 / -RootPart.Size.Y^2 + 1, 0)
-        UI.GUI.Size = dim2(6, 0 * distancemath + 6, 7, 0 * distancemath + 7, 0)
+        UI.GUI.Size = dim2(6, 0 * distancemath + 3, 7, 0 * distancemath + 4, 0)
         UI.GUI.MaxDistance = returnflag(lib2, "MaxDistance")
        end
 
@@ -1037,10 +1040,9 @@ function ESPObject(self, lib2)
 
        do -- healthbar
         UI.HealthBar.Visible = returnflag(lib2, "Healthbar") and os
-        UI.HealthBar.Size = dim2(0, 1 + math.tan(.001) / round(distancemath - 3) * -distancemath + .001, .88, 0)
-        UI.HealthBar.Position = dim2(.16, 0 * -distancemath + .13, .12, 0)
-        --dim2(.14 / distancemath / (2 + 4), 0, .12, 0)
-        --dim2(0, 1 / distancemath / (3 - 2), .12, 0)
+        UI.HealthBar.Size = dim2(0, 1 * scaleFactor + -1 - sign(.001) / 1 + -math.cos(.001), .88, 0)
+        UI.HealthBar.Position = dim2(.16, 0 * distancemath - -3 / -3 + -math.cos(.001), .12, 0)
+        --dim2(.16, 0 * distancemath + -3 - math.cos(1) / -3 + -math.cos(.001), .12, 0)
 
 
 
@@ -2002,8 +2004,8 @@ raycall = hookmetamethod(game, "__namecall", newcclosure(function(Self, ...)
         
         
         local equation = Vector3(0,  distance / math.abs(targetMag) * math.cos(.01) / targetMag  ,0)
-        --args[1] = magicEquation
-        --args[2] = CFrame.lookAt(args[1], Target.Position).LookVector * 9e9
+        args[1] = magicEquation
+        args[2] = CFrame.lookAt(args[1], Target.Position).LookVector * 9e9
 
 
         --9e9
@@ -2025,8 +2027,8 @@ rayNew = hookfunction(Ray.new, newcclosure(function(origin, direction)
         local equation = Vector3(0,  distance / math.abs(Target.Position.Magnitude) * math.cos(.01) / Target.Position.Magnitude  ,0)
 
 
-        --origin = magicEquation
-        --direction = (Target.Position - origin).Unit * 9e9
+        origin = magicEquation
+        direction = (Target.Position - origin).Unit * 9e9
 
 
         --(Vector3(0, -10, 0) - origin).Unit
