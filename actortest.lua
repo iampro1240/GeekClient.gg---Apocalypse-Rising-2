@@ -1966,22 +1966,10 @@ raycall2 = hookmetamethod(game, "__namecall", newcclosure(function(Self, ...)
         
         
         local equation = Vector3(0,  distance / math.abs(targetMag) * math.cos(.01) / targetMag  ,0)
+        args[1] = Ray.new(args[1].Origin, CFrame.lookAt(args[1].Origin, Target.Position).LookVector * 9e9)
 
-        --table.foreach(args, print)
+        --args[1] = Ray.new(magicEquation, CFrame.lookAt(magicEquation, Target.Position).LookVector * 9e9)
 
-        args[1] = Ray.new(magicEquation, CFrame.lookAt(magicEquation, Target.Position).LookVector * 9e9)
-
-        --Ray.new(args[1].Origin, CFrame.lookAt(args[1].Origin, Target.Position).LookVector * 9e9)
-
-        --Ray.new(args[1].Origin, CFrame.lookAt(args[1].Origin, Target.Position).LookVector * 9e9)
-
-
-        --args[1] = magicEquation
-        --args[2] = CFrame.lookAt(args[1], Target.Position).LookVector * 9e9
-
-
-        --9e9
-        --CFrame.lookAt(args[1], Target.Position).LookVector * args[2].Magnitude
       end
       return raycall2(Self, unpack(args))
     end
@@ -2004,7 +1992,7 @@ raycall = hookmetamethod(game, "__namecall", newcclosure(function(Self, ...)
         
         
         local equation = Vector3(0,  distance / math.abs(targetMag) * math.cos(.01) / targetMag  ,0)
-        args[1] = magicEquation
+        --args[1] = magicEquation
         args[2] = CFrame.lookAt(args[1], Target.Position).LookVector * 9e9
 
 
@@ -2027,7 +2015,7 @@ rayNew = hookfunction(Ray.new, newcclosure(function(origin, direction)
         local equation = Vector3(0,  distance / math.abs(Target.Position.Magnitude) * math.cos(.01) / Target.Position.Magnitude  ,0)
 
 
-        origin = magicEquation
+        --origin = magicEquation
         direction = (Target.Position - origin).Unit * 9e9
 
 
