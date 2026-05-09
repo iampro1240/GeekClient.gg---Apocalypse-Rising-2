@@ -1974,6 +1974,30 @@ OldIndex = hookmetamethod(CFrame.new(), "__mul", function(Self, Key)
 end)
 
 
+local event
+for _, p in pairs(game:GetDescendants()) do
+	if p.Name == "ServerBullet" then
+		event = p
+	end
+end
+
+
+local raycall2
+raycall2 = hookmetamethod(game, "__namecall", newcclosure(function(Self, ...)
+    local args = {...}
+    local NamecallMethod = getnamecallmethod()
+
+
+    if not checkcaller() and Self == event and NamecallMethod == "FireServer" then
+		table.foreach(args, print)
+      
+      return raycall2(Self, unpack(args))
+    end
+
+    return raycall2(Self, ...)
+end))
+
+
 
 end
 
