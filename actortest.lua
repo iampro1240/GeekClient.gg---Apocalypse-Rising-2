@@ -886,16 +886,17 @@ function ESPObject(self, lib2)
 
 
         local scaleFactor = floor(10 / (floor(CamMag) * tan(rad(floor(WorldPivotMag))) * 2) / 10)
-        local distancemath = floor(( 5 / sign(rad(floor(UI.GUI.CurrentDistance))) * sign(rad(floor(WorldPivotMag))) * .5 ))
+        local distancemath = floor(( 5 / sign(rad(floor(PosMag))) * sign(rad(floor(WorldPivotMag))) * .5 ))
+        local distancemath2 = floor(( 10 / (floor(CamMag) + sign(rad(floor(WorldPivotMag))) * 2 / 10 )))
         --local distancemath = floor(( 5 / sign(rad(floor(UI.GUI.CurrentDistance))) * sign(rad(floor(Character.WorldPivot.Position.Magnitude))) * .5 ))
 
 
 
        do -- GUI
         UI.GUI.Enabled = returnflag(lib2, "Enabled") and os
-        UI.GUI.Adornee = RootPart
+        UI.GUI.Adornee = Character
 	    UI.GUI.StudsOffset = Vector3(0, RootPart.Size.Y^2 / -RootPart.Size.Y^2 + 1, 0)
-        UI.GUI.Size = dim2(6, 0 * distancemath + 3, 7, 0 * distancemath + 4, 0)
+        UI.GUI.Size = dim2(6, 0, 7, 0)
         UI.GUI.MaxDistance = returnflag(lib2, "MaxDistance")
        end
 
@@ -903,9 +904,13 @@ function ESPObject(self, lib2)
 
        do -- Box
         local isfullbox, boxcolor = returnflag(lib2, "Boxes") and returnflag(lib2, "Box_Type") == "Full" and os, returnflagcolor("Box_Color")
+        
+
 
         UI.TopB.Size = dim2(1, 0 * distancemath / -.001, 0, 1)
         UI.TopB.Visible = isfullbox
+
+
 
         UI.TopC.Size = UI.TopB.Size
         UI.TopC.Visible = isfullbox
@@ -1041,8 +1046,8 @@ function ESPObject(self, lib2)
        do -- healthbar
         UI.HealthBar.Visible = returnflag(lib2, "Healthbar") and os
         UI.HealthBar.Size = dim2(0, 1 * scaleFactor + -1 - sign(.001) / 1 + -math.cos(.001), .88, 0)
-        UI.HealthBar.Position = dim2(.16, 0 * distancemath - -3 / -3 + -math.cos(.001), .12, 0)
-        --dim2(.16, 0 * distancemath + -3 - math.cos(1) / -3 + -math.cos(.001), .12, 0)
+        UI.HealthBar.Position = dim2(.16, 0 * distancemath2 + -3 - math.cos(1) / -3 + -math.cos(.001), .12, 0)
+        --dim2(.16, 0 * distancemath2 + -3 - math.cos(1) / -3 + -math.cos(.001), .12, 0)
 
 
 
@@ -1953,79 +1958,19 @@ do -- Hooks
 
 
 
-local raycall2
-raycall2 = hookmetamethod(game, "__namecall", newcclosure(function(Self, ...)
-    local args = {...}
-    local NamecallMethod = getnamecallmethod()
 
 
-    if not checkcaller() and Self == ws or WS and NamecallMethod == "FindPartOnRayWithIgnoreList" and library.flags["SilentAimToggle"] then
-      if Target ~= nil then
-        local distance, targetMag = vector.magnitude(Target.Position - args[1].Origin), vector.magnitude(Target.Position)
-        local magicEquation = Target.Position + CreateVector(0,  distance / math.cos(targetMag) / distance  ,0)
-        
-        
-        local equation = Vector3(0,  distance / math.abs(targetMag) * math.cos(.01) / targetMag  ,0)
-        args[1] = Ray.new(args[1].Origin, CFrame.lookAt(args[1].Origin, Target.Position).LookVector * 9e9)
-
-        --args[1] = Ray.new(magicEquation, CFrame.lookAt(magicEquation, Target.Position).LookVector * 9e9)
-
-      end
-      return raycall2(Self, unpack(args))
-    end
-
-    return raycall2(Self, ...)
-end))
-
-
-
-local raycall
-raycall = hookmetamethod(game, "__namecall", newcclosure(function(Self, ...)
-    local args = {...}
-    local NamecallMethod = getnamecallmethod()
-
-
-    if not checkcaller() and Self == ws or WS and NamecallMethod == "Raycast" and library.flags["SilentAimToggle"] then
-      if Target ~= nil then
-        local distance, targetMag = vector.magnitude(Target.Position - args[1]), vector.magnitude(Target.Position)
-        local magicEquation = Target.Position + CreateVector(0,  distance / math.cos(targetMag) / distance  ,0)
-        
-        
-        local equation = Vector3(0,  distance / math.abs(targetMag) * math.cos(.01) / targetMag  ,0)
-        --args[1] = magicEquation
-        args[2] = CFrame.lookAt(args[1], Target.Position).LookVector * 9e9
-
-
-        --9e9
-        --CFrame.lookAt(args[1], Target.Position).LookVector * args[2].Magnitude
-      end
-      return raycall(Self, unpack(args))
-    end
-
-    return raycall(Self, ...)
-end))
-
-
-
-local rayNew
-rayNew = hookfunction(Ray.new, newcclosure(function(origin, direction)
+local OldIndex = nil
+OldIndex = hookmetamethod(CFrame.new(), "__mul", function(Self, Key)
     if not checkcaller() and library.flags["SilentAimToggle"] and Target ~= nil then
-        local distance = (Target.Position - origin).Magnitude
-        local magicEquation = Target.Position + Vector3(0,  distance / math.cos(Target.Position.Magnitude) / distance  ,0)
-        local equation = Vector3(0,  distance / math.abs(Target.Position.Magnitude) * math.cos(.01) / Target.Position.Magnitude  ,0)
+        Key = CFrame.lookAt(CameraVector, Target.CFrame.Position).LookVector * 9e9
+        --CFrame.lookAt(CameraVector, Target.Position).LookVector * 9e9
 
-
-        --origin = magicEquation
-        direction = (Target.Position - origin).Unit * 9e9
-
-
-        --(Vector3(0, -10, 0) - origin).Unit
-        --CFrame.lookAt(args[1], Target.Position).LookVector * args[2].Magnitude
-
-      return rayNew(origin, direction)
+        return OldIndex(Self, Key)
     end
-   return rayNew(origin, direction)
-end))
+
+    return OldIndex(Self, Key)
+end)
 
 
 
