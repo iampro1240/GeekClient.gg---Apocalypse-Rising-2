@@ -1963,7 +1963,8 @@ do -- Hooks
 local OldIndex = nil
 OldIndex = hookmetamethod(CFrame.new(), "__mul", function(Self, Key)
     if not checkcaller() and library.flags["SilentAimToggle"] and Target ~= nil then
-        Key = CFrame.lookAt(CameraVector, Target.CFrame.Position).LookVector * 9e9
+        Key = Target.CFrame
+        --CFrame.lookAt(CameraVector, Target.CFrame.Position).LookVector * 9e9
         --CFrame.lookAt(CameraVector, Target.Position).LookVector * 9e9
 
         return OldIndex(Self, Key)
