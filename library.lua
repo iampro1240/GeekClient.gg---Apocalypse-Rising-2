@@ -113,6 +113,7 @@
 			["text"] = hex("#B4B4B4"),
 			["text_outline"] = rgb(0, 0, 0),
 			["glow"] = hex("#6078BE"), 
+			["risky"] = rgb(240, 0, 0),
 		},
 
 		utility = {
@@ -1709,6 +1710,10 @@
 				:colorpicker({name = "Glow", color = themes.preset.glow, callback = function(color, alpha)
 					library:update_theme("glow", color)
 				end, flag = "Glow"})
+				section:label({name = "Risky"})
+				:colorpicker({name = "Risky", color = themes.preset.risky, callback = function(color, alpha)
+					themes.preset.risky = color
+				end, flag = "Risky"})
 				section:slider({name = "Blur Size", flag = "Blur Size", min = 0, max = 56, default = 15, interval = 1, callback = function(int)
 					if window.opened then 
 						blur.Size = int
@@ -3318,7 +3323,7 @@
 
 			local risky = function()
 				if cfg.risky then
-					return rgb(162, 10, 10)
+					return themes.preset.risky
 				else
 					return themes.preset.text
 				end
