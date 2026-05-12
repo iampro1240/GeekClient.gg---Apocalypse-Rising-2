@@ -3318,7 +3318,7 @@
 
 			local risky = function()
 				if cfg.risky then
-					return themes.preset.risky
+					return rgb(240, 0, 0)
 				else
 					return themes.preset.text
 				end
