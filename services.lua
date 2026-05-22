@@ -2,7 +2,6 @@ local lib = {}
 lib.__index = lib
 
 
-
 function lib:CloneFunction(obj)
     return clonefunction(obj)
 end
@@ -50,6 +49,31 @@ function lib:framelimit(deltatime)
 		return
 	end
 	rendertime = 0
+end
+
+
+function lib:returnflag(library, flag)
+    return library.flags[flag]
+end
+
+
+function lib:returnflagcolor(color)
+    return library.flags[color].Color
+end
+
+
+function lib:returnflagtransparency(color)
+    return library.flags[color].Transparency
+end
+
+
+function lib:returngradientcolor(color, colortwo)
+    return NewGradient{GradientSequence(0, library.flags[color].Color), GradientSequence(1, library.flags[colortwo].Color)}
+end
+
+
+function lib:returnGradientTransparency(color, colortwo)
+    return GradientNumberSequence{GradientNumberKeypoint(0, library.flags[color].Transparency), GradientNumberKeypoint(1, library.flags[colortwo].Transparency)}
 end
 
 
