@@ -107,7 +107,8 @@
 		preset = {
 			["outline"] = hex("#0A0A0A"), -- 
 			["inline"] = hex("#2D2D2D"), --
-			["accent"] = hex("#6078BE"), --
+			["accent"] = hex("#6078BE"),
+			["warningaccent"] = hex("#FF2B00"), --
 			["high_contrast"] = hex("#141414"),
 			["low_contrast"] = hex("#1E1E1E"),
 			["text"] = hex("#B4B4B4"),
@@ -125,6 +126,12 @@
 				["ImageColor3"] = {},
 			},
 			["accent"] = {
+				["BackgroundColor3"] = {}, 	
+				["TextColor3"] = {}, 
+				["ImageColor3"] = {}, 
+				["ScrollBarImageColor3"] = {} 
+			},
+			["warningaccent"] = {
 				["BackgroundColor3"] = {}, 	
 				["TextColor3"] = {}, 
 				["ImageColor3"] = {}, 
@@ -2415,7 +2422,8 @@
 			local cfg = {
 				time = properties.time or 5,
 				text = properties.text or properties.name or "Notification",
-				flashing = false, 
+				flashing = properties.flashing or false,
+				warning = properties.warning or false
 			}
 		
 			-- Instances
@@ -2486,7 +2494,13 @@
 					BackgroundColor3 = themes.preset.accent
 				})
 
-				library:apply_theme(accent, "accent", "BackgroundColor3")
+
+				if cfg["warning"] then
+				   library:apply_theme(accent, "warningaccent", "BackgroundColor3")
+				else
+				   library:apply_theme(accent, "accent", "BackgroundColor3")
+				end
+
 		
 				local UIGradient = library:create("UIGradient", {
 					Parent = accent,
