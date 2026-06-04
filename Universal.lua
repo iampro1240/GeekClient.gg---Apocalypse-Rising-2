@@ -1303,11 +1303,6 @@ do -- Combat
       local dist = (Vector2(mousePos.X, mousePos.Y) - Vector2(pos2.X, pos2.Y)).Magnitude
 
 
-      local raycastParams = RaycastParams.new()
-      raycastParams.FilterDescendantsInstances = {Client.Character, Camera:GetChildren()}
-      raycastParams.FilterType = Enum.RaycastFilterType.Exclude
-      raycastParams.RespectCanCollide = true
-
 
     if dist <= (distance or library.flags["FOVRadius"]) and os then
        Target = targetP
@@ -1320,22 +1315,6 @@ do -- Combat
       else
         G2L["2"]["Position"] = dim2(.5, 0, .5, 0)
      end
-
-
-   
-       if pRoot ~= nil and library.flags["VischeckEnabled"] then
-       local visCheck = WS:Raycast(pRoot.Position, (targetP.Position - pRoot.Position).Unit * 10000)
-       --WS:Raycast(pRoot.Position, (targetP.Position - pRoot.Position).Unit * 10000)
-        if visCheck then
-            if services:findfirstchild(visCheck.Instance.Parent, "Humanoid") then
-               cheat.targetvis = library.target
-            else
-                cheat.targetvis = nil
-            end
-        else
-            cheat.targetvis = nil
-         end
-      end
 
 
      else
