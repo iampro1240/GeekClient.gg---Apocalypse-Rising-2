@@ -973,7 +973,7 @@
 					Name = "\0";
 					Position = dim2(0, 400, 0, 500);
 					BorderColor3 = rgb(0, 0, 0);
-					Size = dim2(0, 350, 0, 200);
+					Size = dim2(0, 330, 0, 190);
 					BorderSizePixel = 0;
 					BackgroundColor3 = themes.preset.outline
 				});	library:apply_theme(items.Window, "outline", "BackgroundColor3"); library:draggify(items.Window)
@@ -1213,7 +1213,7 @@
 
 				local section = setmetatable(items, library)
 				items.label = section:label({name = "\nTarget: \nWeapon:"})
-				items.slider = section:slider({name = "Health", custom = rgb(0, 255, 0), min = 0, max = 100, default = 100, input = true})
+				items.slider = section:slider({name = "\nHealth", custom = rgb(0, 255, 0), min = 0, max = 100, default = 100, input = true})
 
 				
 				library:create( "UIStroke" , {
