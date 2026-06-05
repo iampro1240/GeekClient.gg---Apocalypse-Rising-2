@@ -973,7 +973,7 @@
 					Name = "\0";
 					Position = dim2(0, 400, 0, 500);
 					BorderColor3 = rgb(0, 0, 0);
-					Size = dim2(0, 320, 0, 160);
+					Size = dim2(0, 350, 0, 200);
 					BorderSizePixel = 0;
 					BackgroundColor3 = themes.preset.outline
 				});	library:apply_theme(items.Window, "outline", "BackgroundColor3"); library:draggify(items.Window)
