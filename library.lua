@@ -1234,7 +1234,7 @@
 
 
 			function cfg.change_profile()
-				items.label.set("\nTarget: ", library.target.Name, "\nWeapon: ", library.weapon)
+				items.label.set("\nTarget: " .. library.target.Name .. "\nWeapon: " .. library.weapon)
 				items.Profile.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=".. library.target.UserId .."&width=420&height=420&format=png"
 			end 
 
