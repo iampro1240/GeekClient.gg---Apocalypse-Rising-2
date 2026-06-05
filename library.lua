@@ -1212,8 +1212,7 @@
 
 
 				local section = setmetatable(items, library)
-				items.label = section:label({name = "[skibhook.xyz] Target: "})
-				items.label2 = section:label({name = "[skibhook.xyz] Weapon: "})
+				items.label = section:label({name = "\nTarget: \nWeapon:"})
 				items.slider = section:slider({name = "Health", custom = rgb(0, 255, 0), min = 0, max = 100, default = 100, input = true})
 
 				
@@ -1235,10 +1234,7 @@
 
 
 			function cfg.change_profile()
-
-
-				items.label.set(string.format("Player: %s (%s)", library.target.Name, library.target.DisplayName))
-				items.label2.set(string.format("Weapon: %s", library.weapon))
+				items.label.set("\nTarget: ", library.target.Name, "\nWeapon: ", library.weapon)
 				items.Profile.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=".. library.target.UserId .."&width=420&height=420&format=png"
 			end 
 
