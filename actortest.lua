@@ -355,20 +355,7 @@ local cheat = {
 
 
   modules = {
-    Bullets = require(ReplicatedStorage.Client.Libraries.Bullets),
-    Network = require(ReplicatedStorage.Client.Libraries.Network),
-    VehicleControler = require(ReplicatedStorage.Client.Classes.VehicleControler),
-    GunBuilder = require(ReplicatedStorage.Client.Libraries.GunBuilder),
-    Melee = require(ReplicatedStorage.Client.Abstracts.ItemInitializers.Melee),
-    Characters = require(ReplicatedStorage.Client.Classes.Characters),
-    Stats = require(ReplicatedStorage.Client.Classes.Stats),
-    ItemStats = require(ReplicatedStorage.Client.Libraries.ItemStats),
-    Raycasting = require(ReplicatedStorage.Client.Libraries.Raycasting),
-    Firearm = require(ReplicatedStorage.Client.Abstracts.ItemInitializers.Firearm);
-    Containers = require(ReplicatedStorage.Client.Classes.Containers);
-    Animators = require(ReplicatedStorage.Client.Classes.Animators);
-    Framework = require(game:GetService("ReplicatedFirst").Framework);
-    World = require(ReplicatedStorage.Client.Libraries.World)
+   
   };
 
 
@@ -1892,6 +1879,8 @@ end
 
 
 do --// Hooks
+  
+
   local SilentHook
   SilentHook = hookfunction(workspace.Raycast, newcclosure(function(p1, p2, p3, p4)
     if returnflag("SilentAimToggle") then
@@ -1903,6 +1892,7 @@ do --// Hooks
 
        return SilentHook(p1, p2, p3, p4)
   end))
+
 
 
 
