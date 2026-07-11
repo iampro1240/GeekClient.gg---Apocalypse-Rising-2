@@ -403,6 +403,7 @@ local Tabs = {
     silent:Toggle({Name = "Enabled", Flag = "SilentAimToggle"})
     silent:Toggle({Name = "Visualize FOV", Flag = "FOVToggle"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Flag = "FOV_Color", Alpha = 1})
     silent:Toggle({Name = "Visualize FOV Outline", Flag = "FOVOutline"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Flag = "Outline_Color", Alpha = 1})
+    silent:Toggle({Name = "Magic Bullet", Flag = "MagicBullet", Tooltip = {Text = "Teleports the bullet origin to the target, Which lets you wallbang obviously.", Title = "Magic Bullet(AKA Wallbang)"}})
     silent:Slider({Name = "Radius", Flag = "FOVRadius", Min = 50, Max = 200, Decimal = 1})
     silent:Slider({Name = "Vertices", Flag = "FOVNumSides", Min = 0, Max = 90, Decimal = 1})
    
@@ -1884,7 +1885,14 @@ do --// Hooks
   local SilentHook
   SilentHook = hookfunction(workspace.Raycast, newcclosure(function(p1, p2, p3, p4)
     if returnflag("SilentAimToggle") then
+       local distance, targetMag = (Target.Position - p2).Magnitude, Target.Position.Magnitude
+       local magicEquation = Target.Position + Vector3new(0,  distance / mathcos(targetMag) / distance  ,0)
+
      if Target ~= nil then
+        if returnflag("MagicBullet") then
+           p2 = magicEquation
+        end
+
         p3 = CFrame.lookAt(p2, Target.Position).LookVector * 9e9
       
        return SilentHook(p1, p2, p3, p4)
