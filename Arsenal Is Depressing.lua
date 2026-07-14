@@ -1880,74 +1880,6 @@ end
 
 
 do --// Hooks
-local Heartbeat = RunService.Heartbeat
-local function ConnectPartToPart(BasePart : BasePart, ConnecterPart : BasePart) -- This Could be improved and done in other way, but is just an example.
-	if BasePart:IsGrounded() == false then
-		local ConnecterMaterial, ConnectorAnchored, ConnectorCanCollide, ConnecterProperties, ConnectorParent = ConnecterPart.Material, ConnecterPart.Anchored, ConnecterPart.CanCollide, ConnecterPart.CustomPhysicalProperties, ConnecterPart.Parent
-		local BaseParent, BaseCollide, BaseName, BaseProperties = BasePart.Parent, BasePart.CanCollide, BasePart.Name, BasePart.CustomPhysicalProperties
-
-		local ConnecterCFrame = ConnecterPart.CFrame
-		-- This is used for setting the Original Properties back after the Client has been Gaslighted.
-
-		local HolderModel = Instancenew("Model", workspace)
-		local HolderHumanoid = Instancenew("Humanoid", HolderModel)
-		HolderHumanoid.RequiresNeck = false HolderHumanoid.BreakJointsOnDeath = false HolderHumanoid.HipHeight = 2
-		-- Creating the Clientsided Humanoid so the Client believes the Part is the HumanoidRootPart.
-
-		for _, HumanoidState in pairs(Enum.HumanoidStateType:GetEnumItems()) do
-			if HumanoidState ~= Enum.HumanoidStateType.None and HumanoidState ~= Enum.HumanoidStateType.Running then
-				HolderHumanoid:SetStateEnabled(HumanoidState, false)
-				HolderHumanoid:ChangeState(Enum.HumanoidStateType.Running)
-			end
-		end
-		-- Disabling the other Humanoid States because the Client Connects when the Humanoid is either Running or Idle.
-
-		ConnecterPart.Material = Enum.Material.ClayRoofTiles -- This is prone to mistakes, I was very lazy while writing this so I set it to a material that probably wouldn't be used.
-		ConnecterPart.Parent = workspace
-		ConnecterPart.CustomPhysicalProperties = PhysicalProperties.new(100, 0, 0) -- The Requirements require that the Connecter Part must have more Mass than the Connecting Part.
-		ConnecterPart.Anchored = false -- The Connecter Part must be Unanchored.
-		ConnecterPart.CanCollide = true -- The Connecter Part must have Collisions.
-
-		BasePart.CanCollide = false
-		BasePart.Name = "HumanoidRootPart" -- Gaslighting the Client into believing the Part is Apart of a Humanoid/Character
-		BasePart.CustomPhysicalProperties = PhysicalProperties.new(0.001, 0, 0) -- Making the Part weigh less as a fallback just in case it weighs more than the Connecter Part.
-		BasePart.Parent = HolderModel
-
-		repeat
-			HolderHumanoid:ChangeState(Enum.HumanoidStateType.Running) -- Just in case it wasnt set for some reason.
-
-			ConnecterPart.CFrame = CFramenew(ConnecterCFrame.Position) -- Keeping the Connecter Part in Place so its Easier to Connect to.
-			ConnecterPart.AssemblyLinearVelocity = Vector3.zero
-			ConnecterPart.AssemblyAngularVelocity = Vector3.zero
-
-			BasePart.CFrame = ConnecterPart.CFrame * CFramenew(0, 2, 0) -- Offsetting So the Humanoid Believes its Standing On The Connecter Part.
-			BasePart.AssemblyLinearVelocity = Vector3.zero
-			BasePart.AssemblyAngularVelocity = Vector3.zero
-
-			Heartbeat:Wait()
-		until HolderHumanoid.FloorMaterial == ConnecterPart.Material -- The Floor Material Changes to the Material Of the Connecter Part so we know when the Humanoid is Connected.
-
-		HolderHumanoid:Destroy() 
-
-		BasePart.Parent = BaseParent
-		BasePart.Name = BaseName
-		BasePart.CustomPhysicalProperties = BaseProperties
-		BasePart.CanCollide = BaseCollide
-
-		HolderModel:Destroy() -- Destroying the Humanoid keeps the Part connected to the Connecter Part (blockmodded helped find this out).
-
-		ConnecterPart.Parent = ConnectorParent
-		ConnecterPart.Anchored = ConnectorAnchored
-		ConnecterPart.Material = ConnecterMaterial
-		ConnecterPart.CustomPhysicalProperties = ConnecterProperties
-		ConnecterPart.CanCollide = ConnectorCanCollide
-		ConnecterPart.CFrame = ConnecterCFrame
-		-- Returning the Properties to how they were Originally.
-	end
-end
-
-  
-
   local SilentHook
   SilentHook = hookfunction(workspace.Raycast, newcclosure(function(p1, p2, p3, p4)
     if returnflag("SilentAimToggle") then
@@ -1956,7 +1888,6 @@ end
 
      if Target ~= nil then
         if returnflag("MagicBullet") then
-		   ConnectPartToPart(Players.LocalPlayer.Character.HumanoidRootPart, Target)
            p2 = magicEquation
         end
 
