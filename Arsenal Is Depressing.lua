@@ -1916,7 +1916,7 @@ do --// Hooks
        local getPredictionY = mathatan2(predDeltaY, predHorizontalDist)
 
 
-	   local getPredictionX = mathatan2((Target.Position.X) - (p2.X), (Target.Position.Z - p2.Z) - (p2.Z) - (p2.Y))
+	   local getPredictionX = mathatan2(Target.Position.X - p2.X, Target.Position.Z - p2.Z - p2.Z - p2.Y)
 	   local getXAxis = mathatan2(Target.Position.Y - p2.Y, Target.Position.X - p2.X)
 	   local getYAxis = mathatan2(Target.Position.Y - cRoot.Position.Y, mathsqrt((Target.Position.X - p2.X)^2 + (Target.Position.Z - p2.Z)^2))
        local magicEquation = Target.Position - Vector3new(0,   mathatan2(getYAxis, Target.Position.Y - p2.Y),  0 )
