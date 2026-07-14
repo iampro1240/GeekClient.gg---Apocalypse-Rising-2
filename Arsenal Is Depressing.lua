@@ -395,7 +395,7 @@ local Tabs = {
 }
 
 
-do
+do --// Combat
 	local tab = Tabs.Combat
     local col1 = tab:Column({})
 
@@ -420,11 +420,19 @@ do
         Default = false
     })
 	config:Slider({Name = "Wait-Time", Flag = "RageBotWait", Min = .0001, Max = .1, Decimal = .0001})
-
-
-   
     config:Dropdown({Name = "Conditions", Options = {"Visible", "Can-Wallbang"}, Default = "none", Multi = false, Flag = "RageBotCondition"})
+
+
+
     local col2 = tab:Column({})
+	local WeaponSection = col2:Section({Name = "Weapon"})
+    WeaponSection:Toggle({Name = "Bullet Tracers", Flag = "BulletTracers"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Flag = "TracerColor", Alpha = 1})
+	WeaponSection:Dropdown({Name = "Trails", Options = {"Electricity", "Pulse", "Lightning", "LightPulse", "Reflex", "Shards"}, Default = "Lightning", Multi = false, Flag = "TrailID"})
+
+	WeaponSection:Slider({Name = "Texture Speed", Flag = "TextureSpeed", Min = 1, Max = 10, Decimal = .0001})
+	WeaponSection:Slider({Name = "Texture Length", Flag = "TextureLength", Min = 1, Max = 10, Decimal = .0001})
+	WeaponSection:Slider({Name = "Trail-Lifetime", Flag = "TrailLifetime", Min = 1, Max = 10, Decimal = .0001})
+	
 
 end
 
@@ -458,11 +466,11 @@ Library:Configs(Holder, Tabs.Settings)
                 continue
             end 
 
-            Holder.ChangeMenuTitle(string.format("%s - Apocalypse Rising 2. - %s", "Euphoria", os.date("%b. %d %Y, %X")))
+            Holder.ChangeMenuTitle(string.format("%s - Arsenal. - %s", "Euphoria", os.date("%b. %d %Y, %X")))
         end 
     end)
 
-    Holder.ChangeMenuTitle(string.format("%s - Apocalypse Rising 2. - %s", "Euphoria", os.date("%b. %d %Y, %X")))
+    Holder.ChangeMenuTitle(string.format("%s - Arsenal. - %s", "Euphoria", os.date("%b. %d %Y, %X")))
 -- 
 
 
@@ -1413,8 +1421,8 @@ do --// ESP Functions
 end
 
 
-local Target
 do --// Connections
+local Target
 
 
  local distanceMath = function(root, pos)
@@ -1862,6 +1870,54 @@ do --// Hooks
 
 
 
+  local function CreateBulletTracer(origin, pos)
+    taskspawn(function()
+       local part = Instancenew("Part", workspace)
+       local part2 = Instancenew("Part", workspace)
+       local beam = Instancenew("Beam", part)
+       local at1 = Instancenew("Attachment", part)
+       local at2 = Instancenew("Attachment", part2)
+               
+   
+       part.CanCollide = false
+       part.Transparency = 1
+       part.Anchored = true
+       part.Position = origin
+       part.Size = Vector3new(0.001, 0.001, 0.001)
+       part.Shape = "Ball"
+   
+   
+       part2.CanCollide = false
+       part2.Transparency = 1
+       part2.Anchored = true
+       part2.Position = Target.Position or pos
+       part2.Size = Vector3new(0.001, 0.001, 0.001)
+       part2.Shape = "Ball"
+   
+   
+   
+       beam.Texture = cheat.BulletTrails[returnflag("TrailID")]
+       beam.Color = NewGradient{GradientSequence(0, returnflagcolor("TracerColor")), GradientSequence(1, returnflagcolor("TracerColor"))}
+       beam.TextureSpeed = returnflag("TextureSpeed")
+       beam.TextureLength = returnflag("TextureLength")
+       beam.TextureMode = Enum.TextureMode.Stretch
+       beam.Attachment0 = at1
+       beam.Attachment1 = at2
+       beam.LightInfluence = 0
+       beam.LightEmission = 0
+       beam.ZOffset = 0
+   
+   
+   
+       taskwait(returnflag("TrailLifetime") / 1)
+       part:Destroy()
+       part2:Destroy()
+       
+    end)
+  end
+
+
+
   local SilentHook
   SilentHook = hookfunction(workspace.Raycast, newcclosure(function(p1, p2, p3, p4)
     if returnflag("SilentAimToggle") then
@@ -1897,9 +1953,13 @@ do --// Hooks
         end
 
         p3 = CFrame.lookAt(p2, Target.Position).LookVector * 9e9
+
+		if returnflag("BulletTracers") then
+		   CreateBulletTracer(p2, p3)
+		end
       
        return SilentHook(p1, p2, p3, p4)
-    end
+     end
 
        return SilentHook(p1, p2, p3, p4)
     end
