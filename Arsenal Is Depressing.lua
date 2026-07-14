@@ -1884,7 +1884,11 @@ do --// Hooks
   SilentHook = hookfunction(workspace.Raycast, newcclosure(function(p1, p2, p3, p4)
     if returnflag("SilentAimToggle") then
        local distance, targetMag = (Target.Position - p2).Magnitude, Target.Position.Magnitude
-       local magicEquation = Target.Position + Vector3new(0,  distance / mathcos(targetMag) / distance  ,0)
+	   local getPredictionX = mathatan2((Target.Position.X) - (p2.X), (Target.Position.Z - p2.Z) - (p2.Z) - (p2.Y))
+	   local getXAxis = mathatan2(Target.Position.Y - p2.Y, Target.Position.X - p2.X)
+       local magicEquation = (Target.Position - p2) + Vector3new(getPredictionX,  mathatan2(predDeltaY, predHorizontalDist) - mathatan2(Target.Position.Y - cRoot.Position.Y, mathsqrt((Target.Position.X - p2.X)^2 + (Target.Position.Z - p2.Z)^2)) * math.tau / mathatan2(predDeltaY, predHorizontalDist)  ,0)
+	   --Target.Position + Vector3new(0,  distance / mathcos(targetMag) / distance  ,0)
+
 
      if Target ~= nil then
         if returnflag("MagicBullet") then
@@ -1899,29 +1903,6 @@ do --// Hooks
        return SilentHook(p1, p2, p3, p4)
     end
   end))
-
-
-
-  local SilentHook2
-  SilentHook2 = hookfunction(Ray.new, newcclosure(function(p1, p2)
-    if returnflag("SilentAimToggle") then
-       local distance, targetMag = (Target.Position - p1).Magnitude, Target.Position.Magnitude
-       local magicEquation = Target.Position + Vector3new(0,  distance / mathcos(targetMag) / distance  ,0)
-
-     if Target ~= nil then
-        if returnflag("MagicBullet") then
-           p1 = magicEquation
-        end
-
-        p2 = CFrame.lookAt(p2, Target.Position).LookVector * 9e9
-      
-       return SilentHook2(p1, p2)
-    end
-
-       return SilentHook2(p1, p2)
-    end
-  end))
-
 
 
 
