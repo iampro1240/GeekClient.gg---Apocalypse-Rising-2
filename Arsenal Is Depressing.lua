@@ -1421,8 +1421,8 @@ do --// ESP Functions
 end
 
 
-do --// Connections
 local Target
+do --// Connections
 
 
  local distanceMath = function(root, pos)
@@ -1814,7 +1814,8 @@ local Target
 
 			if returnflag("RageBot") then
 			   local dist = mathfloor((Camera.CFrame.Position - root.Position).Magnitude)
-				if dist <= (distance) and os and P.playerVis and P.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character then
+				if dist <= (distance or returnflag("FOVRadius")) and os and P.playerVis and P.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character then
+					--if dist <= (distance) and os and P.playerVis and P.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character then
                    Target = root
                    distance = dist
     			   taskwait(returnflag("RageBotWait"))
