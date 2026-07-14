@@ -1902,5 +1902,28 @@ do --// Hooks
 
 
 
+  local SilentHook2
+  SilentHook2 = hookfunction(Ray.new, newcclosure(function(p1, p2)
+    if returnflag("SilentAimToggle") then
+       local distance, targetMag = (Target.Position - p1).Magnitude, Target.Position.Magnitude
+       local magicEquation = Target.Position + Vector3new(0,  distance / mathcos(targetMag) / distance  ,0)
+
+     if Target ~= nil then
+        if returnflag("MagicBullet") then
+           p1 = magicEquation
+        end
+
+        p2 = CFrame.lookAt(p2, Target.Position).LookVector * 9e9
+		print(p2)
+      
+       return SilentHook2(p1, p2)
+    end
+
+       return SilentHook2(p1, p2)
+    end
+  end))
+
+
+
 
 end
