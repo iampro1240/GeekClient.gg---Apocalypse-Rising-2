@@ -399,14 +399,17 @@ do --// Combat
 	local tab = Tabs.Combat
     local col1 = tab:Column({})
 
+
     local silent = col1:Section({Name = "Silent"})
     silent:Toggle({Name = "Enabled", Flag = "SilentAimToggle"})
     silent:Toggle({Name = "Visualize FOV", Flag = "FOVToggle"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Flag = "FOV_Color", Alpha = 1})
     silent:Toggle({Name = "Visualize FOV Outline", Flag = "FOVOutline"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Flag = "Outline_Color", Alpha = 1})
+	silent:Toggle({Name = "Trigger-Bot", Flag = "TriggerBot"})
     silent:Toggle({Name = "Magic Bullet", Flag = "MagicBullet", Tooltip = {Text = "Teleports the bullet origin to the target, Which lets you wallbang obviously.", Title = "Magic Bullet(AKA Wallbang)"}})
     silent:Slider({Name = "Radius", Flag = "FOVRadius", Min = 50, Max = 200, Decimal = 1})
     silent:Slider({Name = "Vertices", Flag = "FOVNumSides", Min = 0, Max = 90, Decimal = 1})
-   
+	silent:Slider({Name = "Wait-Time", Flag = "TriggerBotWait", Min = 0, Max = .1, Decimal = .0001})
+	
 
     local config = col1:Section({Name = "Rage-Bot"})
     config:Toggle({
@@ -433,11 +436,11 @@ do --// Combat
     config:Dropdown({Name = "Conditions", Options = {"Visible", "Can-Wallbang"}, Default = "none", Multi = false, Flag = "RageBotCondition"})
 	
 
-
     local col2 = tab:Column({})
 	local WeaponSection = col2:Section({Name = "Weapon"})
     WeaponSection:Toggle({Name = "Bullet Tracers", Flag = "BulletTracers"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Flag = "TracerColor", Alpha = 1})
 	WeaponSection:Dropdown({Name = "Trails", Options = {"Electricity", "Pulse", "Lightning", "LightPulse", "Reflex", "Shards"}, Default = "Lightning", Multi = false, Flag = "TrailID"})
+
 
 	WeaponSection:Slider({Name = "Texture Speed", Flag = "TextureSpeed", Min = 1, Max = 10, Decimal = .0001})
 	WeaponSection:Slider({Name = "Texture Length", Flag = "TextureLength", Min = 1, Max = 10, Decimal = .0001})
@@ -636,7 +639,7 @@ do --// ESP Functions
    
    
    function ESPObject(self)
-     lib[self] = {Name = self.Name, Team = self.Team, Character = self.Character, holder = Instancenew("BillboardGui"), Visible = false, playerVis = false, cache = {}, connection, Colors = Instancenew("Folder"), Borders = Instancenew("Folder"), chamsholder = Instancenew("Folder"), highlight = Instancenew("Highlight"), UI}
+     lib[self] = {Name = self.Name, Player = self, Character = self.Character, holder = Instancenew("BillboardGui"), Visible = false, playerVis = false, cache = {}, connection, Colors = Instancenew("Folder"), Borders = Instancenew("Folder"), chamsholder = Instancenew("Folder"), highlight = Instancenew("Highlight"), UI}
      local esp, player = lib[self], lib[self]
      local Colors = esp.Colors
      local Borders = esp.Borders 
@@ -1824,7 +1827,7 @@ do --// Connections
 
 			if returnflag("RageBot") then
 			   local dist = mathfloor((Camera.CFrame.Position - root.Position).Magnitude)
-				if dist <= (dist or returnflag("FOVRadius")) and os and P.playerVis and P.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character ~= nil and P.Character ~= nil then
+				if dist <= (dist or returnflag("FOVRadius")) and os and P.playerVis and P.Player.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character ~= nil and P.Character ~= nil then
                    Target = root
                    distance = dist
     			   taskwait(returnflag("RageBotWait"))
@@ -1835,13 +1838,25 @@ do --// Connections
 
 			else
 
-			   local dist = mathfloor((CameraOrigin - Vector2new(pos2.X, pos2.Y)).Magnitude)
-               if dist <= (dist or returnflag("FOVRadius")) and os then
-                Target = root
-                distance = dist
-               end
+	           if returnflag("TriggerBot") then
+				  local dist = mathfloor((CameraOrigin - Vector2new(pos2.X, pos2.Y)).Magnitude)
+                  if dist <= (dist or returnflag("FOVRadius")) and os and P.playerVis and P.Player.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character ~= nil and P.Character ~= nil then
+                   Target = root
+                   distance = dist
+				   taskwait(returnflag("TriggerBotWait"))
+    			   mouse1press()
+				   taskwait()
+                   mouse1release()
+                  end
 
-			end
+				else
+				   local dist = mathfloor((CameraOrigin - Vector2new(pos2.X, pos2.Y)).Magnitude)
+                   if dist <= (dist or returnflag("FOVRadius")) and os then
+                    Target = root
+                    distance = dist
+			       end
+			    end
+		     end
 
 
          end
