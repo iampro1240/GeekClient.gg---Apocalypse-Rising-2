@@ -381,7 +381,7 @@ local Holder = Library:Window({Name = "Euphoria"})
 
 
 local Window = Holder:Panel({
-    Name = "Euphoria", 
+    Name = "Euphoria - Arsenal", 
     ButtonName = "Euphoria", 
     Size = dim_offset(550, 709), 
     Position = UDim2new(0, (Camera.ViewportSize.X / 2) - 550/2, 0, (Camera.ViewportSize.Y / 2) - 709/2), -- offset based on sizing 
@@ -419,7 +419,7 @@ do --// Combat
         },
         Default = false
     })
-	config:Slider({Name = "Wait-Time", Flag = "RageBotWait", Min = .0001, Max = .1, Decimal = .0001})
+	config:Slider({Name = "Wait-Time", Flag = "RageBotWait", Min = 0, Max = .1, Decimal = .0001})
     config:Dropdown({Name = "Conditions", Options = {"Visible", "Can-Wallbang"}, Default = "none", Multi = false, Flag = "RageBotCondition"})
 
 
@@ -1800,7 +1800,7 @@ do --// Connections
      if typeof(P) ~= "table" then
         continue
       end
-        if P and P.head and P.humanoid and P.humanoid.Health ~= 0 then
+        if P ~= nil and P.head and P.humanoid and P.humanoid.Health ~= 0 then
 			local root = P.head
             local pos2, os = services:wtvp(root.Position)
 			local visCheck = Camera:GetPartsObscuringTarget({Camera.CFrame.Position, root.Position}, {Players.LocalPlayer.Character, P.Character})
@@ -1814,18 +1814,19 @@ do --// Connections
 
 			if returnflag("RageBot") then
 			   local dist = mathfloor((Camera.CFrame.Position - root.Position).Magnitude)
-				if dist <= (distance or returnflag("FOVRadius")) and os and P.playerVis and P.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character then
-					--if dist <= (distance) and os and P.playerVis and P.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character then
+				if dist <= (dist or distance) and os and P.playerVis and P.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character ~= nil and P.Character ~= nil then
                    Target = root
                    distance = dist
     			   taskwait(returnflag("RageBotWait"))
     			   mouse1press()
+				   taskwait()
+                   mouse1release()
 			    end
 
 			else
 
 			   local dist = mathfloor((CameraOrigin - Vector2new(pos2.X, pos2.Y)).Magnitude)
-               if dist <= (distance or returnflag("FOVRadius")) and os then
+               if dist <= (dist or distance or returnflag("FOVRadius")) and os then
                 Target = root
                 distance = dist
                end
@@ -1945,7 +1946,7 @@ do --// Hooks
 
 
 	   local manip = mathtanh(mathatan2((p2 - Target.Position).Y, horizontalDist)) * angleRad / 2
-       local manipEquation = Target.Position + Vector3new(0, mathrad(mathclamp(manip, -3 , 3)), 0)
+       local manipEquation = Target.Position - Vector3new(0, mathrad(mathclamp(manip, -1 , 1.5)), 0)
 
 
      if Target ~= nil then
@@ -1953,8 +1954,8 @@ do --// Hooks
            p2 = magicEquation
         end
 
-        p3 = CFrame.lookAt(p2, Target.Position).LookVector * 9e9
-
+        p3 = (Target.Position - p2).Unit * 9e9
+	
 		if returnflag("BulletTracers") then
 		   CreateBulletTracer(p2, p3)
 		end
