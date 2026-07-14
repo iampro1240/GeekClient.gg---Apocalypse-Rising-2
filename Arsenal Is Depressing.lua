@@ -1880,13 +1880,47 @@ end
 
 
 do --// Hooks
+  local function getAdjustedOrigin(origin: Vector3, target: Vector3, weightFactor: number): Vector3
+    -- 1. Find the difference between target and origin
+    local delta = target - origin
+    
+    -- 2. Isolate the horizontal (XZ) and vertical (Y) distances
+    local distanceXZ = mathsqrt(delta.X^2 + delta.Z^2)
+    local distanceY = delta.Y
+    
+    -- 3. Calculate the pitch angle
+    local pitch = mathatan2(distanceY, distanceXZ)
+    
+    -- 4. Calculate the dynamic Y offset based on the pitch and distance
+    -- This yields a positive number if the target is above, negative if below
+    local verticalOffset = distanceXZ * mathsin(pitch) * weightFactor
+    
+    -- 5. Apply the offset ONLY to the origin
+    local newOrigin = origin + Vector3new(0, verticalOffset, 0)
+    
+    return newOrigin
+  end
+
+
+
   local SilentHook
   SilentHook = hookfunction(workspace.Raycast, newcclosure(function(p1, p2, p3, p4)
     if returnflag("SilentAimToggle") then
        local distance, targetMag = (Target.Position - p2).Magnitude, Target.Position.Magnitude
+
+
+	   local predDeltaX = (p2.Y + Target.Position.X) - (Target.Position.X + p2.X)
+       local predDeltaZ = (Target.Position.Z - Target.Position.X) - (p2.X + Target.Position.Y)
+       local predHorizontalDist = mathsqrt(predDeltaX^2 + predDeltaZ^2)
+       local predDeltaY = (Target.Position.Y + Target.Position.Z)
+       local getPredictionY = mathatan2(predDeltaY, predHorizontalDist)
+
+
 	   local getPredictionX = mathatan2((Target.Position.X) - (p2.X), (Target.Position.Z - p2.Z) - (p2.Z) - (p2.Y))
 	   local getXAxis = mathatan2(Target.Position.Y - p2.Y, Target.Position.X - p2.X)
-       local magicEquation = (Target.Position - p2) + Vector3new(getPredictionX,  mathatan2(predDeltaY, predHorizontalDist) - mathatan2(Target.Position.Y - cRoot.Position.Y, mathsqrt((Target.Position.X - p2.X)^2 + (Target.Position.Z - p2.Z)^2)) * math.tau / mathatan2(predDeltaY, predHorizontalDist)  ,0)
+	   local getYAxis = mathatan2(Target.Position.Y - cRoot.Position.Y, mathsqrt((Target.Position.X - p5.X)^2 + (Target.Position.Z - p5.Z)^2))
+       local magicEquation = Target.Position - Vector3(0,   mathatan2(getYAxis, Target.Position.Y - p2.Y),  0 )
+	   --(Target.Position - p2) + Vector3new(getPredictionX,  mathatan2(predDeltaY, predHorizontalDist) - mathatan2(Target.Position.Y - p2.Y, mathsqrt((Target.Position.X - p2.X)^2 + (Target.Position.Z - p2.Z)^2)) + getPredictionY / mathatan2(predDeltaY, predHorizontalDist)  ,0)
 	   --Target.Position + Vector3new(0,  distance / mathcos(targetMag) / distance  ,0)
 
 
