@@ -626,7 +626,7 @@ do --// ESP Functions
    
    
    function ESPObject(self)
-     lib[self] = {Name = self.Name, Team = self.Team Character = self.Character, holder = Instancenew("BillboardGui"), Visible = false, playerVis = false, cache = {}, connection, Colors = Instancenew("Folder"), Borders = Instancenew("Folder"), chamsholder = Instancenew("Folder"), highlight = Instancenew("Highlight"), UI}
+     lib[self] = {Name = self.Name, Team = self.Team, Character = self.Character, holder = Instancenew("BillboardGui"), Visible = false, playerVis = false, cache = {}, connection, Colors = Instancenew("Folder"), Borders = Instancenew("Folder"), chamsholder = Instancenew("Folder"), highlight = Instancenew("Highlight"), UI}
      local esp, player = lib[self], lib[self]
      local Colors = esp.Colors
      local Borders = esp.Borders 
