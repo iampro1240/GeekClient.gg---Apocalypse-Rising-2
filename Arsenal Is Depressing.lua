@@ -1914,7 +1914,6 @@ do --// Hooks
         end
 
         p2 = CFrame.lookAt(p2, Target.Position).LookVector * 9e9
-		print(p2)
       
        return SilentHook2(p1, p2)
     end
