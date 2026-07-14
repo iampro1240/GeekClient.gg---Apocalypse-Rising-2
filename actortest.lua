@@ -395,8 +395,8 @@ local Tabs = {
 }
 
 
--- Main documentation
-    local tab = Tabs.Combat
+do --// Combat
+	local tab = Tabs.Combat
     local col1 = tab:Column({})
 
     local silent = col1:Section({Name = "Silent"})
@@ -408,90 +408,33 @@ local Tabs = {
     silent:Slider({Name = "Vertices", Flag = "FOVNumSides", Min = 0, Max = 90, Decimal = 1})
    
 
-    local config = col1:Section({Name = "Configuration"})
+    local config = col1:Section({Name = "Rage-Bot"})
     config:Toggle({
-        Name = "Resolver", 
+        Name = "Rage-Bot", 
+		Flag = "RageBot",
         Tooltip = {
             Title = "Resolver", 
-            Text = "Uses advanced scanning to determine an appropriate shoot position.\nMay be very laggy!!", 
+            Text = "Uses scanning to wallbang + triggerbot", 
             Width = 200,
         },
         Default = false
     })
-    
-    config:Toggle({Name = "Target Bots"})
-    config:Toggle({Name = "Target Indicator"})
-    :Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1}) 
-    config:Dropdown({Name = "Indicator Values", Options = {"none"}, Default = "none", Multi = false})
-    config:Dropdown({Name = "Conditions", Options = {"none"}, Default = "none", Multi = false})
-    config:Dropdown({Name = "Ignorelist", Options = {"none"}, Default = "none", Multi = false})
+	config:Slider({Name = "Wait-Time", Flag = "RageBotWait", Min = .0001, Max = .1, Decimal = .0001})
+    config:Dropdown({Name = "Conditions", Options = {"Visible", "Can-Wallbang"}, Default = "none", Multi = false, Flag = "RageBotCondition"})
+
+
 
     local col2 = tab:Column({})
+	local WeaponSection = col2:Section({Name = "Weapon"})
+    WeaponSection:Toggle({Name = "Bullet Tracers", Flag = "BulletTracers"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Flag = "TracerColor", Alpha = 1})
+	WeaponSection:Dropdown({Name = "Trails", Options = {"Electricity", "Pulse", "Lightning", "LightPulse", "Reflex", "Shards"}, Default = "Lightning", Multi = false, Flag = "TrailID"})
 
-    local silent = col2:Section({Name = "Silent-Aim"})
-    silent:Toggle({Name = "Enabled"})
-    silent:Toggle({Name = "Visualize FOV"})
-    :Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1})
-    silent:Slider({Min = -100, Max = 100, Decimal = 1})
-    silent:Slider({Name = "Head Hitchance", Min = 0, Max = 100, Decimal = 1})
-    silent:Slider({Name = "Body Hitchance", Min = 0, Max = 100, Decimal = 1})
-    silent:Slider({Name = "Target Distance", Min = 0, Max = 500, Decimal = 1})
-    silent:Slider({Name = "Max Distance", Min = 100, Max = 20000, Decimal = 1, Flag = "MaxDistance"})
-    
+	WeaponSection:Slider({Name = "Texture Speed", Flag = "TextureSpeed", Min = 1, Max = 10, Decimal = .0001})
+	WeaponSection:Slider({Name = "Texture Length", Flag = "TextureLength", Min = 1, Max = 10, Decimal = .0001})
+	WeaponSection:Slider({Name = "Trail-Lifetime", Flag = "TrailLifetime", Min = 1, Max = 10, Decimal = .0001})
+	
 
-    local mods = col2:Section({Name = "Gun Modifications"})
-    mods:Toggle({Name = "Manipulation", Tooltip = {
-            Title = "<font color = '#FFFF00'>WARNING!!</font>", 
-            Text = "This may be detected, please use with caution.\nDesyncs your shoot position on the serverside.", 
-            Width = 200,
-        }
-    })  
-
-    -- Example of usage (Can be tweaked)
-    local List;
-    mods:Textbox({Name = "Search", Callback = function(text)
-        if not List then 
-            return 
-        end 
-
-        List.Filter(text)
-    end})
-
-    List = mods:Dropdown({Name = "Search + Scroll", Scrolling = true, Size = 100, Search = true, Callback = function(option)
-        print(option)
-    end})
-        
-    local Table = {}
-
-    for i = 1, 100 do 
-        table.insert(Table, tostring(i))
-    end
-
-    List.RefreshOptions(Table)
-
-    local List;
-    mods:Textbox({Name = "Search", Callback = function(text)
-        if not List then 
-            return 
-        end 
-
-        List.Filter(text)
-    end})
-
-    List = mods:List({Name = "Search + Scroll", Scrolling = true, Size = 100, Callback = function(option)
-        print(option)
-    end})
-        
-    local Table = {}
-
-    for i = 1, 100 do 
-        table.insert(Table, tostring(i))
-    end
-
-    List.RefreshOptions(Table)
-
-    mods:Slider({Min = 0.1, Max = 10, Decimal = 1}) 
--- 
+end
 
 
 do --// Visuals
@@ -508,7 +451,7 @@ do --// Visuals
 
     playerSection:Toggle({Name = "Glow Chams", Flag = "GlowChams"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1, Flag = "GlowChamColor"})
     playerSection:Toggle({Name = "Highlights", Flag = "Highlights"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1, Flag = "OutlineColor"})
-
+	playerSection:Slider({Name = "Max Render Distance", Flag = "MaxDistance", Min = 100, Max = 20000, Decimal = 1})
 end
 
 
@@ -523,11 +466,11 @@ Library:Configs(Holder, Tabs.Settings)
                 continue
             end 
 
-            Holder.ChangeMenuTitle(string.format("%s - Apocalypse Rising 2. - %s", "Euphoria", os.date("%b. %d %Y, %X")))
+            Holder.ChangeMenuTitle(string.format("%s - Arsenal. - %s", "Euphoria", os.date("%b. %d %Y, %X")))
         end 
     end)
 
-    Holder.ChangeMenuTitle(string.format("%s - Apocalypse Rising 2. - %s", "Euphoria", os.date("%b. %d %Y, %X")))
+    Holder.ChangeMenuTitle(string.format("%s - Arsenal. - %s", "Euphoria", os.date("%b. %d %Y, %X")))
 -- 
 
 
@@ -683,7 +626,7 @@ do --// ESP Functions
    
    
    function ESPObject(self)
-     lib[self] = {Name = self.Name, Character = self.Character, holder = Instancenew("BillboardGui"), Visible = false, cache = {}, connection, Colors = Instancenew("Folder"), Borders = Instancenew("Folder"), chamsholder = Instancenew("Folder"), highlight = Instancenew("Highlight"), UI}
+     lib[self] = {Name = self.Name, Team = self.Team, Character = self.Character, holder = Instancenew("BillboardGui"), Visible = false, playerVis = false, cache = {}, connection, Colors = Instancenew("Folder"), Borders = Instancenew("Folder"), chamsholder = Instancenew("Folder"), highlight = Instancenew("Highlight"), UI}
      local esp, player = lib[self], lib[self]
      local Colors = esp.Colors
      local Borders = esp.Borders 
@@ -1478,8 +1421,8 @@ do --// ESP Functions
 end
 
 
-local Target
 do --// Connections
+local Target
 
 
  local distanceMath = function(root, pos)
@@ -1858,13 +1801,37 @@ do --// Connections
         continue
       end
         if P and P.head and P.humanoid and P.humanoid.Health ~= 0 then
-            local root = P.head
+			local root = P.head
             local pos2, os = services:wtvp(root.Position)
-            local dist = mathfloor((CameraOrigin - Vector2new(pos2.X, pos2.Y)).Magnitude)
-            if dist <= (distance or returnflag("FOVRadius")) and os then
+			local visCheck = Camera:GetPartsObscuringTarget({Camera.CFrame.Position, root.Position}, {Players.LocalPlayer.Character, P.Character})
+			if #visCheck > 0 then
+				P.playerVis = false
+			 else
+				P.playerVis = true
+			end
+
+
+
+			if returnflag("RageBot") then
+			   local dist = mathfloor((Camera.CFrame.Position - root.Position).Magnitude)
+				if dist <= (distance) and os and P.playerVis and P.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character then
+                   Target = root
+                   distance = dist
+    			   taskwait(returnflag("RageBotWait"))
+    			   mouse1press()
+			    end
+
+			else
+
+			   local dist = mathfloor((CameraOrigin - Vector2new(pos2.X, pos2.Y)).Magnitude)
+               if dist <= (distance or returnflag("FOVRadius")) and os then
                 Target = root
                 distance = dist
-            end
+               end
+
+			end
+
+
          end
       end
     end
@@ -1899,6 +1866,54 @@ do --// Hooks
     local newOrigin = origin + Vector3new(0, verticalOffset, 0)
     
     return newOrigin
+  end
+
+
+
+  local function CreateBulletTracer(origin, pos)
+    taskspawn(function()
+       local part = Instancenew("Part", workspace)
+       local part2 = Instancenew("Part", workspace)
+       local beam = Instancenew("Beam", part)
+       local at1 = Instancenew("Attachment", part)
+       local at2 = Instancenew("Attachment", part2)
+               
+   
+       part.CanCollide = false
+       part.Transparency = 1
+       part.Anchored = true
+       part.Position = origin
+       part.Size = Vector3new(0.001, 0.001, 0.001)
+       part.Shape = "Ball"
+   
+   
+       part2.CanCollide = false
+       part2.Transparency = 1
+       part2.Anchored = true
+       part2.Position = Target.Position or pos
+       part2.Size = Vector3new(0.001, 0.001, 0.001)
+       part2.Shape = "Ball"
+   
+   
+   
+       beam.Texture = cheat.BulletTrails[returnflag("TrailID")]
+       beam.Color = NewGradient{GradientSequence(0, returnflagcolor("TracerColor")), GradientSequence(1, returnflagcolor("TracerColor"))}
+       beam.TextureSpeed = returnflag("TextureSpeed")
+       beam.TextureLength = returnflag("TextureLength")
+       beam.TextureMode = Enum.TextureMode.Stretch
+       beam.Attachment0 = at1
+       beam.Attachment1 = at2
+       beam.LightInfluence = 0
+       beam.LightEmission = 0
+       beam.ZOffset = 0
+   
+   
+   
+       taskwait(returnflag("TrailLifetime") / 1)
+       part:Destroy()
+       part2:Destroy()
+       
+    end)
   end
 
 
@@ -1938,9 +1953,13 @@ do --// Hooks
         end
 
         p3 = CFrame.lookAt(p2, Target.Position).LookVector * 9e9
+
+		if returnflag("BulletTracers") then
+		   CreateBulletTracer(p2, p3)
+		end
       
        return SilentHook(p1, p2, p3, p4)
-    end
+     end
 
        return SilentHook(p1, p2, p3, p4)
     end
