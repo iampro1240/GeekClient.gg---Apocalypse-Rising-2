@@ -1919,9 +1919,17 @@ do --// Hooks
 	   local getPredictionX = mathatan2(Target.Position.X - p2.X, Target.Position.Z - p2.Z - p2.Z - p2.Y)
 	   local getXAxis = mathatan2(Target.Position.Y - p2.Y, Target.Position.X - p2.X)
 	   local getYAxis = mathatan2(Target.Position.Y - p2.Y, mathsqrt((Target.Position.X - p2.X)^2 + (Target.Position.Z - p2.Z)^2))
-       local magicEquation = Target.Position - Vector3new(0,   mathatan2(getYAxis, Target.Position.Y - p2.Y),  0 )
-	   --(Target.Position - p2) + Vector3new(getPredictionX,  mathatan2(predDeltaY, predHorizontalDist) - mathatan2(Target.Position.Y - p2.Y, mathsqrt((Target.Position.X - p2.X)^2 + (Target.Position.Z - p2.Z)^2)) + getPredictionY / mathatan2(predDeltaY, predHorizontalDist)  ,0)
-	   --Target.Position + Vector3new(0,  distance / mathcos(targetMag) / distance  ,0)
+
+
+	   local horizontalDist = mathsqrt((p2 - Target.Position).X^2 + (p2 - Target.Position).Z^2)
+       local angleRad2 = mathatan2((p2 - Target.Position).Y, horizontalDist)
+	   local diff = (p2 - Target.Position)
+       local angleRad = mathatan2(diff.Z, diff.X)
+       local angleDeg = mathdeg(angleRad)
+
+
+	   local manip = mathtanh(mathatan2((p2 - Target.Position).Y, horizontalDist)) * angleRad / 2
+       local manipEquation = Target.Position + Vector3new(0, mathrad(mathclamp(manip, -3 , 3)), 0)
 
 
      if Target ~= nil then
