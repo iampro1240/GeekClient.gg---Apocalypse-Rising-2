@@ -410,7 +410,7 @@ do --// Combat
 
     local config = col1:Section({Name = "Rage-Bot"})
     config:Toggle({
-        Name = "Rage-Bot", 
+        Name = "Rage-Bot",
 		Flag = "RageBot",
         Tooltip = {
             Title = "Resolver", 
@@ -419,9 +419,19 @@ do --// Combat
         },
         Default = false
     })
+	config:Toggle({
+        Name = "Knife Aura", 
+		Flag = "KnifeAura",
+        Tooltip = {
+            Title = "Aura/Resolver", 
+            Text = "Automatically stabs players", 
+            Width = 200,
+        },
+        Default = false
+    })
 	config:Slider({Name = "Wait-Time", Flag = "RageBotWait", Min = 0, Max = .1, Decimal = .0001})
     config:Dropdown({Name = "Conditions", Options = {"Visible", "Can-Wallbang"}, Default = "none", Multi = false, Flag = "RageBotCondition"})
-
+	
 
 
     local col2 = tab:Column({})
@@ -1814,7 +1824,7 @@ do --// Connections
 
 			if returnflag("RageBot") then
 			   local dist = mathfloor((Camera.CFrame.Position - root.Position).Magnitude)
-				if dist <= (dist or distance) and os and P.playerVis and P.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character ~= nil and P.Character ~= nil then
+				if dist <= (dist or returnflag("FOVRadius")) and os and P.playerVis and P.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character ~= nil and P.Character ~= nil then
                    Target = root
                    distance = dist
     			   taskwait(returnflag("RageBotWait"))
@@ -1826,7 +1836,7 @@ do --// Connections
 			else
 
 			   local dist = mathfloor((CameraOrigin - Vector2new(pos2.X, pos2.Y)).Magnitude)
-               if dist <= (dist or distance or returnflag("FOVRadius")) and os then
+               if dist <= (dist or returnflag("FOVRadius")) and os then
                 Target = root
                 distance = dist
                end
@@ -1849,6 +1859,8 @@ end
 
 
 do --// Hooks
+
+
   local function getAdjustedOrigin(origin: Vector3, target: Vector3, weightFactor: number): Vector3
     -- 1. Find the difference between target and origin
     local delta = target - origin
@@ -1947,11 +1959,12 @@ do --// Hooks
 
 	   local manip = mathtanh(mathatan2((p2 - Target.Position).Y, horizontalDist)) * angleRad / 2
        local manipEquation = Target.Position - Vector3new(0, mathrad(mathclamp(manip, -1 , 1.5)), 0)
+	   local magicEquation = Target.Position + Vector3new(0,  distance / mathcos(targetMag) / distance  ,0)
 
 
      if Target ~= nil then
         if returnflag("MagicBullet") then
-           p2 = magicEquation
+           p2 = manipEquation
         end
 
         p3 = (Target.Position - p2).Unit * 9e9
@@ -1966,7 +1979,6 @@ do --// Hooks
        return SilentHook(p1, p2, p3, p4)
     end
   end))
-
 
 
 end
