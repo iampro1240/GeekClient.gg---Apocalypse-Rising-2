@@ -618,7 +618,7 @@ do --// ESP Functions
    
    
    function ESPObject(self)
-     lib[self] = {Name = self.Name, Character = self.Character, holder = Instancenew("BillboardGui"), Visible = false, playerVis = false, cache = {}, connection, Colors = Instancenew("Folder"), Borders = Instancenew("Folder"), chamsholder = Instancenew("Folder"), highlight = Instancenew("Highlight"), UI}
+     lib[self] = {Name = self.Name, Team = self.Team Character = self.Character, holder = Instancenew("BillboardGui"), Visible = false, playerVis = false, cache = {}, connection, Colors = Instancenew("Folder"), Borders = Instancenew("Folder"), chamsholder = Instancenew("Folder"), highlight = Instancenew("Highlight"), UI}
      local esp, player = lib[self], lib[self]
      local Colors = esp.Colors
      local Borders = esp.Borders 
@@ -1806,7 +1806,7 @@ do --// Connections
 
 			if returnflag("RageBot") then
 			   local dist = mathfloor((Camera.CFrame.Position - root.Position).Magnitude)
-				if dist <= (distance or returnflag("FOVRadius")) and os and P.playerVis then
+				if dist <= (distance) and os and P.playerVis and P.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character then
                    Target = root
                    distance = dist
     			   taskwait(returnflag("RageBotWait"))
