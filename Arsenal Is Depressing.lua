@@ -467,8 +467,10 @@ do --// Visuals
     local playerColumn, chamscolumn = Tabs.Visuals:Column({}), Tabs.Visuals:Column({})
     local playerSection = playerColumn:Section({Name = "Player"})
 
+
     playerSection:Toggle({Name = "Name", Tooltip = {Text = "Fuck The Niggers", Title = "NiggerHater"}, Flag = "Names"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1, Flag = "Name_Color"})
     playerSection:Toggle({Name = "Distance", Flag = "Distance"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1, Flag = "Distance_Color"})
+   
     playerSection:Toggle({Name = "Weapon", Flag = "Weapon"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1, Flag = "Weapon_Color"})
     playerSection:Toggle({Name = "Health Count", Flag = "Manipulated"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1, Flag = "Manipulated_Color2"})
 
@@ -477,8 +479,9 @@ do --// Visuals
 
     playerSection:Toggle({Name = "Glow Chams", Flag = "GlowChams"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1, Flag = "GlowChamColor"})
     playerSection:Toggle({Name = "Highlights", Flag = "Highlights"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1, Flag = "OutlineColor"})
-	playerSection:Slider({Name = "Max Render Distance", Flag = "MaxDistance", Min = 100, Max = 20000, Decimal = 1})
-
+	
+    playerSection:Slider({Name = "Max Render Distance", Flag = "MaxDistance", Min = 100, Max = 20000, Decimal = 1})
+    playerSection:Toggle({Name = "Show If Targeted", Flag = "ESPIndicator"})
 
 
     local chamsSection = playerColumn:Section({Name = "Chams"})
@@ -1953,7 +1956,7 @@ do --// Connections
 
 
 			if returnflag("RageBot") then
-			 local dist = mathfloor((Camera.CFrame.Position - root.Position).Magnitude)
+			 local dist = mathround((Camera.CFrame.Position - root.Position).Magnitude)
 			  if dist <= (dist) and P.playerVis and P.Player.Team ~= Players.LocalPlayer.Team and P.Character ~= nil and isrbxactive() then
                 --Library.UIOpen
                 Target = root
@@ -1974,7 +1977,7 @@ do --// Connections
 			 else
 
 	           if returnflag("TriggerBot") and not returnflag("RageBot") then
-				  local dist = mathfloor((CameraOrigin - Vector2new(pos2.X, pos2.Y)).Magnitude)
+				  local dist = mathround((CameraOrigin - Vector2new(pos2.X, pos2.Y)).Magnitude)
                   if dist <= (dist or returnflag("FOVRadius")) and os and P.playerVis and P.Player.Team ~= Players.LocalPlayer.Team and P.Character ~= nil and isrbxactive() then
                     Target = root
                     distance = dist
