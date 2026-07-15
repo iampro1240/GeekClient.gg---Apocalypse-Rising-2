@@ -2161,18 +2161,11 @@ do --// Hooks
         if returnflag("MagicBullet") then
            p2 = manipEquation
         elseif returnflag("KnifeAura") then
-           p2 = p2 + Vector3(0, 0, p2.Z + Target.Position.Z)         
-        end
-
-        if returnflag("RageBot") and services:findfirstchild(Players, lib[Target.Parent.Name]) and manipEquation then
-            local P = lib[Target.Parent.Name]
-            if P.CanAutoWall then
-               p2 = manipEquation
-            end
+           p2 = p2 + Vector3(0, 0, p2.Z + Target.Position.Z)
         end
 
 
-        p3 = (Target.Position - p2).Unit * (9e9 * 9e9)
+        p3 = (Target.Position - p2).Unit * 9e9
 	
 		if returnflag("BulletTracers") then
 		   CreateBulletTracer(p2, p3)
