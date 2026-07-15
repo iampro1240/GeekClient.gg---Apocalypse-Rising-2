@@ -1955,10 +1955,10 @@ do --// Connections
 
 
 
-			if returnflag("RageBot") then
-			 local dist = mathround((Camera.CFrame.Position - root.Position).Magnitude)
-			  if dist <= (dist) and P.playerVis and P.Player.Team ~= Players.LocalPlayer.Team and P.Character ~= nil and isrbxactive() then
-                --Library.UIOpen
+			if returnflag("RageBot") and Players.LocalPlayer.Character ~= nil and services:findfirstchild(Players.LocalPlayer.Character, "HumanoidRootPart") then
+             local root2 = Players.LocalPlayer.Character["HumanoidRootPart"]
+			 local dist = mathround((Camera.CFrame.Position - root2.Position).Magnitude)
+			  if dist <= (dist or returnflag("FOVRadius")) and P.playerVis and P.Player.Team ~= Players.LocalPlayer.Team and P.Character ~= nil and isrbxactive() then
                 Target = root
                 distance = dist
 
