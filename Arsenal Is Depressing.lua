@@ -134,6 +134,7 @@
         local mathsqrt = math.sqrt
         local mathrandom = math.random
         local mathdeg = math.deg
+        local mathasin = math.asin
         local mathmodf = math.modf
         local mathlog = math.log
         local mathpow = math.pow
@@ -395,6 +396,18 @@ local Tabs = {
 }
 
 
+local validWallbangMaterials = {
+    Enum.Material.Plastic;
+    Enum.Material.SmoothPlastic;
+    Enum.Material.Plaster;
+    Enum.Material.Cobblestone;
+    Enum.Material.Wood;
+    Enum.Material.Concrete;
+    Enum.Material.Sand;
+}
+
+
+
 do --// Combat
 	local tab = Tabs.Combat
     local col1 = tab:Column({})
@@ -427,13 +440,13 @@ do --// Combat
 		Flag = "KnifeAura",
         Tooltip = {
             Title = "Aura/Resolver", 
-            Text = "Automatically stabs players", 
+            Text = "Automatically stabs players and uses reach.", 
             Width = 200,
         },
         Default = false
     })
 	config:Slider({Name = "Wait-Time", Flag = "RageBotWait", Min = 0, Max = .1, Decimal = .0001})
-    config:Dropdown({Name = "Conditions", Options = {"Visible", "Can-Wallbang"}, Default = "none", Multi = false, Flag = "RageBotCondition"})
+    config:Dropdown({Name = "Conditions", Options = {"FaceTarget"}, Default = "none", Multi = false, Flag = "RageBotCondition"})
 	
 
     local col2 = tab:Column({})
@@ -451,7 +464,7 @@ end
 
 
 do --// Visuals
-    local playerColumn, vehicleolumn = Tabs.Visuals:Column({}), Tabs.Visuals:Column({})
+    local playerColumn, chamscolumn = Tabs.Visuals:Column({}), Tabs.Visuals:Column({})
     local playerSection = playerColumn:Section({Name = "Player"})
 
     playerSection:Toggle({Name = "Name", Tooltip = {Text = "Fuck The Niggers", Title = "NiggerHater"}, Flag = "Names"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1, Flag = "Name_Color"})
@@ -465,6 +478,15 @@ do --// Visuals
     playerSection:Toggle({Name = "Glow Chams", Flag = "GlowChams"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1, Flag = "GlowChamColor"})
     playerSection:Toggle({Name = "Highlights", Flag = "Highlights"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1, Flag = "OutlineColor"})
 	playerSection:Slider({Name = "Max Render Distance", Flag = "MaxDistance", Min = 100, Max = 20000, Decimal = 1})
+
+
+
+    local chamsSection = playerColumn:Section({Name = "Chams"})
+    chamsSection:Toggle({Name = "Inverted-Chams", Flag = "VMChams"}):Colorpicker({Color = Color3fromRGB(255, 255, 255), Alpha = 1, Flag = "ChamColor"})
+    chamsSection:Toggle({Name = "Custom Texture", Flag = "CustomTexture"})
+    chamsSection:Dropdown({Name = "Textures", Options = {"Glass", "Plastic", "Neon", "ForceField"}, Default = "Glass", Multi = false, Flag = "VMTexture"})
+    chamsSection:Slider({Name = "Viewmodel Transparency", Flag = "VMTransparency", Min = -1, Max = 1, Decimal = .01})
+    chamsSection:Slider({Name = "Viewmodel Reflectance", Flag = "VMReflectance", Min = -1, Max = 1, Decimal = .01})
 end
 
 
@@ -639,7 +661,7 @@ do --// ESP Functions
    
    
    function ESPObject(self)
-     lib[self] = {Name = self.Name, Player = self, Character = self.Character, holder = Instancenew("BillboardGui"), Visible = false, playerVis = false, cache = {}, connection, Colors = Instancenew("Folder"), Borders = Instancenew("Folder"), chamsholder = Instancenew("Folder"), highlight = Instancenew("Highlight"), UI}
+     lib[self] = {Name = self.Name, Player = self, Character = self.Character, holder = Instancenew("BillboardGui"), playerVis = false, CanAutoWall = false, cache = {}, connection, Colors = Instancenew("Folder"), Borders = Instancenew("Folder"), chamsholder = Instancenew("Folder"), highlight = Instancenew("Highlight"), UI}
      local esp, player = lib[self], lib[self]
      local Colors = esp.Colors
      local Borders = esp.Borders 
@@ -1434,7 +1456,7 @@ do --// ESP Functions
 end
 
 
-local Target
+local Target, manipEquation
 do --// Connections
 
 
@@ -1464,6 +1486,108 @@ do --// Connections
      else
         return "Hands"
     end
+ end
+
+
+
+ local function getPitchAngle(originPos, targetPos)
+    -- 1. Get the direction vector (Target - Origin)
+    local direction = targetPos - originPos
+    
+    -- 2. Get the normalized vector (this is D / |D|)
+    -- direction.Unit automatically divides the vector by its own Magnitude
+    local normalizedDir = direction.Unit
+    
+    -- 3. Calculate Pitch using arcsin (math.asin)
+    local pitchRadians = mathasin(normalizedDir.Y)
+    
+    -- Optional: Convert to degrees if you need to read it or use it for UI
+    local pitchDegrees = mathdeg(pitchRadians)
+    
+    return pitchRadians 
+ end
+
+
+
+ local function getYawAngle(originPos, targetPos)
+    -- 1. Get the direction vector
+    local direction = targetPos - originPos
+    
+    -- 2. Use math.atan2 with the X and Z components.
+    -- Note: In Roblox, forward is -Z, so you may need to invert X or Z 
+    -- depending on which way your object's "front" face is oriented.
+    local yawRadians = mathatan2(direction.X, direction.Z)
+    
+    -- Optional: Convert to degrees
+    local yawDegrees = mathdeg(yawRadians)
+    
+    return yawRadians
+ end
+
+
+
+ local function GetAngleAlgebraically(origin, targetPos, aimDirection)
+    local toTarget = targetPos - origin
+    
+    -- Prevent division by zero
+    if toTarget.Magnitude == 0 or aimDirection.Magnitude == 0 then return 0 end
+    
+    local unitTarget = toTarget.Unit
+    local unitAim = aimDirection.Unit
+    
+    -- The raw mathematical expansion of a dot product
+    local manualDot = (unitAim.X * unitTarget.X) + 
+                      (unitAim.Y * unitTarget.Y) + 
+                      (unitAim.Z * unitTarget.Z)
+                      
+    manualDot = mathclamp(manualDot, -1, 1)
+    
+    return mathdeg(mathacos(manualDot))
+ end
+
+
+
+ local function getOptimalTarget(target: BasePart, originPos: Vector3, lookVector: Vector3, maxDistance: number, maxFovRadius: number)
+    local bestTarget = nil
+    local closestAngle = maxFovRadius -- Start with the max allowed FOV
+
+    -- Assuming 'targets' is a predefined table of valid character models/parts
+    local targetPart = target
+        local targetPos = targetPart.Position
+        local direction = targetPos - originPos
+        local distance = direction.Magnitude
+        
+        -- 1. Distance Check
+        if distance <= maxDistance then
+            local directionUnit = direction.Unit
+            
+            -- 2. FOV Angle Check
+            local dotProduct = lookVector:Dot(directionUnit)
+            -- Clamp dot product to prevent precision errors leading to NaN in acos
+            dotProduct = mathclamp(dotProduct, -1, 1) 
+            local angleRadians = mathacos(dotProduct)
+            local angleDegrees = mathdeg(angleRadians)
+
+            -- 3. Optimization and Visibility Check
+            if angleDegrees <= closestAngle then
+                
+                -- Raycast parameters (ignore the local player/origin entity)
+                local rayParams = RaycastParams.new()
+                rayParams.FilterDescendantsInstances = {workspace.CurrentCamera} 
+                rayParams.FilterType = Enum.RaycastFilterType.Exclude
+                rayParams.IgnoreWater = true
+                
+                local rayResult = workspace:Raycast(originPos, directionUnit * distance, rayParams)
+                
+                -- If the ray hit nothing, or it hit the target itself, we have a clear line of sight
+                if not rayResult or rayResult.Instance:IsDescendantOf(targetPart.Parent) then
+                    closestAngle = angleDegrees
+                    bestTarget = targetPart
+                end
+            end
+        end
+    
+    return bestTarget
  end
    
 
@@ -1784,6 +1908,7 @@ do --// Connections
    if returnflag("SilentAimToggle") then
     local distance
 
+
 	circle.Radius = returnflag("FOVRadius")
     circle.Color = returnflagcolor("FOV_Color")
     circle.Transparency = returnflagtransparency("FOV_Color")
@@ -1791,7 +1916,6 @@ do --// Connections
     circle.Thickness = .5
     circle.Visible = returnflag("SilentAimToggle") and returnflag("FOVToggle") or false
     circle.ZIndex = 2
-
     
 
     outlinecircle.Radius = returnflag("FOVRadius")
@@ -1803,9 +1927,12 @@ do --// Connections
     outlinecircle.ZIndex = 1
 
 
-
     circle.Position = CameraOrigin
     outlinecircle.Position = CameraOrigin
+    local raycastParams = RaycastParams.new()
+    raycastParams.FilterDescendantsInstances = {Client.Character, Target, Camera:GetChildren()}
+    raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+    raycastParams.IgnoreWater = true
 
 
 
@@ -1826,37 +1953,52 @@ do --// Connections
 
 
 			if returnflag("RageBot") then
-			   local dist = mathfloor((Camera.CFrame.Position - root.Position).Magnitude)
-				if dist <= (dist or returnflag("FOVRadius")) and os and P.playerVis and P.Player.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character ~= nil and P.Character ~= nil then
-                   Target = root
-                   distance = dist
-    			   taskwait(returnflag("RageBotWait"))
-    			   mouse1press()
-				   taskwait()
-                   mouse1release()
-			    end
+			 local dist = mathfloor((Camera.CFrame.Position - root.Position).Magnitude)
+			  if dist <= (dist) and P.playerVis and P.Player.Team ~= Players.LocalPlayer.Team and P.Character ~= nil and isrbxactive() then
+                --Library.UIOpen
+                Target = root
+                distance = dist
 
-			else
+    			taskwait(returnflag("RageBotWait"))
+    			mouse1press()
+				taskwait()
+                mouse1release()
+              end
 
-	           if returnflag("TriggerBot") then
+
+			end
+
+
+
+
+			 else
+
+	           if returnflag("TriggerBot") and not returnflag("RageBot") then
 				  local dist = mathfloor((CameraOrigin - Vector2new(pos2.X, pos2.Y)).Magnitude)
-                  if dist <= (dist or returnflag("FOVRadius")) and os and P.playerVis and P.Player.Team ~= Players.LocalPlayer.Team and Players.LocalPlayer.Character ~= nil and P.Character ~= nil then
-                   Target = root
-                   distance = dist
-				   taskwait(returnflag("TriggerBotWait"))
-    			   mouse1press()
-				   taskwait()
-                   mouse1release()
+                  if dist <= (dist or returnflag("FOVRadius")) and os and P.playerVis and P.Player.Team ~= Players.LocalPlayer.Team and P.Character ~= nil and isrbxactive() then
+                    Target = root
+                    distance = dist
+  				    taskwait(returnflag("TriggerBotWait"))
+      			    mouse1press()
+  				    taskwait()
+                    mouse1release()
                   end
 
+
+                  if returnflag("RageBotCondition") == "FaceTarget" and Players.LocalPlayer.Character ~= nil and services:findfirstchild(Players.LocalPlayer.Character, "HumanoidRootPart") then
+                    local root = Players.LocalPlayer.Character["HumanoidRootPart"]
+                    root.CFrame = CFrame.lookAt(root.Position, Target.Position)
+                  end
+
+
 				else
+
 				   local dist = mathfloor((CameraOrigin - Vector2new(pos2.X, pos2.Y)).Magnitude)
                    if dist <= (dist or returnflag("FOVRadius")) and os then
                     Target = root
                     distance = dist
 			       end
 			    end
-		     end
 
 
          end
@@ -1865,6 +2007,45 @@ do --// Connections
 
 
 
+
+ end)
+
+
+ 
+ --// Chams
+ RunService.PreRender:Connect(function(deltatime)
+    --VMChams
+    --ChamColor
+    
+    --VMTexture
+    --CustomTexture
+
+    if services:findfirstchild(Camera, "Arms") then
+        local Arms, Highlight = Camera["Arms"], cheat.visualcache.vmHighlight
+        if returnflag("VMChams") then
+            Highlight.Adornee = Arms
+            Highlight.FillColor = returnflagcolor("ChamColor")
+            Highlight.OutlineColor = returnflagcolor("ChamColor")
+            Highlight.FillTransparency = -1
+            Highlight.OutlineTransparency = -1
+         else
+            Highlight.Adornee = nil
+        end
+
+
+        if returnflag("CustomTexture") then
+         for _, part in Arms:GetChildren() do
+          if part:IsA("MeshPart") or part:IsA("BasePart") or part:IsA("Part") then
+               part.Material = Enum.Material[returnflag("VMTexture")]
+               part.Transparency = returnflag("VMTransparency")
+               part.Reflectance = returnflag("VMReflectance")
+           end
+          end
+
+        end
+
+
+    end
 
  end)
 
@@ -1973,16 +2154,25 @@ do --// Hooks
 
 
 	   local manip = mathtanh(mathatan2((p2 - Target.Position).Y, horizontalDist)) * angleRad / 2
-       local manipEquation = Target.Position - Vector3new(0, mathrad(mathclamp(manip, -1 , 1.5)), 0)
 	   local magicEquation = Target.Position + Vector3new(0,  distance / mathcos(targetMag) / distance  ,0)
 
 
      if Target ~= nil then
         if returnflag("MagicBullet") then
            p2 = manipEquation
+        elseif returnflag("KnifeAura") then
+           p2 = p2 + Vector3(0, 0, p2.Z + Target.Position.Z)         
         end
 
-        p3 = (Target.Position - p2).Unit * 9e9
+        if returnflag("RageBot") and services:findfirstchild(Players, lib[Target.Parent.Name]) and manipEquation then
+            local P = lib[Target.Parent.Name]
+            if P.CanAutoWall then
+               p2 = manipEquation
+            end
+        end
+
+
+        p3 = (Target.Position - p2).Unit * (9e9 * 9e9)
 	
 		if returnflag("BulletTracers") then
 		   CreateBulletTracer(p2, p3)
