@@ -7068,3 +7068,4 @@ Library.UpdateThemeList()
 
 
 --Library.Init()
+return Library
